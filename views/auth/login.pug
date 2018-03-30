@@ -1,0 +1,27 @@
+extends layout.pug
+
+block content
+    .col.col-login.mx-auto
+        .text-center.mb-6
+        mg.h-6(src='./assets/brand/tabler.svg' alt='')
+        form.card(action='' method='post')
+            .card-body.p-6
+                .card-title Login to your account
+                .form-group
+                    label.form-label Email address
+                    input#exampleInputEmail1.form-control(type='email' aria-describedby='emailHelp' placeholder='Enter email')
+                .form-group
+                    label.form-label
+                        | Password
+                        a.pull-right.small(href='./forgot-password.html') I forgot password
+                    input#exampleInputPassword1.form-control(type='password' placeholder='Password')
+                .form-group
+                    label.custom-control.custom-checkbox
+                        input.custom-control-input(type='checkbox')
+                        span.custom-control-label Remember me
+                .form-footer
+                    button.btn.btn-primary.btn-block(type='submit') Sign in
+        text-center.text-muted
+            p
+                | Don&apos;t have account yet? 
+                a(href='/auth/register') Sign up
