@@ -6,13 +6,23 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "bookshelf": "^0.13.3",
+    "connect-ensure-login": "^0.1.1",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "^5.0.1",
     "express": "~4.16.0",
+    "express-session": "^1.15.6",
     "http-errors": "~1.6.2",
+    "knex": "^0.13.0",
     "morgan": "~1.9.0",
     "mysql": "^2.15.0",
+    "nodemon": "^1.17.3",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "password-hash": "^1.2.2",
-    "pug": "2.0.0-beta11"
+    "pug": "2.0.0-beta11",
+    "sequelize": "^4.37.5"
   }
 }
