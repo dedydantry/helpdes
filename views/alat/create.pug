@@ -1,0 +1,21 @@
+extends ../layout/master.pug
+
+block content
+    .row.row-cards.row-deck
+        .col-12
+            .card
+                .card-header
+                    h3.card-title Form Alat
+                .card-body
+                    form(method='post' action=base_url+'alat/store')
+                        .form-group
+                            label.form-label Code alat
+                            input.form-control(name='code_alat' placeholder='Masukkan kode alat')
+                        .form-group
+                            label.form-label Nama alat
+                            input.form-control(name='nama_alat' placeholder='Masukkan Nama alat')
+                        .form-group
+                            label.form-label Deskripsi alat
+                            textarea.form-control(name='deskripsi')
+                        .form-group
+                            button.btn.btn-success.btn-lg(type='submit') Simpan

@@ -1,3 +1,4 @@
+var base_url = 'http://localhost:3000/';
 require.config({
 shim: {
 'bootstrap': ['jquery'],
@@ -9,16 +10,16 @@ shim: {
 'core': ['bootstrap', 'jquery'],
 },
 paths: {
-'core': '../dist/assets/js/core',
-'jquery': '../dist/assets/js/vendors/jquery-3.2.1.min',
-'bootstrap': '../dist/assets/js/vendors/bootstrap.bundle.min',
-'sparkline': '../dist/assets/js/vendors/jquery.sparkline.min',
-'selectize': '../dist/assets/js/vendors/selectize.min',
-'tablesorter': '../dist/assets/js/vendors/jquery.tablesorter.min',
-'vector-map': '../dist/assets/js/vendors/jquery-jvectormap-2.0.3.min',
-'vector-map-de': '../dist/assets/js/vendors/jquery-jvectormap-de-merc',
-'vector-map-world': '../dist/assets/js/vendors/jquery-jvectormap-world-mill',
-'circle-progress': '../dist/assets/js/vendors/circle-progress.min',
+'core': base_url+'dist/assets/js/core',
+'jquery': base_url+'dist/assets/js/vendors/jquery-3.2.1.min',
+'bootstrap': base_url+'dist/assets/js/vendors/bootstrap.bundle.min',
+'sparkline': base_url+'dist/assets/js/vendors/jquery.sparkline.min',
+'selectize': base_url+'dist/assets/js/vendors/selectize.min',
+'tablesorter': base_url+'dist/assets/js/vendors/jquery.tablesorter.min',
+'vector-map': base_url+'dist/assets/js/vendors/jquery-jvectormap-2.0.3.min',
+'vector-map-de': base_url+'dist/assets/js/vendors/jquery-jvectormap-de-merc',
+'vector-map-world': base_url+'dist/assets/js/vendors/jquery-jvectormap-world-mill',
+'circle-progress': base_url+'dist/assets/js/vendors/circle-progress.min',
 }
 });
 window.tabler = {

@@ -12,9 +12,13 @@ let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let authRouter = require('./routes/auth');
 let homeRouter = require('./routes/home');
+let alatRouter = require('./routes/alat');
 
 let app = express();
 
+
+// local variabel
+app.locals.base_url = 'http://localhost:3000/';
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -29,6 +33,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/home', homeRouter);
+app.use('/alat', alatRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
