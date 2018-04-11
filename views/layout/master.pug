@@ -111,34 +111,16 @@ html
                               |  Data
                             .nav-submenu.nav
                               a.nav-item(href=base_url+'alat') Data Alat
-                              a.nav-item(href='./charts.html') Charts
+                              a.nav-item(href=base_url+'users') Data User
                               a.nav-item(href='./pricing-cards.html') Pricing cards
                           li.nav-item
                             a.nav-link(href='javascript:void(0)')
-                              i.fe.fe-calendar
-                              |  Components
-                            .nav-submenu.nav
-                              a.nav-item(href='./maps.html') Maps
-                              a.nav-item(href='./icons.html') Icons
-                              a.nav-item(href='./store.html') Store
-                              a.nav-item(href='./blog.html') Blog
+                              i.fa.fa-file-o
+                              |  Tickets
                           li.nav-item
-                            a.nav-link(href='javascript:void(0)')
-                              i.fe.fe-file
-                              |  Pages
-                            .nav-submenu.nav
-                              a.nav-item(href='./profile.html') Profile
-                              a.nav-item(href='./login.html') Login
-                              a.nav-item(href='./register.html') Register
-                              a.nav-item(href='./forgot-password.html') Forgot password
-                              a.nav-item(href='./400.html') 400 error
-                              a.nav-item(href='./104.html') 401 error
-                              a.nav-item(href='./403.html') 403 error
-                              a.nav-item(href='./404.html') 404 error
-                              a.nav-item(href='./500.html') 500 error
-                              a.nav-item(href='./503.html') 503 error
-                              a.nav-item(href='./email.html') Email
-                              a.nav-item(href='./empty.html') Empty page
+                            a.nav-link(href=base_url+'ticket/create')
+                              i.fe.fe-plus-circle
+                              |  New Tickets
                           li.nav-item
                             a.nav-link(href='./form-elements.html')
                               i.fe.fe-check-square
@@ -158,8 +140,8 @@ html
                             i.fe.fe-search
                 .page-content
                   .container
-                    .page-header
-                      h1 Dashboard
+                    //- .page-header
+                    //-   h1 Dashboard
                     block content
 
             .footer

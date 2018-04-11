@@ -1,0 +1,49 @@
+extends ../layout/master.pug
+
+block content
+    .row.row-cards.row-deck
+        .col-12
+            .card
+                .card-header
+                    h3.card-title Form Alat
+                .card-body
+                    form(method='post' action=base_url+'alat/store')
+                        .form-group
+                            label.form-label Ringkasan Masalah
+                            input.form-control(name='title' placeholder='Masukkan kode alat')
+                        .form-group
+                            label.form-label Deskripsi Masalah
+                            textarea.form-control(name='description' cols='30', rows='10')
+                        .form-group
+                            label.form-label Prioritas
+                            select.form-control(name='priority')
+                                option(value='') ....
+                                option(value='1') Hight
+                                option(value='2') Normal
+                                option(value='3') Low
+                        .form-group
+                            label.form-label Berakhir pada (Optional)
+                            input.form-control(name='due_on' type='date')
+                        .form-group
+                            label.form-label Owner (optional)
+                            select.form-control(name='user_id')
+                                option(value='') ....
+                                option(value='1') Dedy dantry
+                                option(value='2') Agus
+                        .form-group
+                            label.form-label Alat Rusak (Optional)
+                            select.form-control(name='alat_id')
+                                option(value='') ....
+                                option(value='1') PC
+                                option(value='2') Telephon
+                        .form-group
+                            label.form-label Lampiran (optional)
+                            .input-group
+                                input.form-control
+                                span.input-group-append
+                                    button.btn.btn-default(type='button')
+                                        i.fe.fe-paperclip
+                        .form-group
+                            button.btn.btn-success.btn-lg.btn-block(type='submit')
+                                i.fa.fa-send 
+                                |&nbsp;Submit Ticket

@@ -5,7 +5,7 @@ exports.index = (req, res) => {
 	new M.Alat().fetchAll()
 		.then(function(model){
 			return res.render('alat/index', {alat : model.toJSON()});
-        })
+        });
 }
 
 exports.create = (req, res) => {

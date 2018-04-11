@@ -1,0 +1,28 @@
+extends ../layout/master.pug
+
+block content
+    .row.row-cards.row-deck
+        .col-12
+            .card
+                .card-header
+                    h3.card-title Form Alat
+                .card-body
+                    form(method='post' action=base_url+'users/store')
+                        .form-group
+                            label.form-label Nama
+                            input.form-control(name='name' placeholder='Masukkan nama user')
+                        .form-group
+                            label.form-label Email
+                            input.form-control(name='email' placeholder='Masukkan Email')
+                        .form-group
+                            label.form-label Jabatan
+                            input.form-control(name='jabatan' placeholder='Masukkan jabatan')
+                        .form-group
+                            label.form-label Role
+                            select.form-control(name='roles')
+                                option(value='0')
+                                option(value='1') Administrator
+                                option(value='2') Admin
+                                option(value='3') Staff
+                        .form-group
+                            button.btn.btn-success.btn-lg(type='submit') Simpan
