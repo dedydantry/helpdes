@@ -1,10 +1,9 @@
 var exports = module.exports = {}
-let M = require('../model/userModel');
-let R = require('../model/roleModel');
-let passwordHash = require('password-hash');
+let User = require('../model/user');
+
 
 function saveToRole(data){
-    new R.Role(data).save()
+    new User(data).save()
         .then(function(model){
             return true;
         })
@@ -14,7 +13,7 @@ function saveToRole(data){
 
 }
 exports.index = (req,res) => {
-    new M.User().fetchAll()
+    new User().fetchAll()
         .then(function(model){
             return res.render('user/index', {'user':model.toJSON()});
         });
@@ -33,7 +32,7 @@ exports.store = (req, res) => {
         'status' : true,
         'jabatan' : req.body.jabatan
     }
-    new M.User(userData).save()
+    new User(userData).save()
         .then(function(model){
             let callback = model.toJSON();
             let roleData = {

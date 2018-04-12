@@ -1,19 +1,24 @@
-let createError = require('http-errors');
-let express = require('express');
-let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
+let createError      = require('http-errors');
+let express          = require('express');
+let path             = require('path');
+let cookieParser     = require('cookie-parser');
+let logger           = require('morgan');
+let fileUpload       = require('express-fileupload');
+let session          = require('express-session');
+let passport         = require('passport');
+let LocalStrategy    = require('passport-local').Strategy;
+let expressValidator = require('express-validator');
+// var router = express.Router();
 
-let session = require('express-session');
-let passport = require('passport');
-let LocalStrategy = require('passport-local').Strategy;
-
-let indexRouter = require('./routes/index');
-let usersRouter = require('./routes/users');
-let authRouter = require('./routes/auth');
-let homeRouter = require('./routes/home');
-let alatRouter = require('./routes/alat');
-let ticketRouter = require('./routes/ticket');
+// model
+let User = require('./model/user');
+// router
+let indexRouter      = require('./routes/index');
+let usersRouter      = require('./routes/users');
+let authRouter       = require('./routes/auth');
+let homeRouter       = require('./routes/home');
+let alatRouter       = require('./routes/alat');
+let ticketRouter     = require('./routes/ticket');
 
 let app = express();
 
@@ -29,10 +34,39 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(fileUpload());
 
-app.use('/', indexRouter);
+// express session
+app.use(session({
+	secret : 'secret',
+	saveUninitialized : true,
+	resave : true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+//load passport strategies
+ 
+require('./config/passport.js')(passport,User);
+
+app.use(expressValidator({
+	errorFormatter:function(params, msg, value){
+		var namespace = params.split('.')
+		, riit = namespace.shift()
+		,formParam = root;
+		while(namespace.length){
+			formParam += '[' + namespace.shift() + ']';
+		}
+		return {
+			param :formParam,
+			msg : msg,
+			value : value
+		}
+	}
+}))
+
+app.use('/', authRouter);
 app.use('/users', usersRouter);
-app.use('/auth', authRouter);
 app.use('/home', homeRouter);
 app.use('/alat', alatRouter);
 app.use('/ticket', ticketRouter);

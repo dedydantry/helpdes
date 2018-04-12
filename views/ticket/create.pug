@@ -7,13 +7,13 @@ block content
                 .card-header
                     h3.card-title Form Alat
                 .card-body
-                    form(method='post' action=base_url+'alat/store')
+                    form(method='post' action=base_url+'ticket/store' encType="multipart/form-data")
                         .form-group
                             label.form-label Ringkasan Masalah
                             input.form-control(name='title' placeholder='Masukkan kode alat')
                         .form-group
                             label.form-label Deskripsi Masalah
-                            textarea.form-control(name='description' cols='30', rows='10')
+                            textarea.form-control(name='description' cols='30', rows='5')
                         .form-group
                             label.form-label Prioritas
                             select.form-control(name='priority')
@@ -25,25 +25,24 @@ block content
                             label.form-label Berakhir pada (Optional)
                             input.form-control(name='due_on' type='date')
                         .form-group
-                            label.form-label Owner (optional)
-                            select.form-control(name='user_id')
-                                option(value='') ....
-                                option(value='1') Dedy dantry
-                                option(value='2') Agus
+                            label.form-label Owner
+                            select.form-control(name='user_id[]' id="multiItems" multiple="multiple")
+                                option(value='0') ...
+                                each data in owners
+                                    option(value=data.id_users) #{data.name}
                         .form-group
                             label.form-label Alat Rusak (Optional)
                             select.form-control(name='alat_id')
                                 option(value='') ....
-                                option(value='1') PC
-                                option(value='2') Telephon
+                                each data in alat
+                                    option(value=data.id_alat) #{data.nama_alat}
                         .form-group
                             label.form-label Lampiran (optional)
-                            .input-group
-                                input.form-control
-                                span.input-group-append
-                                    button.btn.btn-default(type='button')
-                                        i.fe.fe-paperclip
+                            input.fomr-control(type='file' name="lampiran")
                         .form-group
                             button.btn.btn-success.btn-lg.btn-block(type='submit')
                                 i.fa.fa-send 
                                 |&nbsp;Submit Ticket
+block script
+    script.
+        $('#multiItems').selectize({});

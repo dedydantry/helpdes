@@ -19,19 +19,11 @@ html
             | Empty page - tabler.github.io - a responsive, flat and full featured admin template
         link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
         link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&subset=latin-ext')
-        script(src=base_url+'dist/assets/js/require.min.js')
+        //- script(src=base_url+'dist/assets/js/require.min.js')
         // Dashboard Core
         link(href=base_url+'dist/assets/css/dashboard.css' rel='stylesheet')
-        script(src=base_url+'dist/assets/js/dashboard.js')
-        // c3.js Charts Plugin
-        link(href=base_url+'dist/assets/plugins/charts-c3/plugin.css' rel='stylesheet')
-        script(src=base_url+'dist/assets/plugins/charts-c3/plugin.js')
-        // Google Maps Plugin
-        link(href=base_url+'dist/assets/plugins/maps-google/plugin.css' rel='stylesheet')
-        script(src=base_url+'dist/assets/plugins/maps-google/plugin.js')
-        // Input Mask Plugin
-        script(src=base_url+'dist/assets/plugins/input-mask/plugin.js')
-
+        link(href='https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css', rel='stylesheet')
+        
     body
         .page
             .page-main
@@ -75,7 +67,7 @@ html
                               span Message
                             .dropdown-divider
                             a.dropdown-item(href='#') Need help? 
-                            a.dropdown-item(href='#') Sign out
+                            a.dropdown-item(href=base_url+'logout') Sign out
                       #navbarToggler.collapse.navbar-collapse.order-lg-1
                         ul.navbar-nav.mt-2.mt-lg-0.mx-0.mx-lg-2
                           li.nav-item
@@ -114,7 +106,7 @@ html
                               a.nav-item(href=base_url+'users') Data User
                               a.nav-item(href='./pricing-cards.html') Pricing cards
                           li.nav-item
-                            a.nav-link(href='javascript:void(0)')
+                            a.nav-link(href=base_url+'ticket')
                               i.fa.fa-file-o
                               |  Tickets
                           li.nav-item
@@ -195,3 +187,7 @@ html
                             | . Theme by 
                             a(href='https://codecalm.net' target='_blank') codecalm.net
                             |  All rights reserved.
+        script(src=base_url+'dist/assets/js/vendors/jquery-3.2.1.min.js')
+        script(src=base_url+'dist/assets/js/vendors/bootstrap.bundle.min.js')
+        script(src=base_url+'dist/assets/js/vendors/selectize.min.js')
+        block script

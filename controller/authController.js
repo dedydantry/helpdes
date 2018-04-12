@@ -1,6 +1,7 @@
 var exports = module.exports = {}
 var passwordHash = require('password-hash');
-var M = require('../model/userModel');
+var M = require('../model/user');
+
 exports.signup = function(req, res) {
     res.render('auth/login');
 }
@@ -19,4 +20,10 @@ exports.store = function(req, res) {
         .then(function(model){
             console.log(model.get('password'));
         })
+}
+
+exports.logout = function(req, res) {
+    req.session.destroy(function(err) {
+        res.redirect('http://'+req.headers.host);
+    });
 }

@@ -1,11 +1,10 @@
 var exports = module.exports = {}
-var M = require('../model/alatModel');
+var Alat = require('../model/alat');
 
 exports.index = (req, res) => {
-	new M.Alat().fetchAll()
-		.then(function(model){
-			return res.render('alat/index', {alat : model.toJSON()});
-        });
+	Alat.fetchAll()
+	.then(collection => res.render('alat/index', {alat : collection.toJSON()}))
+	.catch(err => console.log(err.stack))
 }
 
 exports.create = (req, res) => {
@@ -13,7 +12,7 @@ exports.create = (req, res) => {
 }
 
 exports.store =(req, res) => {
-	new M.Alat(req.body).save()
+	new Alat(req.body).save()
 		.then(function(){
 			return res.redirect('http://'+req.headers.host+'/alat');
 		})
@@ -24,7 +23,7 @@ exports.store =(req, res) => {
 }
 
 exports.edit = (req, res) => {
-	new M.Alat({id_alat:req.params.alatId})
+	new Alat({id_alat:req.params.alatId})
         .fetch()
         .then(function(model){
     		return res.render('alat/edit', {data : model.toJSON()});
@@ -35,7 +34,7 @@ exports.edit = (req, res) => {
 }
 
 exports.update = (req, res) => {
-	new M.Alat({'id_alat':req.params.alatId})
+	new Alat({'id_alat':req.params.alatId})
 		.save(req.body)
 		.then(function(){
 			console.log(req.headers.host)
@@ -47,7 +46,7 @@ exports.update = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-	new M.Alat({'id_alat':req.params.alatId})
+	new Alat({'id_alat':req.params.alatId})
 		.destroy()
 		.then(function(){
 			return res.redirect('http://'+req.headers.host+'/alat');
