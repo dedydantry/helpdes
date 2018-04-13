@@ -5,7 +5,7 @@ const Ticket = DB.model('Ticket', {
     tableName : 'ticket',
     idAttribute : 'id_ticket',
     user(){
-    	return this.belongsTo(require('./user'), 'users_id');
+    	return this.belongsTo(require('./user'), 'owner');
     }
 });
 

@@ -9,21 +9,26 @@ module.exports = function(passport, user){
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-		User.where('id_users', id).fetch()
-		.then(function(model){
-			if(model){
-				done(null, model.toJSON());
+
+		new User({'id_users':id}).fetch({
+			withRelated:'roles',
+		})
+		.then(collection => {
+			if(collection){
+				
+				done(null, collection.toJSON());
 			}
-			else{
-				done(model.errors, null);
+			else {
+				done(collection.errors, null);
 			}
 		})
+		.catch(err => console.log(err.stack))
+		
     });
 
 	passport.use('local-signup', new LocalStrategy(
 		{
 			usernameField : 'email',
-			passwrodFiled : 'password',
 			passReqToCallback : true
 		},
 
@@ -43,8 +48,8 @@ module.exports = function(passport, user){
 					var userPassword = generateHash(password);
 					var data = {
 						'name' : req.body.name,
-				        'email' : req.body.email,
-				        'password' : passwordHash.generate(password.replace(/\s/g, '')),
+				        'email' : email,
+				        'password' : passwordHash.generate(password.replace(email)),
 				        'status' : true,
 				        'jabatan' : req.body.jabatan
 					};
@@ -72,7 +77,7 @@ module.exports = function(passport, user){
 				return passwordHash.verify(password, userpass);
 			}
 			console.log(email)
-			User.where('email', email).fetch()
+			User.where('email', email).fetch({withRelated:'roles',})
 			.then(model=>{
 				let result = model.toJSON();
 				console.log(result);

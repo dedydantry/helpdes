@@ -1,9 +1,10 @@
 var exports = module.exports = {}
 let User = require('../model/user');
-
+let Role = require('../model/user_role');
+let passwordHash = require('password-hash');
 
 function saveToRole(data){
-    new User(data).save()
+    new Role(data).save()
         .then(function(model){
             return true;
         })

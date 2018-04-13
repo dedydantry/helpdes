@@ -2,13 +2,9 @@ var express = require('express');
 var router = express.Router();
 var alatController = require('../controller/alatController.js');
 function isLoggedIn(req, res, next) {
-
     if (req.isAuthenticated())
-
         return next();
-
     res.redirect('/');
-
 }
 
 router.get('/', isLoggedIn, alatController.index);

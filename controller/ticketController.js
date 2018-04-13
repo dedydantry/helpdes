@@ -2,11 +2,21 @@ var exports = module.exports = {}
 const Ticket = require('../model/ticket');
 const User = require('../model/user');
 const Alat = require('../model/alat');
+const Assigment = require('../model/assigment');
 var async = require('async');
 
-// let generateCode = () => {
-// 	new M.
-// }
+function saveAssigment(ticket, user){
+	for(var i = 0; i<user.length; i++){
+		new Assigment({ticket_id : ticket, user_id:user[i]}).save()
+		.then(model => {
+			console.log(model)
+		})
+		.catch(err => {
+			console.log(err.stack)
+		})
+	}
+	return true;
+}
 
 exports.index = (req,res) => {
     Ticket.fetchAll({withRelated: ['user']})
@@ -39,35 +49,49 @@ exports.create = (req, res) => {
 		}
 	], function(err){
 		if(err) return next(err);
-		console.log(locals.alat)
    		 res.render('ticket/create', {owners : locals.owner, alat : locals.alat});
 	})
 }
 
 exports.store = (req, res) => {
-	if (!req.files) return res.redirect('http://'+req.headers.host+'/ticket/create');
+	var lampiran = '';
 
+	if (!req.files){
+		lampiran = req.files.lampiran.name;
+		
+		lampiran.mv('./public/img/'+lampiran, function(err){
+			if(err) return res.redirect('http://'+req.headers.host+'/ticket/create');
+		})
+	}
 	let code = Date.now();
-	let lampiran = req.files.lampiran;
-	lampiran.mv('./public/img/'+lampiran.name, function(err){
-		if(err) return res.redirect('http://'+req.headers.host+'/ticket/create');
-	})
 	var data = {
 		'ticket_code' : code,
+		'owner' : req.user.id_users,
 		'title' : req.body.title,
 		'description' : req.body.description,
 		'priority' : req.body.priority,
 		'due_on' : req.body.due_on,
-		'users_id' : req.body.user_id,
 		'alat_id' : req.body.alat_id,
-		'lampiran' : lampiran.name
+		'lampiran' : lampiran
 	}
 
-	new M.Ticket(data).save()
+	new Ticket(data).save()
 		.then(function(status){
-			return res.redirect('http://'+req.headers.host+'/ticket');
+			var rep = status.toJSON();
+			if(saveAssigment(rep.id_ticket, req.body.assigment)){
+				return res.redirect('http://'+req.headers.host+'/ticket');
+			}
 		})
 		.catch(function(err){
 			console.log(err.stack);
 		})
+}
+
+exports.view = (req, res) => {
+	var result = {};
+	Ticket.where(req.params).fetchAll({withRelated: ['user']})
+	.then(function(model) {
+		console.log(model.toJSON());
+		return res.render('ticket/view', {ticket : model.toJSON()[0]})
+	})
 }

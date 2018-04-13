@@ -25,8 +25,8 @@ block content
                             label.form-label Berakhir pada (Optional)
                             input.form-control(name='due_on' type='date')
                         .form-group
-                            label.form-label Owner
-                            select.form-control(name='user_id[]' id="multiItems" multiple="multiple")
+                            label.form-label Assigment To
+                            select.form-control(name='assigment' id="multiItems" multiple="multiple")
                                 option(value='0') ...
                                 each data in owners
                                     option(value=data.id_users) #{data.name}

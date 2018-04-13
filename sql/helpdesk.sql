@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 12, 2018 at 01:49 PM
+-- Generation Time: Apr 13, 2018 at 01:23 PM
 -- Server version: 5.5.36
 -- PHP Version: 5.4.25
 
@@ -49,6 +49,30 @@ INSERT INTO `alat` (`id_alat`, `code_alat`, `nama_alat`, `deskripsi`, `created_a
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `assigment`
+--
+
+CREATE TABLE IF NOT EXISTS `assigment` (
+  `id_assigment` int(11) NOT NULL AUTO_INCREMENT,
+  `ticket_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id_assigment`),
+  KEY `ticket_id` (`ticket_id`,`user_id`),
+  KEY `ticket_id_2` (`ticket_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `assigment`
+--
+
+INSERT INTO `assigment` (`id_assigment`, `ticket_id`, `user_id`) VALUES
+(1, 1, 1),
+(2, 1, 3);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `role`
 --
 
@@ -77,26 +101,24 @@ INSERT INTO `role` (`id_role`, `role_name`, `display_name`) VALUES
 CREATE TABLE IF NOT EXISTS `ticket` (
   `id_ticket` int(11) NOT NULL AUTO_INCREMENT,
   `ticket_code` varchar(250) NOT NULL,
+  `owner` int(11) NOT NULL,
   `title` varchar(250) NOT NULL,
   `description` varchar(1000) NOT NULL,
   `priority` int(11) NOT NULL,
   `due_on` date NOT NULL,
-  `users_id` int(11) NOT NULL,
   `alat_id` int(11) NOT NULL,
   `lampiran` varchar(250) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `crated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_ticket`),
-  KEY `users_id` (`users_id`),
-  KEY `users_id_2` (`users_id`)
+  PRIMARY KEY (`id_ticket`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `ticket`
 --
 
-INSERT INTO `ticket` (`id_ticket`, `ticket_code`, `title`, `description`, `priority`, `due_on`, `users_id`, `alat_id`, `lampiran`, `status`, `crated_at`) VALUES
-(1, '1523435478443', 'Mengenal Skincare Halal, Apa Saja Sih Kriterianya?', 'loremipsum', 2, '2018-04-12', 1, 1, 'IMG-20170104-WA0002.jpg', 0, '0000-00-00 00:00:00');
+INSERT INTO `ticket` (`id_ticket`, `ticket_code`, `owner`, `title`, `description`, `priority`, `due_on`, `alat_id`, `lampiran`, `status`, `crated_at`) VALUES
+(1, '1523618155334', 1, 'This is a first ticket', 'Example ticket', 1, '2018-04-14', 1, '', 0, '2018-04-13 11:15:55');
 
 -- --------------------------------------------------------
 
@@ -113,14 +135,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `jabatan` varchar(250) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id_users`, `name`, `email`, `password`, `status`, `jabatan`, `created_at`) VALUES
-(1, 'dedy dantry', 'dedydantry@gmail.com', 'sha1$1d793595$1$562818020c06d8e455358037b51973d532db20cd', 1, '', '2018-03-30 05:10:21');
+(1, 'dedy dantry', 'dedydantry@gmail.com', 'sha1$1d793595$1$562818020c06d8e455358037b51973d532db20cd', 1, '', '2018-03-30 05:10:21'),
+(3, 'Jhon Doe', 'jhondoe@email.com', 'sha1$7583ddc2$1$c61655f5678279977ecf649dd0f8cd1e1d62f458', 1, 'IT', '2018-04-13 08:11:00');
 
 -- --------------------------------------------------------
 
@@ -135,24 +158,19 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `role_id` (`role_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `user_role`
 --
 
 INSERT INTO `user_role` (`id`, `user_id`, `role_id`) VALUES
-(1, 1, 2);
+(1, 1, 2),
+(2, 3, 2);
 
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `ticket`
---
-ALTER TABLE `ticket`
-  ADD CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_role`
