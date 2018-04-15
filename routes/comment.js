@@ -1,14 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var homeController = require('../controller/homeController.js');
-/* GET home page. */
-
+var commentController = require('../controller/commentController.js');
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
     res.redirect('/');
 }
 router.use(isLoggedIn);
-router.get('/', homeController.index);
+router.post('/', commentController.store);
 
 module.exports = router;

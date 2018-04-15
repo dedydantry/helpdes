@@ -3,7 +3,10 @@ var passwordHash = require('password-hash');
 var M = require('../model/user');
 
 exports.signup = function(req, res) {
-    res.render('auth/login');
+    if(req.user) {
+        return res.redirect('/home')
+    }
+    return res.render('auth/login');
 }
 
 exports.register = function(req, res) {
@@ -24,6 +27,6 @@ exports.store = function(req, res) {
 
 exports.logout = function(req, res) {
     req.session.destroy(function(err) {
-        res.redirect('http://'+req.headers.host);
+        res.redirect('/');
     });
 }

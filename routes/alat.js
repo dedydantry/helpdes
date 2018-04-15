@@ -6,12 +6,12 @@ function isLoggedIn(req, res, next) {
         return next();
     res.redirect('/');
 }
-
-router.get('/', isLoggedIn, alatController.index);
-router.get('/create', isLoggedIn,  alatController.create);
-router.post('/store', isLoggedIn, alatController.store);
-router.get('/edit/:alatId', isLoggedIn, alatController.edit);
-router.post('/update/:alatId', isLoggedIn,  alatController.update);
-router.post('/destroy/:alatId', isLoggedIn, alatController.delete);
+router.use(isLoggedIn);
+router.get('/', alatController.index);
+router.get('/create',  alatController.create);
+router.post('/store', alatController.store);
+router.get('/edit/:alatId', alatController.edit);
+router.post('/update/:alatId',  alatController.update);
+router.post('/destroy/:alatId', alatController.delete);
 
 module.exports = router;

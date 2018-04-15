@@ -8,6 +8,7 @@ let session          = require('express-session');
 let passport         = require('passport');
 let LocalStrategy    = require('passport-local').Strategy;
 let expressValidator = require('express-validator');
+let moment 			 = require('moment');
 // var router = express.Router();
 
 // model
@@ -19,12 +20,20 @@ let authRouter       = require('./routes/auth');
 let homeRouter       = require('./routes/home');
 let alatRouter       = require('./routes/alat');
 let ticketRouter     = require('./routes/ticket');
+let commentRouter     = require('./routes/comment');
 
 let app = express();
 
 
 // local variabel
 app.locals.base_url = 'http://localhost:3000/';
+app.locals.stringCustom = (string) => {
+	var strings = string.toUpperCase()
+    return strings.charAt(0);
+};
+app.locals.moment = (momentParams) =>{
+	return moment(momentParams);
+}
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -70,6 +79,7 @@ app.use('/users', usersRouter);
 app.use('/home', homeRouter);
 app.use('/alat', alatRouter);
 app.use('/ticket', ticketRouter);
+app.use('/comment', commentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -79,7 +89,6 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  base_url = 'http://localhost:3000/';
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

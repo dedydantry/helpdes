@@ -1,20 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
--- http://www.phpmyadmin.net
+-- version 4.7.0
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2018 at 01:23 PM
--- Server version: 5.5.36
--- PHP Version: 5.4.25
+-- Generation Time: Apr 15, 2018 at 05:03 PM
+-- Server version: 10.1.25-MariaDB
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `helpdesk`
@@ -26,14 +28,13 @@ SET time_zone = "+00:00";
 -- Table structure for table `alat`
 --
 
-CREATE TABLE IF NOT EXISTS `alat` (
-  `id_alat` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `alat` (
+  `id_alat` int(11) NOT NULL,
   `code_alat` varchar(250) NOT NULL,
   `nama_alat` varchar(250) NOT NULL,
   `deskripsi` varchar(250) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_alat`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `alat`
@@ -52,15 +53,11 @@ INSERT INTO `alat` (`id_alat`, `code_alat`, `nama_alat`, `deskripsi`, `created_a
 -- Table structure for table `assigment`
 --
 
-CREATE TABLE IF NOT EXISTS `assigment` (
-  `id_assigment` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `assigment` (
+  `id_assigment` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id_assigment`),
-  KEY `ticket_id` (`ticket_id`,`user_id`),
-  KEY `ticket_id_2` (`ticket_id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `assigment`
@@ -68,7 +65,8 @@ CREATE TABLE IF NOT EXISTS `assigment` (
 
 INSERT INTO `assigment` (`id_assigment`, `ticket_id`, `user_id`) VALUES
 (1, 1, 1),
-(2, 1, 3);
+(2, 1, 3),
+(3, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -76,12 +74,11 @@ INSERT INTO `assigment` (`id_assigment`, `ticket_id`, `user_id`) VALUES
 -- Table structure for table `role`
 --
 
-CREATE TABLE IF NOT EXISTS `role` (
-  `id_role` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `role` (
+  `id_role` int(11) NOT NULL,
   `role_name` varchar(100) NOT NULL,
-  `display_name` varchar(100) NOT NULL,
-  PRIMARY KEY (`id_role`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `display_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `role`
@@ -98,8 +95,8 @@ INSERT INTO `role` (`id_role`, `role_name`, `display_name`) VALUES
 -- Table structure for table `ticket`
 --
 
-CREATE TABLE IF NOT EXISTS `ticket` (
-  `id_ticket` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ticket` (
+  `id_ticket` int(11) NOT NULL,
   `ticket_code` varchar(250) NOT NULL,
   `owner` int(11) NOT NULL,
   `title` varchar(250) NOT NULL,
@@ -109,16 +106,39 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `alat_id` int(11) NOT NULL,
   `lampiran` varchar(250) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
-  `crated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_ticket`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `crated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `ticket`
 --
 
 INSERT INTO `ticket` (`id_ticket`, `ticket_code`, `owner`, `title`, `description`, `priority`, `due_on`, `alat_id`, `lampiran`, `status`, `crated_at`) VALUES
-(1, '1523618155334', 1, 'This is a first ticket', 'Example ticket', 1, '2018-04-14', 1, '', 0, '2018-04-13 11:15:55');
+(1, '1523618155334', 1, 'This is a first ticket', 'Example ticket', 1, '2018-04-14', 1, '', 0, '2018-04-13 11:15:55'),
+(2, '1523646271627', 1, 'Example ticket', 'This is a dummy ticket ', 1, '2018-04-19', 1, '', 0, '2018-04-13 19:04:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ticket_comment`
+--
+
+CREATE TABLE `ticket_comment` (
+  `id_comment` int(11) NOT NULL,
+  `ticket_id` int(11) NOT NULL,
+  `author` int(11) NOT NULL,
+  `comment` varchar(500) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ticket_comment`
+--
+
+INSERT INTO `ticket_comment` (`id_comment`, `ticket_id`, `author`, `comment`, `created`) VALUES
+(1, 1, 1, 'oke oce', '2018-04-15 15:02:24'),
+(2, 1, 1, 'jos', '2018-04-15 15:02:35'),
+(3, 1, 1, 'josgandos', '2018-04-15 15:02:42');
 
 -- --------------------------------------------------------
 
@@ -126,16 +146,15 @@ INSERT INTO `ticket` (`id_ticket`, `ticket_code`, `owner`, `title`, `description
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id_users` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id_users` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
   `email` varchar(150) NOT NULL,
   `password` varchar(150) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `jabatan` varchar(250) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -151,14 +170,11 @@ INSERT INTO `users` (`id_users`, `name`, `email`, `password`, `status`, `jabatan
 -- Table structure for table `user_role`
 --
 
-CREATE TABLE IF NOT EXISTS `user_role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user_role` (
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `role_id` (`role_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `role_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_role`
@@ -169,6 +185,98 @@ INSERT INTO `user_role` (`id`, `user_id`, `role_id`) VALUES
 (2, 3, 2);
 
 --
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `alat`
+--
+ALTER TABLE `alat`
+  ADD PRIMARY KEY (`id_alat`);
+
+--
+-- Indexes for table `assigment`
+--
+ALTER TABLE `assigment`
+  ADD PRIMARY KEY (`id_assigment`),
+  ADD KEY `ticket_id` (`ticket_id`,`user_id`),
+  ADD KEY `ticket_id_2` (`ticket_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`id_role`);
+
+--
+-- Indexes for table `ticket`
+--
+ALTER TABLE `ticket`
+  ADD PRIMARY KEY (`id_ticket`);
+
+--
+-- Indexes for table `ticket_comment`
+--
+ALTER TABLE `ticket_comment`
+  ADD PRIMARY KEY (`id_comment`),
+  ADD KEY `author` (`author`),
+  ADD KEY `ticket_id` (`ticket_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id_users`);
+
+--
+-- Indexes for table `user_role`
+--
+ALTER TABLE `user_role`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `role_id` (`role_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `alat`
+--
+ALTER TABLE `alat`
+  MODIFY `id_alat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `assigment`
+--
+ALTER TABLE `assigment`
+  MODIFY `id_assigment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `role`
+--
+ALTER TABLE `role`
+  MODIFY `id_role` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `ticket`
+--
+ALTER TABLE `ticket`
+  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `ticket_comment`
+--
+ALTER TABLE `ticket_comment`
+  MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id_users` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `user_role`
+--
+ALTER TABLE `user_role`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- Constraints for dumped tables
 --
 
@@ -178,6 +286,7 @@ INSERT INTO `user_role` (`id`, `user_id`, `role_id`) VALUES
 ALTER TABLE `user_role`
   ADD CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id_role`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_role_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

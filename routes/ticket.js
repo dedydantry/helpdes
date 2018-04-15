@@ -7,7 +7,7 @@ function isLoggedIn(req, res, next) {
         return next();
     res.redirect('/');
 }
-
+router.use(isLoggedIn);
 router.get('/', ticketController.index);
 router.get('/create', ticketController.create);
 router.post('/store', ticketController.store);

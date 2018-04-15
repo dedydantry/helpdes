@@ -3,7 +3,7 @@ module.exports = function(passport, user){
 	let User = user;
 	let LocalStrategy = require('passport-local').Strategy;
 
-	 passport.serializeUser(function(user, done) {
+	passport.serializeUser(function(user, done) {
 		done(null, user.id_users);
     });
 
@@ -107,6 +107,4 @@ module.exports = function(passport, user){
 		}
 
 	))
-
-	
 }

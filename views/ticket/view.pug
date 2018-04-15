@@ -2,12 +2,6 @@ extends ../layout/master.pug
 
 block content
     .row
-        .col-lg-3.order-lg-mb-4
-            .list-group.list-group-transparent.mb-0
-                a.list-group-item.list-group-item-action.active
-                    span.icon.mr-3
-                        i.fe.fe-flag
-                    |Introduction
         .col-lg-9
             .card
                 .card-header
@@ -23,3 +17,35 @@ block content
                     .text-wrap
                         h2.mt-0.mb-4 #{ticket.title}
                         p #{ticket.description}
+            .card(style='box-shadow:none; border:none; background-color:transparent;')
+                .card-body(style='padding:1.5rem 0;')
+                    form(method='post' action=base_url+'comment' id="form-comment")
+                        input(type='hidden' name='ticket' value=ticket.id_ticket)
+                        input(type='hidden' name='ticket_code' value=ticket_code)
+                        .form-group
+                            textarea.form-control(name='comment' rows='5')
+                        .form-.text-right
+                            button.btn.btn-primary.btn-pull-right(type='submit') Post Coment
+            .comment-list
+               each data in comment
+                .card(style='box-shadow:none; border:none; background-color:#b5b3b917; border-radius:5px;')
+                    .card-body
+                        .d-flex.align-items-center.mt-auto
+                            .avatar.avatar-md.mr-3(style='background-image: url(./demo/faces/male/16.jpg)') #{stringCustom(data.user.name)}
+                            div
+                                a.text-default(href='./profile.html') #{data.user.email}
+                                small.d-block.text-muted #{moment(data.created).fromNow()}
+                            .ml-auto.text-muted
+                                a.icon.d-none.d-md-inline-block.ml-3(href='javascript:void(0)')
+                        .text-muted(style='width:90%; margin-left:3rem; margin-top:0.5rem')
+                            p #{data.comment}
+        .col-lg-3.order-lg-mb-4
+            a.btn.btn-block.btn-primary
+                i.fa.fa-user.mr-2
+                | Assigment To
+            .list-group.list-group-transparent.mb-0
+              each data in assigment
+                a.list-group-item.list-group-item-action.active(href='#')
+                    span.icon.mr-3
+                        i.fa.fa-user
+                    |#{data.user.email}

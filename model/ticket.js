@@ -6,6 +6,9 @@ const Ticket = DB.model('Ticket', {
     idAttribute : 'id_ticket',
     user(){
     	return this.belongsTo(require('./user'), 'owner');
+    },
+    assigment(){
+        return this.belongsTo(require('./assigment'), 'id_ticket');
     }
 });
 

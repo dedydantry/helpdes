@@ -3,6 +3,7 @@ const Ticket = require('../model/ticket');
 const User = require('../model/user');
 const Alat = require('../model/alat');
 const Assigment = require('../model/assigment');
+const Comment = require('../model/comment');
 var async = require('async');
 
 function saveAssigment(ticket, user){
@@ -87,11 +88,16 @@ exports.store = (req, res) => {
 		})
 }
 
-exports.view = (req, res) => {
-	var result = {};
-	Ticket.where(req.params).fetchAll({withRelated: ['user']})
-	.then(function(model) {
-		console.log(model.toJSON());
-		return res.render('ticket/view', {ticket : model.toJSON()[0]})
-	})
+exports.view = async(req, res) => {
+
+		const ticket = await Ticket.where(req.params).fetchAll({withRelated : ['user']});
+		const ticket_id = ticket.toJSON()[0].id_ticket;
+		const assigment = await Assigment.where('ticket_id', ticket_id).fetchAll({withRelated : ['user']});
+		const resultComment = await Comment.where('ticket_id', ticket_id).orderBy('created', 'DESC').fetchAll({withRelated : ['user']});
+		return res.render('ticket/view', {
+			ticket :ticket.toJSON()[0], 
+			assigment : assigment.toJSON(), 
+			ticket_code : req.params.ticket_code,
+			comment : resultComment.toJSON()
+		})
 }

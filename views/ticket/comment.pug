@@ -1,0 +1,11 @@
+.card(style='box-shadow:none; border:none; background-color:#b5b3b917; border-radius:5px;')
+    .card-body
+        .d-flex.align-items-center.mt-auto
+            .avatar.avatar-md.mr-3(style='background-image: url(./demo/faces/male/16.jpg)') #{stringCustom(comment.user.name)}
+            div
+                a.text-default(href='./profile.html') #{comment.user.email}
+                small.d-block.text-muted #{moment(comment.created).fromNow()}
+            .ml-auto.text-muted
+                a.icon.d-none.d-md-inline-block.ml-3(href='javascript:void(0)')
+        .text-muted(style='width:90%; margin-left:3rem; margin-top:0.5rem')
+                p #{comment.comment}
