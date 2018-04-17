@@ -101,3 +101,25 @@ exports.view = async(req, res) => {
 			comment : resultComment.toJSON()
 		})
 }
+
+exports.edit = async(req, res) => {
+	const ticket = await Ticket.where(req.params).fetch({withRelated : ['user']});
+	const ticket_id = ticket.toJSON().id_ticket;
+	const getAssigment = await Assigment.where('ticket_id', ticket_id).fetchAll();
+	const alat = await Alat.fetchAll();
+	const user = await User.query(function(qb){
+			qb.join('user_role', {'users.id_users' : 'user_role.user_id'});
+			qb.where('user_role.role_id', 2);
+		}).fetchAll()
+	return res.render('ticket/edit', {
+		ticket : ticket.toJSON(), 
+		alat : alat.toJSON(), 
+		owners : user.toJSON(), 
+		ticket_code : req.params.ticket_code, 
+		assigment : getAssigment.toJSON()
+	});
+}
+
+exports.update = async(req, res) => {
+	
+}

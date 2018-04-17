@@ -16,3 +16,22 @@ exports.store = async(req,res) => {
 
     res.status(404).send('Not found');
 }
+
+exports.update = async(req, res) => {
+    var data = {
+        comment : req.body.comment
+    }
+    const updateComment = await new Comment({'id_comment' : req.params.id_comment}).save(data);
+    if(!updateComment){
+        return res.json({ status: 'failed' });
+    }
+    return res.json({ status: 'success' });  
+}
+
+exports.delete = async(req, res) => {
+    const deleteComment = await new Comment({'id_comment' : req.params.id_comment}).destroy();
+    if(!deleteComment){
+        return res.json({ status: 'failed' });
+    }
+    return res.json({ status: 'success' });  
+}

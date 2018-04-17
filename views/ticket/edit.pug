@@ -1,0 +1,53 @@
+extends ../layout/master.pug
+
+block content
+    .row.row-cards.row-deck
+        .col-12
+            .card
+                .card-header
+                    h3.card-title Form Alat
+                .card-body
+                    form(method='post' action=base_url+'ticket/store' encType="multipart/form-data")
+                        .form-group
+                            label.form-label Ringkasan Masalah
+                            input.form-control(name='title' placeholder='Masukkan kode alat' value=ticket.title)
+                        .form-group
+                            label.form-label Deskripsi Masalah
+                            textarea.form-control(name='description' cols='30', rows='5' ) #{ticket.description}
+                        .form-group
+                            label.form-label Prioritas
+                            select.form-control(name='priority')
+                                option(value='') ....
+                                option(value='1', selected=(ticket.priority == 1)) Hight
+                                option(value='2', selected=(ticket.priority == 2)) Normal
+                                option(value='3', selected=(ticket.priority == 3)) Low
+                        .form-group
+                            label.form-label Berakhir pada (Optional)
+                            input.form-control(name='due_on' type='date' value=moment(ticket.due_on).format("YYYY-MM-DD"))
+                        .form-group
+                            label.form-label Assigment To
+                            select.form-control(name='assigment' id="multiItems" multiple="multiple")
+                                option(value='0') ...
+                                each data in owners
+                                  - var status;
+                                  each val in assigment
+                                    if data.id_users == val.user_id
+                                        option(value=data.id_users selected) #{data.name}
+                                    else 
+                                       option(value=data.id_users) #{data.name}
+                        .form-group
+                            label.form-label Alat Rusak (Optional)
+                            select.form-control(name='alat_id')
+                                option(value='') ....
+                                each data in alat
+                                    option(value=data.id_alat selected=(data.id_alat == ticket.alat_id)) #{data.nama_alat}
+                        .form-group
+                            label.form-label Lampiran (optional)
+                            input.fomr-control(type='file' name="lampiran")
+                        .form-group
+                            button.btn.btn-success.btn-lg.btn-block(type='submit')
+                                i.fa.fa-send 
+                                |&nbsp;Submit Ticket
+block script
+    script.
+        $('#multiItems').selectize({});

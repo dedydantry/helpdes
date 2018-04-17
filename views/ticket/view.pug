@@ -30,15 +30,25 @@ block content
                each data in comment
                 .card(style='box-shadow:none; border:none; background-color:#b5b3b917; border-radius:5px;')
                     .card-body
-                        .d-flex.align-items-center.mt-auto
+                        .d-flex.align-items-center.mt-auto.c-first-child
                             .avatar.avatar-md.mr-3(style='background-image: url(./demo/faces/male/16.jpg)') #{stringCustom(data.user.name)}
                             div
                                 a.text-default(href='./profile.html') #{data.user.email}
                                 small.d-block.text-muted #{moment(data.created).fromNow()}
                             .ml-auto.text-muted
-                                a.icon.d-none.d-md-inline-block.ml-3(href='javascript:void(0)')
-                        .text-muted(style='width:90%; margin-left:3rem; margin-top:0.5rem')
+                                a.icon.d-none.d-md-inline-block.c-icon.edit-comment(href='javascript:void(0)' data-target=data.id_comment)
+                                    i.fa.fa-pencil
+                                a.icon.d-none.d-md-inline-block.c-icon.delete-comment(href='javascript:void(0)' data-target=data.id_comment)
+                                    i.fa.fa-trash
+                        .text-muted.c-first-child(style='width:90%; margin-left:3rem; margin-top:0.5rem')
                             p #{data.comment}
+                        .field-edit-comment.c-hidden
+                            form.form-edit.comment(method='post' action=base_url+'comment/update/'+data.id_comment)
+                                .form-group
+                                    textarea.form-control(name="comment", , rows="5") #{data.comment}
+                                .form-group.text-right
+                                    button.btn.btn-warning.edit-cancel(type='button' style='margin-right: 5px;') Cancel
+                                    button.btn.btn-primary(type='submit') Update
         .col-lg-3.order-lg-mb-4
             a.btn.btn-block.btn-primary
                 i.fa.fa-user.mr-2

@@ -1,8 +1,32 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.field-edit-comment.c-hidden{
+  display: none;
+}
+.field-edit-comment.c-show{
+  display: block;
 }
 
-a {
-  color: #00B7FF;
+.c-icon{
+  padding:3px 5px;
+  border:1px solid #ddd;
+  margin:0px;
+  background-color: #fff;
+}
+.c-icon:first-child{
+  border-right: none;
+}
+
+.c-first-child.c-hidden{
+  display: none !important;
+}
+.notif{
+  display: block;
+  opacity: 0;
+  width: 30%;
+  position: fixed;
+  width: 300px;
+  bottom: 5rem;
+  right: 2rem;
+}
+.notif.c-hidden{
+  display: none;
 }
