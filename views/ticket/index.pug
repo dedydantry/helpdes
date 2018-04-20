@@ -43,17 +43,9 @@ block content
                                                 a.dropdown-item(href=base_url+'ticket/edit/'+data.ticket_code)
                                                     i.dropdown-icon.fe.fe-tag
                                                         |  Edit
-                                                a.dropdown-item(href="javascript:void(0)")
+                                                a.dropdown-item(href="javascript:void(0)" class="ticket-delete" data-id=data.id_ticket)
                                                     i.dropdown-icon.fe.fe-edit-2
-                                                        |  Another action
-                                                a.dropdown-item(href="javascript:void(0)")
-                                                    i.dropdown-icon.fe.fe-message-square
-                                                        |  Something else here
-                                                .dropdown-divider
-                                                a.dropdown-item(href="javascript:void(0)")
-                                                    i.dropdown-icon.fe.fe-link
-                                                        |  Separated link
-
+                                                        |  Delete
 
                                     
                             

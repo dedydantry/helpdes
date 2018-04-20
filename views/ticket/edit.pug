@@ -7,7 +7,7 @@ block content
                 .card-header
                     h3.card-title Form Alat
                 .card-body
-                    form(method='post' action=base_url+'ticket/store' encType="multipart/form-data")
+                    form(method='post' action=base_url+'ticket/update/'+ticket.id_ticket encType="multipart/form-data")
                         .form-group
                             label.form-label Ringkasan Masalah
                             input.form-control(name='title' placeholder='Masukkan kode alat' value=ticket.title)
@@ -29,25 +29,15 @@ block content
                             select.form-control(name='assigment' id="multiItems" multiple="multiple")
                                 option(value='0') ...
                                 each data in owners
-                                  - var status;
                                   each val in assigment
-                                    if data.id_users == val.user_id
+                                    if (data.id_users == val.user_id)
                                         option(value=data.id_users selected) #{data.name}
                                     else 
                                        option(value=data.id_users) #{data.name}
                         .form-group
-                            label.form-label Alat Rusak (Optional)
-                            select.form-control(name='alat_id')
-                                option(value='') ....
-                                each data in alat
-                                    option(value=data.id_alat selected=(data.id_alat == ticket.alat_id)) #{data.nama_alat}
-                        .form-group
                             label.form-label Lampiran (optional)
-                            input.fomr-control(type='file' name="lampiran")
+                            input.form-control(type='file' name="lampiran")
                         .form-group
                             button.btn.btn-success.btn-lg.btn-block(type='submit')
                                 i.fa.fa-send 
                                 |&nbsp;Submit Ticket
-block script
-    script.
-        $('#multiItems').selectize({});

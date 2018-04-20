@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2018 at 01:57 PM
+-- Generation Time: Apr 20, 2018 at 01:12 PM
 -- Server version: 5.5.36
 -- PHP Version: 5.4.25
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `alat` (
 --
 
 INSERT INTO `alat` (`id_alat`, `code_alat`, `nama_alat`, `deskripsi`, `created_at`) VALUES
-(1, 'PC-01', 'PC Dekstop Rany', 'Devisi Akuntansi HRD', '2018-04-04 07:37:16'),
+(1, 'PC-01', 'PC Dekstop SER', 'Devisi Akuntansi HRD', '2018-04-04 07:37:16'),
 (2, 'PC-02', 'PC-Devi', 'Devisi admin gudang', '2018-04-04 07:41:18'),
 (3, 'PC-03', 'PC Kevin', 'Devisi Gudang', '2018-04-04 07:42:53'),
 (4, 'PC-04', 'PC Andri', 'Devisi Gudang', '2018-04-04 07:43:32'),
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `assigment` (
   KEY `ticket_id` (`ticket_id`,`user_id`),
   KEY `ticket_id_2` (`ticket_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `assigment`
@@ -68,8 +68,7 @@ CREATE TABLE IF NOT EXISTS `assigment` (
 
 INSERT INTO `assigment` (`id_assigment`, `ticket_id`, `user_id`) VALUES
 (1, 1, 1),
-(2, 1, 3),
-(3, 2, 1);
+(2, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -107,20 +106,18 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `description` varchar(1000) NOT NULL,
   `priority` int(11) NOT NULL,
   `due_on` date NOT NULL,
-  `alat_id` int(11) NOT NULL,
   `lampiran` varchar(250) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `crated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_ticket`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `ticket`
 --
 
-INSERT INTO `ticket` (`id_ticket`, `ticket_code`, `owner`, `title`, `description`, `priority`, `due_on`, `alat_id`, `lampiran`, `status`, `crated_at`) VALUES
-(1, '1523618155334', 1, 'This is a first ticket', 'Example ticket', 1, '2018-04-14', 1, '', 0, '2018-04-13 11:15:55'),
-(2, '1523646271627', 1, 'Example ticket', 'This is a dummy ticket ', 1, '2018-04-19', 1, '', 0, '2018-04-13 19:04:31');
+INSERT INTO `ticket` (`id_ticket`, `ticket_code`, `owner`, `title`, `description`, `priority`, `due_on`, `lampiran`, `status`, `crated_at`) VALUES
+(1, '1524062510909', 1, 'Hello World', 'This is a ticket', 1, '2018-04-19', 'mega-face.png', 0, '2018-04-18 14:41:50');
 
 -- --------------------------------------------------------
 
@@ -137,19 +134,7 @@ CREATE TABLE IF NOT EXISTS `ticket_comment` (
   PRIMARY KEY (`id_comment`),
   KEY `author` (`author`),
   KEY `ticket_id` (`ticket_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
-
---
--- Dumping data for table `ticket_comment`
---
-
-INSERT INTO `ticket_comment` (`id_comment`, `ticket_id`, `author`, `comment`, `created`) VALUES
-(1, 1, 1, 'oke oce lah pokoknya', '2018-04-15 15:02:24'),
-(2, 1, 1, 'keren sekali gan', '2018-04-15 15:02:35'),
-(5, 2, 1, 'Oke dah', '2018-04-16 14:57:39'),
-(6, 2, 1, 'Kok keren', '2018-04-16 14:59:13'),
-(7, 2, 1, 'Kok bis aya?', '2018-04-16 15:00:32'),
-(8, 1, 1, 'Oke', '2018-04-17 02:50:39');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

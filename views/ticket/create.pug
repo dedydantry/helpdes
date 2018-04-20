@@ -31,12 +31,6 @@ block content
                                 each data in owners
                                     option(value=data.id_users) #{data.name}
                         .form-group
-                            label.form-label Alat Rusak (Optional)
-                            select.form-control(name='alat_id')
-                                option(value='') ....
-                                each data in alat
-                                    option(value=data.id_alat) #{data.nama_alat}
-                        .form-group
                             label.form-label Lampiran (optional)
                             input.fomr-control(type='file' name="lampiran")
                         .form-group

@@ -11,7 +11,9 @@ function isLoggedIn(req, res, next) {
 router.get('/', ticketController.index);
 router.get('/create', ticketController.create);
 router.post('/store', ticketController.store);
-router.get('/view/:ticket_code', ticketController.view)
-router.get('/edit/:ticket_code', ticketController.edit)
+router.get('/view/:ticket_code', ticketController.view);
+router.get('/edit/:ticket_code', ticketController.edit);
+router.post('/update/:id_ticket', ticketController.update);
+router.post('/delete/:id_ticket', ticketController.delete);
 
 module.exports = router;

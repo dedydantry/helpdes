@@ -1,5 +1,7 @@
 $(document).ready(function(){
     // notifikasi
+    var url = $('body').data('host');
+    $('#multiItems').selectize({});
     function notifikasi(type, string){
         var html = '<div class="notif "><div class="alert alert-'+type+'" role="alert"><strong>'+string+'</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span></button></div></div>';
         $('body').append(html)
@@ -71,13 +73,44 @@ $(document).ready(function(){
 
     $('.delete-comment').click(function(){
         var id = $(this).data('target');
-        var url = $('body').data('host');
         var parent = $(this).parent('div').parent('div').parent('div');
         $.post(url+'comment/destroy/'+id, {'data' : true}, function(status){
             console.log(status)
             if(status.status == 'success'){
                 parent.fadeOut('slow');
                 notifikasi('info', 'Comment has been delete');
+            }
+        })
+    })
+
+    // delete ticket
+    $('a.ticket-delete').click(function(e){
+        e.preventDefault()
+        var parent = $(this).parent('div').parent('div').parent('td').parent('tr');
+        var id = $(this).data('id');
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this imaginary file!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: true,
+            showLoaderOnConfirm: true,
+        }, function(isConfirm) {
+            if(isConfirm){
+               $.post(url+'ticket/delete/'+id, function(status){
+                   if(status.status == 'success'){
+                        parent.fadeOut('slow');
+                        swal("Deleted!"," has been delete", "success")
+                   } else {
+                        swal("Failed!"," file not delete", "danger")
+                   }
+               })
+            }
+            else {
+                swal("Cancelled")
             }
         })
     })
