@@ -18,8 +18,16 @@ block content
                                 th.text-center
                                     i.icon-settings
                             tbody
+                           
                              each data, index in ticket
-                                tr
+                                - var status;
+                                if(ticket.status = 1)
+                                    -status = 'alert-info'
+                                else if(ticket.status == 2)
+                                    -status = 'alert-success'
+                                else
+                                    -status = 'alert-danger'
+                                tr(class=status)
                                     td= index+1
                                     td
                                         a(href=base_url+'ticket/view/'+data.ticket_code)= data.ticket_code
@@ -36,7 +44,7 @@ block content
                                         else
                                             | Low
                                     td
-                                        .item-action.dropdown(style='position:absolute;')
+                                        .item-action.dropdown
                                             a.icon(href="javascript:void(0)" data-toggle="dropdown")
                                                 i.fe.fe-more-vertical
                                             .dropdown-menu.dropdown-menu-right
@@ -46,6 +54,3 @@ block content
                                                 a.dropdown-item(href="javascript:void(0)" class="ticket-delete" data-id=data.id_ticket)
                                                     i.dropdown-icon.fe.fe-edit-2
                                                         |  Delete
-
-                                    
-                            

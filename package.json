@@ -28,5 +28,8 @@
     "password-hash": "^1.2.2",
     "pug": "2.0.0-beta11",
     "sequelize": "^4.37.5"
+  },
+  "devDependencies": {
+    "webpack-cli": "^2.0.15"
   }
 }

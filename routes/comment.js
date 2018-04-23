@@ -2,8 +2,11 @@ var express = require('express');
 var router = express.Router();
 var commentController = require('../controller/commentController.js');
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
+    if (req.isAuthenticated()){
+        res.locals.user = req.user;
         return next();
+    }
+    res.locals.user = null;
     res.redirect('/');
 }
 router.use(isLoggedIn);

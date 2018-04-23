@@ -21,12 +21,15 @@ function saveAssigment(ticket, user){
 	return true;
 }
 
-exports.index = (req,res) => {
-    Ticket.fetchAll({withRelated: ['user']})
-   .then(collection => 
-   		res.render('ticket/index', {ticket:collection.toJSON()})
-   	)
-   .catch(err => console.log(err.stack));
+exports.index = async(req,res) => {
+
+	let result;
+	if(req.user.roles[0].role_name == 'member'){
+		result = await Ticket.where({'owner':req.user.id_users}).fetchAll({withRelated: ['user']})
+	} else {
+		result = await Ticket.fetchAll({withRelated: ['user']})
+	}
+	res.render('ticket/index', {ticket:result.toJSON()})
 }
 
 exports.create = (req, res) => {
@@ -166,6 +169,21 @@ exports.delete = async(req, res)=>{
 				return res.json({ status: 'success' });
 			}
 		}
+	}
+	return res.json({ status: 'failed' });
+}
+
+exports.change = async(req, res) => {
+	let sts;
+	if(req.body.status == 'start'){
+		sts = 1;
+	}
+	else if(req.body.status == 'complete'){
+		sts = 2;
+	}
+	let status = await new Ticket(req.params).save({'status' : sts});
+	if(status){
+		return res.json({'status' : 'success'});
 	}
 	return res.json({ status: 'failed' });
 }

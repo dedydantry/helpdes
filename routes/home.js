@@ -4,8 +4,11 @@ var homeController = require('../controller/homeController.js');
 /* GET home page. */
 
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
+    if (req.isAuthenticated()){
+        res.locals.user = req.user;
         return next();
+    }
+    res.locals.user = null;
     res.redirect('/');
 }
 router.use(isLoggedIn);

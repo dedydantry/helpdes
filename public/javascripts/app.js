@@ -105,7 +105,38 @@ $(document).ready(function(){
                         parent.fadeOut('slow');
                         swal("Deleted!"," has been delete", "success")
                    } else {
-                        swal("Failed!"," file not delete", "danger")
+                        swal("Failed!"," failed delete", "danger")
+                   }
+               })
+            }
+            else {
+                swal("Cancelled")
+            }
+        })
+    })
+
+    // change status
+    $('.btn-change').click(function(e){
+        e.preventDefault();
+        var status = $(this).data('sts');
+        var url = $(this).attr('href');
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this imaginary file!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: true,
+            showLoaderOnConfirm: true,
+        }, function(isConfirm) {
+            if(isConfirm){
+               $.post(url, {'status' : status}, function(status){
+                   if(status.status == 'success'){
+                        swal("Deleted!"," has been delete", "success")
+                   } else {
+                        swal("Failed!"," failed delete", "danger")
                    }
                })
             }
