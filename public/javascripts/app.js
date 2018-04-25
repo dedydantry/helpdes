@@ -145,4 +145,7 @@ $(document).ready(function(){
             }
         })
     })
+
+    // data table
+    $('.card-table').DataTable()
 })

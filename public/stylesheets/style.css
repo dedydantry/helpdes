@@ -30,3 +30,10 @@
 .notif.c-hidden{
   display: none;
 }
+
+.table-striped tbody tr.complete{
+  background-color: #d9edf7;
+}
+.table-striped tbody tr.pending{
+  background-color: #fcf8e3;
+}

@@ -1,39 +1,59 @@
 extends ../layout/master.pug
 
 block content
+    .page-header
+        h1.page-title
+            | Ticket
+        //- .page-subtitle #{ticket.length}
+        .page-options.d-flex
+            .input-icon.ml-2
+                a.btn.btn-secondary(href='#') 
+                    i.fa.fa-file-excel-o
+                    | &nbsp Export
+            select.form-control.custom-select.w-auto
+                option(value='') Sort By...
+                option(value='asc') Complete
+                option(value='desc') Pending
+                option(value='desc') Open
+            //- .input-icon.ml-2
+            //-     span.input-icon-addon
+            //-         i.fe.fe-search
+            //-     input.form-control.w-10(type='text', placeholder='Search Ticket')
+
     .row.row-cards.row-deck
         .col-12
             .card
                 .card-body
                     .table-responsive
-                        table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table
+                        table.table.table-striped.table-bordered.card-table
                           thead
                             tr
                                 th No
-                                th Ticket Kode
                                 th Owner
+                                th Ticket Kode
                                 th Masalah
                                 th Deskripsi
                                 th Priority
+                                th Status
                                 th.text-center
                                     i.icon-settings
                             tbody
                            
                              each data, index in ticket
                                 - var status;
-                                if(ticket.status = 1)
-                                    -status = 'alert-info'
-                                else if(ticket.status == 2)
-                                    -status = 'alert-success'
+                                if(data.status = 1)
+                                    -status = 'complete'
+                                else if(data.status == 2)
+                                    -status = 'pending'
                                 else
-                                    -status = 'alert-danger'
+                                    -status = 'open'
                                 tr(class=status)
                                     td= index+1
                                     td
-                                        a(href=base_url+'ticket/view/'+data.ticket_code)= data.ticket_code
-                                    td
                                         a(href='#')
                                             .avatar.d-block(title=data.user.name) #{stringCustom(data.user.name)}
+                                    td
+                                        a(href=base_url+'ticket/view/'+data.ticket_code)= data.ticket_code
                                     td= data.title
                                     td= data.description
                                     td
@@ -43,6 +63,9 @@ block content
                                             | Normal
                                         else
                                             | Low
+                                    td
+                                        span.status-icon.bg-success
+                                        |Complete
                                     td
                                         .item-action.dropdown
                                             a.icon(href="javascript:void(0)" data-toggle="dropdown")

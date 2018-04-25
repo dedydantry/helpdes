@@ -21,7 +21,8 @@ let authRouter       = require('./routes/auth');
 let homeRouter       = require('./routes/home');
 let alatRouter       = require('./routes/alat');
 let ticketRouter     = require('./routes/ticket');
-let commentRouter     = require('./routes/comment');
+let commentRouter    = require('./routes/comment');
+let reportRouter     = require('./routes/report');
 
 let app = express();
 
@@ -81,6 +82,7 @@ app.use('/home', homeRouter);
 app.use('/alat', alatRouter);
 app.use('/ticket', ticketRouter);
 app.use('/comment', commentRouter);
+app.use('/report', reportRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

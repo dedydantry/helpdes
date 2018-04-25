@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2018 at 01:12 PM
+-- Generation Time: Apr 25, 2018 at 06:11 PM
 -- Server version: 5.5.36
 -- PHP Version: 5.4.25
 
@@ -60,15 +60,16 @@ CREATE TABLE IF NOT EXISTS `assigment` (
   KEY `ticket_id` (`ticket_id`,`user_id`),
   KEY `ticket_id_2` (`ticket_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `assigment`
 --
 
 INSERT INTO `assigment` (`id_assigment`, `ticket_id`, `user_id`) VALUES
-(1, 1, 1),
-(2, 1, 3);
+(3, 2, 1),
+(4, 2, 3),
+(5, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -110,14 +111,15 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `status` int(1) NOT NULL DEFAULT '0',
   `crated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_ticket`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `ticket`
 --
 
 INSERT INTO `ticket` (`id_ticket`, `ticket_code`, `owner`, `title`, `description`, `priority`, `due_on`, `lampiran`, `status`, `crated_at`) VALUES
-(1, '1524062510909', 1, 'Hello World', 'This is a ticket', 1, '2018-04-19', 'mega-face.png', 0, '2018-04-18 14:41:50');
+(2, '1524488316656', 1, 'Mengenal Skincare Halal, Apa Saja Sih Kriterianya?', 'Example', 1, '2018-04-27', 'TANAKA BIO WHITE ADVANCED WHITENING CLEANSER.png', 0, '2018-04-23 12:58:36'),
+(3, '1524492007817', 4, 'This is my first ticket', 'Example ticket', 1, '2018-04-17', 'TANAKA BIO WHITE ADVANCED WHITENING NIGHT CREAM.png', 2, '2018-04-25 14:00:07');
 
 -- --------------------------------------------------------
 
@@ -134,7 +136,15 @@ CREATE TABLE IF NOT EXISTS `ticket_comment` (
   PRIMARY KEY (`id_comment`),
   KEY `author` (`author`),
   KEY `ticket_id` (`ticket_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `ticket_comment`
+--
+
+INSERT INTO `ticket_comment` (`id_comment`, `ticket_id`, `author`, `comment`, `created`) VALUES
+(1, 3, 4, 'Hello there gt', '2018-04-23 14:56:27'),
+(2, 3, 1, 'Oke oce deh', '2018-04-23 15:00:56');
 
 -- --------------------------------------------------------
 
@@ -151,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `jabatan` varchar(250) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `users`
@@ -159,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id_users`, `name`, `email`, `password`, `status`, `jabatan`, `created_at`) VALUES
 (1, 'dedy dantry', 'dedydantry@gmail.com', 'sha1$1d793595$1$562818020c06d8e455358037b51973d532db20cd', 1, '', '2018-03-30 05:10:21'),
-(3, 'Jhon Doe', 'jhondoe@email.com', 'sha1$7583ddc2$1$c61655f5678279977ecf649dd0f8cd1e1d62f458', 1, 'IT', '2018-04-13 08:11:00');
+(4, 'Jhon Doe', 'jhondoe@email.com', 'sha1$04cdd995$1$041fe91604ca6dc37a377a726eee536d8ae285c6', 1, 'Admin', '2018-04-23 13:36:54');
 
 -- --------------------------------------------------------
 
@@ -174,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `role_id` (`role_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `user_role`
@@ -182,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
 
 INSERT INTO `user_role` (`id`, `user_id`, `role_id`) VALUES
 (1, 1, 2),
-(2, 3, 2);
+(3, 4, 3);
 
 --
 -- Constraints for dumped tables

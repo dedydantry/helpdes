@@ -1,0 +1,68 @@
+extends ../layout/master.pug
+
+block content
+    .page-header
+        h1.page-title
+            | Ticket
+    .row.row-cards
+        .col-6.col-sm-4.col-lg-2
+            .card
+                .card-body.p-3.text-center
+                    .text-right.text-green
+                        | 6%
+                        i.fe.fe-chevron-up
+                    .h1.m-0 43
+                    .text-muted.mb-4 Total Ticket
+        .col-6.col-sm-4.col-lg-2
+            .card
+                .card-body.p-3.text-center
+                    .text-right.text-green
+                        | 6%
+                        i.fe.fe-chevron-up
+                    .h1.m-0 43
+                    .text-muted.mb-4 Today ticket
+        .col-6.col-sm-4.col-lg-2
+            .card
+                .card-body.p-3.text-center
+                    .text-right.text-green
+                        | 6%
+                        i.fe.fe-chevron-up
+                    .h1.m-0 43
+                    .text-muted.mb-4 Complete ticket
+        .col-6.col-sm-4.col-lg-2
+            .card
+                .card-body.p-3.text-center
+                    .text-right.text-green
+                        | 6%
+                        i.fe.fe-chevron-up
+                    .h1.m-0 43
+                    .text-muted.mb-4 Pending Ticket
+        .col-6.col-sm-4.col-lg-2
+            .card
+                .card-body.p-3.text-center
+                    .text-right.text-green
+                        | 6%
+                        i.fe.fe-chevron-up
+                    .h1.m-0 43
+                    .text-muted.mb-4 Open Ticket
+        .col-6.col-sm-4.col-lg-2
+            .card
+                .card-body.p-3.text-center
+                    .text-right.text-green
+                        | 6%
+                        i.fe.fe-chevron-up
+                    .h1.m-0 43
+                    .text-muted.mb-4 Ticket this month
+    .row.row-cards.row-deck
+        .col-12
+            .card
+                .card-body
+                    form.card(method="get" action=base_url+'report/view')
+                        .form-group
+                            .row.gutters-xs
+                                .col-5
+                                    input.form-control(type="date" name="from")
+                                .col-5
+                                    input.form-control(type="date" name="to")
+                                .col-2
+                                    button.btn.btn-primary Submit

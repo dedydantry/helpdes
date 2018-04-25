@@ -24,6 +24,8 @@ html
         link(href=base_url+'dist/assets/css/dashboard.css' rel='stylesheet')
         link(href='https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css', rel='stylesheet')
         link(rel="stylesheet", href=base_url+'stylesheets/sweetalert.css')
+        link(rel="stylesheet", href='//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css')
+        link(rel="stylesheet", href='https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css')
         link(rel="stylesheet", href=base_url+'stylesheets/style.css')
         
     body(data-host=base_url)
@@ -100,6 +102,10 @@ html
                               i.fe.fe-home
                               |  Home
                           li.nav-item
+                            a.nav-link(href=base_url+'report')
+                              i.fe.fe-home
+                              |  Report
+                          li.nav-item
                             a.nav-link(href='javascript:void(0)')
                               i.fe.fe-box
                               |  Data
@@ -115,18 +121,6 @@ html
                             a.nav-link(href=base_url+'ticket/create')
                               i.fe.fe-plus-circle
                               |  New Tickets
-                          li.nav-item
-                            a.nav-link(href='./form-elements.html')
-                              i.fe.fe-check-square
-                              |  Forms
-                          li.nav-item
-                            a.nav-link(href='./gallery.html')
-                              i.fe.fe-image
-                              |  Gallery
-                          li.nav-item
-                            a.nav-link(href='./docs/index.html')
-                              i.fe.fe-file-text
-                              |  Documentation
                       .col-3.ml-auto
                         form.input-icon
                           input.form-control.header-search(type='search' placeholder='Search…' tabindex='1')
@@ -193,6 +187,7 @@ html
         script(src=base_url+'dist/assets/js/vendors/bootstrap.bundle.min.js')
         script(src=base_url+'javascripts/sweetalert.min.js')
         script(src=base_url+'dist/assets/js/vendors/selectize.min.js')
+        script(src='//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')
+        script(src='https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js')
         script(src=base_url+'javascripts/app.js')
         block script
-       

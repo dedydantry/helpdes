@@ -1,0 +1,50 @@
+extends ../layout/master.pug
+
+block content
+    .page-header
+        h1.page-title
+            | Ticket Report
+        .page-subtitle From #{from} To #{to}
+        .page-options.d-flex
+            .input-icon.ml-2
+                a.btn.btn-success(href='#' title="Export to Excel") 
+                    i.fa.fa-file-excel-o
+                    | &nbsp Export
+    .row.row-cards.row-deck
+        .col-12
+            .card
+                .card-body
+                    .table-responsive
+                        table.table.table-striped.table-bordered
+                          thead
+                            tr
+                                th No
+                                th Owner
+                                th Ticket Kode
+                                th Masalah
+                                th Deskripsi
+                                th Priority
+                                th Status
+                            tbody
+                           
+                             each data, index in report
+                                - var status;
+                                tr
+                                    td= index+1
+                                    td
+                                        a(href='#')
+                                            .avatar.d-block(title=data.user.name) #{stringCustom(data.user.name)}
+                                    td
+                                        a(href=base_url+'ticket/view/'+data.ticket_code)= data.ticket_code
+                                    td= data.title
+                                    td= data.description
+                                    td
+                                        if(data.priority == 1)
+                                            | Hight
+                                        else if (data.priority == 2)
+                                            | Normal
+                                        else
+                                            | Low
+                                    td
+                                        span.status-icon.bg-success
+                                        |Complete
