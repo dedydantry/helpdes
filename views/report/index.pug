@@ -11,7 +11,7 @@ block content
                     .text-right.text-green
                         | 6%
                         i.fe.fe-chevron-up
-                    .h1.m-0 43
+                    .h1.m-0 #{total}
                     .text-muted.mb-4 Total Ticket
         .col-6.col-sm-4.col-lg-2
             .card
@@ -19,7 +19,7 @@ block content
                     .text-right.text-green
                         | 6%
                         i.fe.fe-chevron-up
-                    .h1.m-0 43
+                    .h1.m-0 #{today}
                     .text-muted.mb-4 Today ticket
         .col-6.col-sm-4.col-lg-2
             .card
@@ -56,8 +56,10 @@ block content
     .row.row-cards.row-deck
         .col-12
             .card
+                .card-header
+                    .h3.card-title Lihat laporan berdasrkan periode
                 .card-body
-                    form.card(method="get" action=base_url+'report/view')
+                    form(method="get" action=base_url+'report/view')
                         .form-group
                             .row.gutters-xs
                                 .col-5
@@ -65,4 +67,4 @@ block content
                                 .col-5
                                     input.form-control(type="date" name="to")
                                 .col-2
-                                    button.btn.btn-primary Submit
+                                    button.btn.btn-primary.btn-block Submit

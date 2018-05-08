@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2018 at 06:11 PM
+-- Generation Time: May 08, 2018 at 01:23 PM
 -- Server version: 5.5.36
 -- PHP Version: 5.4.25
 
@@ -103,6 +103,7 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `id_ticket` int(11) NOT NULL AUTO_INCREMENT,
   `ticket_code` varchar(250) NOT NULL,
   `owner` int(11) NOT NULL,
+  `assignment` int(11) NOT NULL,
   `title` varchar(250) NOT NULL,
   `description` varchar(1000) NOT NULL,
   `priority` int(11) NOT NULL,
@@ -111,15 +112,18 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `status` int(1) NOT NULL DEFAULT '0',
   `crated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_ticket`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `ticket`
 --
 
-INSERT INTO `ticket` (`id_ticket`, `ticket_code`, `owner`, `title`, `description`, `priority`, `due_on`, `lampiran`, `status`, `crated_at`) VALUES
-(2, '1524488316656', 1, 'Mengenal Skincare Halal, Apa Saja Sih Kriterianya?', 'Example', 1, '2018-04-27', 'TANAKA BIO WHITE ADVANCED WHITENING CLEANSER.png', 0, '2018-04-23 12:58:36'),
-(3, '1524492007817', 4, 'This is my first ticket', 'Example ticket', 1, '2018-04-17', 'TANAKA BIO WHITE ADVANCED WHITENING NIGHT CREAM.png', 2, '2018-04-25 14:00:07');
+INSERT INTO `ticket` (`id_ticket`, `ticket_code`, `owner`, `assignment`, `title`, `description`, `priority`, `due_on`, `lampiran`, `status`, `crated_at`) VALUES
+(2, '1524488316656', 1, 4, 'Mengenal Skincare Halal, Apa Saja Sih Kriterianya?', 'Example', 1, '2018-04-27', 'TANAKA BIO WHITE ADVANCED WHITENING CLEANSER.png', 0, '2018-04-23 12:58:36'),
+(3, '1524492007817', 4, 4, 'This is my first ticket', 'Example ticket', 1, '2018-04-17', 'TANAKA BIO WHITE ADVANCED WHITENING NIGHT CREAM.png', 2, '2018-04-25 14:00:07'),
+(4, '1525700470020', 1, 1, 'example texts', 'Hello mother fuckers', 2, '2018-05-08', 'IMG-20170612-WA0004.jpg', 0, '2018-05-07 13:41:10'),
+(5, '1525700853796', 1, 1, 'hello Monther funcker', 'lorem ipsum', 2, '2018-05-10', '', 0, '2018-05-07 13:47:33'),
+(6, '1525702668127', 1, 4, 'Hello Man', 'Hello helo there', 1, '2018-05-15', 'IMG-20170614-WA0000.jpg', 0, '2018-05-07 14:17:48');
 
 -- --------------------------------------------------------
 
@@ -192,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
 
 INSERT INTO `user_role` (`id`, `user_id`, `role_id`) VALUES
 (1, 1, 2),
-(3, 4, 3);
+(3, 4, 2);
 
 --
 -- Constraints for dumped tables

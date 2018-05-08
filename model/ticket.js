@@ -1,14 +1,14 @@
 let DB = require('../config/database');
 
-// const user = require('./user');
+const user = require('./user');
 const Ticket = DB.model('Ticket', {
     tableName : 'ticket',
     idAttribute : 'id_ticket',
     user(){
-    	return this.belongsTo(require('./user'), 'owner');
+    	return this.belongsTo(user, 'owner');
     },
-    assigment(){
-        return this.belongsTo(require('./assigment'), 'id_ticket');
+    assigments(){
+        return this.belongsTo(user, 'assignment');
     }
 });
 

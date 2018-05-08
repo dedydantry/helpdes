@@ -1,8 +1,13 @@
 var exports = module.exports = {}
 const Ticket = require('../model/ticket');
-
+let moment = require('moment');
+const now = moment().format('YYYY-MM-DD')
 exports.index = async(req,res) => {
-    return res.render('report/index');
+    console.log(now)
+    let total = await Ticket.count('id_ticket');
+    let today = await Ticket.where('crated_at', 'like', now+'%').count('id_ticket')
+    
+    return res.render('report/index', {total : total, today : today});
 }
 
 exports.views = async(req, res) => {
@@ -12,4 +17,8 @@ exports.views = async(req, res) => {
         qb.whereBetween('crated_at', [from, to]);
     }).fetchAll({withRelated: ['user']});
    return res.render('report/view', {report : view.toJSON(), from :from, to:to});
+}
+
+exports.excel = async(req, res) => {
+    
 }

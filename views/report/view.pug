@@ -28,7 +28,16 @@ block content
                             tbody
                            
                              each data, index in report
-                                - var status;
+                                - var status, classs;
+                                if(data.status == 1)
+                                    -status = 'complete'
+                                    -classs = 'success'
+                                else if(data.status == 2)
+                                    -status = 'pending'
+                                    -classs = 'warning'
+                                else
+                                    -status = 'open'
+                                    -classs = 'danger'
                                 tr
                                     td= index+1
                                     td
@@ -46,5 +55,5 @@ block content
                                         else
                                             | Low
                                     td
-                                        span.status-icon.bg-success
-                                        |Complete
+                                        span(class="status-icon bg-"+classs+" eke")
+                                        | #{status}

@@ -26,17 +26,14 @@ block content
                             input.form-control(name='due_on' type='date' value=moment(ticket.due_on).format("YYYY-MM-DD"))
                         .form-group
                             label.form-label Assigment To
-                            select.form-control(name='assigment' id="multiItems" multiple="multiple")
+                            select.form-control(name='assigment')
                                 option(value='0') ...
                                 each data in owners
-                                  each val in assigment
-                                    if (data.id_users == val.user_id)
-                                        option(value=data.id_users selected) #{data.name}
-                                    else 
-                                       option(value=data.id_users) #{data.name}
+                                    option(value=data.id_users selected=(data.id_users == ticket.assignment)) #{data.name}
                         .form-group
                             label.form-label Lampiran (optional)
                             input.form-control(type='file' name="lampiran")
+                            input(type='hidden' name='old_file' value=ticket.lampiran)
                         .form-group
                             button.btn.btn-success.btn-lg.btn-block(type='submit')
                                 i.fa.fa-send 

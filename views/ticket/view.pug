@@ -76,8 +76,7 @@ block content
                 i.fa.fa-user.mr-2
                 | Assigment To
             .list-group.list-group-transparent.mb-0
-              each data in assigment
                 a.list-group-item.list-group-item-action.active(href='#')
                     span.icon.mr-3
                         i.fa.fa-user
-                    |#{data.user.email}
+                    | #{ticket.assigments.email}

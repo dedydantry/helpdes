@@ -8,26 +8,18 @@ var async = require('async');
 let fileUpload       = require('express-fileupload');
 
 
-function saveAssigment(ticket, user){
-	for(var i = 0; i<user.length; i++){
-		new Assigment({ticket_id : ticket, user_id:user[i]}).save()
-		.then(model => {
-			console.log(model)
-		})
-		.catch(err => {
-			console.log(err.stack)
-		})
-	}
-	return true;
-}
-
 exports.index = async(req,res) => {
 
 	let result;
 	if(req.user.roles[0].role_name == 'member'){
-		result = await Ticket.where({'owner':req.user.id_users}).fetchAll({withRelated: ['user']})
+		result = await Ticket.where({'owner':req.user.id_users})
+							 .orderBy('id_ticket', 'DESC')
+							 .fetchAll({withRelated: ['user']})
 	} else {
-		result = await Ticket.fetchAll({withRelated: ['user']})
+		result = await Ticket.query(function(qb) {
+								qb.orderBy('id_ticket', 'DESC');
+							})
+							.fetchAll({withRelated: ['user']})
 	}
 	res.render('ticket/index', {ticket:result.toJSON()})
 }
@@ -54,7 +46,7 @@ exports.create = (req, res) => {
 exports.store = (req, res) => {
 	var lampiran = '';
 
-	if (req.files){
+	if (req.files.lampiran){
 		lampiran = req.files.lampiran.name;
 		lmp = req.files.lampiran;
 		lmp.mv('./public/img/'+lampiran, function(err){
@@ -66,6 +58,7 @@ exports.store = (req, res) => {
 	var data = {
 		'ticket_code' : code,
 		'owner' : req.user.id_users,
+		'assignment' : req.body.assigment,
 		'title' : req.body.title,
 		'description' : req.body.description,
 		'priority' : req.body.priority,
@@ -76,9 +69,7 @@ exports.store = (req, res) => {
 	new Ticket(data).save()
 		.then(function(status){
 			var rep = status.toJSON();
-			if(saveAssigment(rep.id_ticket, req.body.assigment)){
-				return res.redirect('http://'+req.headers.host+'/ticket');
-			}
+			return res.redirect('http://'+req.headers.host+'/ticket');
 		})
 		.catch(function(err){
 			console.log(err.stack);
@@ -87,20 +78,19 @@ exports.store = (req, res) => {
 
 exports.view = (req, res) => {
 	async function main () {
-		const ticket = await Ticket.where(req.params).fetchAll({withRelated : ['user']});
+		const ticket = await Ticket.where(req.params).fetchAll({withRelated : ['user', 'assigments']});
 		if(ticket){
 			const ticket_id = ticket.toJSON()[0].id_ticket;
-			const assigment = await Assigment.where('ticket_id', ticket_id).fetchAll({withRelated : ['user']});
+			// const assigment = await Assigment.where('ticket_id', ticket_id).fetchAll({withRelated : ['user']});
 			const resultComment = await Comment.where('ticket_id', ticket_id).orderBy('created', 'DESC').fetchAll({withRelated : ['user']});
 			// await makePurchase(ticket, assigment, resultComment)
+			console.log(ticket.toJSON()[0].assigments.name);
 			return res.render('ticket/view', {
 				ticket :ticket.toJSON()[0], 
-				assigment : assigment.toJSON(), 
 				ticket_code : req.params.ticket_code,
 				comment : resultComment.toJSON()
 			})	
 		}
-		
 	}
 	main()
 	.then()
@@ -108,9 +98,7 @@ exports.view = (req, res) => {
 }
 
 exports.edit = async(req, res) => {
-	const ticket = await Ticket.where(req.params).fetch({withRelated : ['user']});
-	const ticket_id = ticket.toJSON().id_ticket;
-	const getAssigment = await Assigment.where('ticket_id', ticket_id).fetchAll();
+	const ticket = await Ticket.where(req.params).fetch({withRelated : ['user', 'assigments']});
 	const user = await User.query(function(qb){
 			qb.join('user_role', {'users.id_users' : 'user_role.user_id'});
 			qb.where('user_role.role_id', 2);
@@ -119,21 +107,20 @@ exports.edit = async(req, res) => {
 		ticket : ticket.toJSON(), 
 		owners : user.toJSON(), 
 		ticket_code : req.params.ticket_code, 
-		assigment : getAssigment.toJSON()
 	});
 }
 
 exports.update = async(req, res) => {
-	var lampiran = '';
-	return true;
-	if (!req.files){
+	var lampiran = req.body.old_file;
+	if (req.files.lampiran){
 		lampiran = req.files.lampiran.name;
-		
-		lampiran.mv('./public/img/'+lampiran, function(err){
+		lmp = req.files.lampiran;
+		lmp.mv('./public/img/'+lampiran, function(err){
 			if(err) return res.redirect('http://'+req.headers.host+'/ticket/edit/'+req.params.ticket_code);
 		})
 	}
 	var data = {
+		'assignment' : req.body.assigment,
 		'title' : req.body.title,
 		'description' : req.body.description,
 		'priority' : req.body.priority,
@@ -142,19 +129,8 @@ exports.update = async(req, res) => {
 	}
 
 	const update = await new Ticket(req.params).save(data,{method:'update', patch: true });
-	let id_ticket = update.toJSON().id_ticket;
-	console.log(id_ticket);
 	if(update){
-		let assigment = await new Assigment().where({'ticket_id' : id_ticket}).destroy();
-		if(assigment){
-			if(saveAssigment(id_ticket, req.body.assigment)){
-				return res.redirect('http://'+req.headers.host+'/ticket');
-			}
-			return res.json({ status: 'failed' });  
-		}
-		else{
-			return res.json({ status: 'failed' });  
-		}
+		return res.redirect('http://'+req.headers.host+'/ticket');
 	}
 	return res.json({ status: 'failed' });  
 }
