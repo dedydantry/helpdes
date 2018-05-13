@@ -4,6 +4,7 @@ const User = require('../model/user');
 const Alat = require('../model/alat');
 const Assigment = require('../model/assigment');
 const Comment = require('../model/comment');
+const Notif = require('../model/notif');
 var async = require('async');
 let fileUpload       = require('express-fileupload');
 
@@ -69,7 +70,19 @@ exports.store = (req, res) => {
 	new Ticket(data).save()
 		.then(function(status){
 			var rep = status.toJSON();
-			return res.redirect('http://'+req.headers.host+'/ticket');
+			var notifData = {
+				'ticket_code' : code,
+				'notif_from' : req.user.id_users,
+				'notif_too' : req.body.assigment,
+				'type' : 1
+			}
+			new Notif(notifData).save()
+			.then(function(datas){
+				return res.redirect('http://'+req.headers.host+'/ticket');
+			})
+			.catch(function(err){
+				console.log(err.stack);
+			})
 		})
 		.catch(function(err){
 			console.log(err.stack);

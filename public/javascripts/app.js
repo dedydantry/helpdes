@@ -148,4 +148,10 @@ $(document).ready(function(){
 
     // data table
     $('.card-table').DataTable()
+
+    // update password
+    $(document).on('submit', 'form.update-password', function(e){
+        e.preventDefault();
+        alert('wew')
+    })
 })

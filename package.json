@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/wwwio"
   },
   "dependencies": {
     "async": "^2.6.0",
@@ -21,13 +21,15 @@
     "knex": "^0.13.0",
     "moment": "^2.22.1",
     "morgan": "~1.9.0",
+    "msexcel-builder": "0.0.2",
     "mysql": "^2.15.0",
     "nodemon": "^1.17.3",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "password-hash": "^1.2.2",
     "pug": "2.0.0-beta11",
-    "sequelize": "^4.37.5"
+    "sequelize": "^4.37.5",
+    "socket.io": "^2.1.0"
   },
   "devDependencies": {
     "webpack-cli": "^2.0.15"

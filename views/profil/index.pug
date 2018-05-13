@@ -1,0 +1,48 @@
+extends ../layout/master.pug
+
+block content
+    .row
+        .col-lg-4
+            .card.card-profile
+                .card-header(style='background-image: url(../dist/demo/photos/eberhard-grossgasteiger-311213-500.jpg);')
+            .card-body.text-center
+                img.card-profile-img(src='../dist/demo/faces/male/16.jpg')
+                h3.mb-3 #{user.name}
+                p.mb-4
+                | #{user.email}
+            .card
+                .card-header
+                    h3.card-title Change Password
+                .card-body
+                    form.update-password(method="post" action=base_url+'profil/changepassword')
+                        .form-group
+                            label.form-label Password
+                            input.form-control(type='password', name='password')
+                        .form-group
+                            label.form-label New Password
+                            input.form-control(type='password', name='password_new')
+                        .form-group
+                            label.form-label Password Confirmation
+                            input.form-control(type='password', name='password_conf')
+                        .form-footer
+                            button.btn.btn-primary.btn-block Save
+        .col-lg-8
+            .card
+                .card-header
+                    h3.card-title Notification
+                table.table.card-table.table-vcenter
+                    tbody
+                        each data in notif
+                            tr
+                                td
+                                    a(href='#')
+                                        .avatar.d-block(title=data.from.name) #{stringCustom(data.from.name)}
+                                td 
+                                    a(href=base_url+'ticket/view/'+data.ticket_code style="text-decoration:none; color:#afa5a5; ") 
+                                        | New ticket from  
+                                        span(style='color:#5eba00') #{data.from.name}
+                                td.text-right.text-muted.d-none.d-md-table-cell.text-nowrap 38 offers
+                                td.text-right
+                                    strong #{moment(data.created).fromNow()}
+                            tr
+                

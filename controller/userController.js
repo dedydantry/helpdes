@@ -16,7 +16,7 @@ function saveToRole(data){
 exports.index = (req,res) => {
     new User().fetchAll()
         .then(function(model){
-            return res.render('user/index', {'user':model.toJSON()});
+            return res.render('user/index', {'users':model.toJSON()});
         });
 }
 

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var reportController = require('../controller/reportController');
+var profilController = require('../controller/profilController');
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()){
@@ -11,8 +11,7 @@ function isLoggedIn(req, res, next) {
     res.redirect('/');
 }
 router.use(isLoggedIn);
-router.get('/', reportController.index);
-router.get('/view', reportController.views);
-router.get('/import', reportController.excel)
+router.get('/', profilController.index);
+router.post('/changepassword', profilController.changepassword)
 
 module.exports = router;

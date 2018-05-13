@@ -23,6 +23,7 @@ let alatRouter       = require('./routes/alat');
 let ticketRouter     = require('./routes/ticket');
 let commentRouter    = require('./routes/comment');
 let reportRouter     = require('./routes/report');
+let profilRouter    = require('./routes/profil');
 
 let app = express();
 
@@ -37,6 +38,7 @@ app.locals.moment = (momentParams) =>{
 	return moment(momentParams);
 }
 // view engine setup
+app.io = require('socket.io')();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -83,11 +85,13 @@ app.use('/alat', alatRouter);
 app.use('/ticket', ticketRouter);
 app.use('/comment', commentRouter);
 app.use('/report', reportRouter);
+app.use('/profil', profilRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -98,6 +102,9 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+app.io.on('connection', function(socket){  
+  console.log('a user connected');
 });
 
 module.exports = app;
