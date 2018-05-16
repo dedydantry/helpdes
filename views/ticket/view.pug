@@ -9,7 +9,12 @@ block content
                         .avatar.avatar-md.mr-3(style="background-image: url(./demo/faces/female/18.jpg)")
                         div
                             a.text-default(href="./profile.html") #{ticket.user.name}
-                            small.d-block.text-muted 3 days ago
+                            small.d-block.text-muted 
+                                -var date_now = new Date();
+                                if moment(ticket.crated_at).format("MMM Do YY") == moment(date_now).format("MMM Do YY")
+                                    |#{moment(ticket.crated_at).fromNow()}
+                                else
+                                    |#{moment(ticket.crated_at).format("MMM Do YY")}
                         .ml-auto.text-red
                             a.icon.d-none.d-md-inline-block.ml-3(href="#") Status : 
                                 if(ticket.status == 2)

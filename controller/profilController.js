@@ -7,13 +7,14 @@ exports.index = async(req, res) =>{
     let dataNotif = await Notif.where({'notif_too' : req.user.id_users})
                               .orderBy('id_notif', 'DESC')
                               .fetchAll({withRelated : ['from']});
-    console.log('helllo')
-    console.log(dataNotif.toJSON());                        
     return res.render('profil/index', {notif : dataNotif.toJSON()});
 }
 
+exports.password = async(req, res) => {
+    return res.render('profil/password');
+}
+
 exports.changepassword = async(req,res) =>{
-    console.log(req.user.email)
     let dataUser = await User.where('email', req.user.email).fetch();
     if(dataUser) {
         let getUSer = dataUser.toJSON();

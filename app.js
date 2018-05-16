@@ -42,6 +42,10 @@ app.io = require('socket.io')();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(function(req, res, next){
+	res.io = app.io;
+	next();
+  });
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -12,6 +12,7 @@ function isLoggedIn(req, res, next) {
 }
 router.use(isLoggedIn);
 router.get('/', profilController.index);
+router.get('/password', profilController.password);
 router.post('/changepassword', profilController.changepassword)
 
 module.exports = router;

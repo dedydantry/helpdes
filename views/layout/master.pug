@@ -45,24 +45,22 @@ html
 													.dropdown-menu.dropdown-menu-right.dropdown-menu-arrow.px-4
 														| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium architecto asperiores dolorem, est fugiat in maxime natus officia velit voluptas! Ab asperiores
 														| delectus dolore dolores maxime nesciunt qui quia totam.
+														| hello
 												.dropdown.d-none.d-md-flex
-													a.nav-link.icon(data-toggle='dropdown')
+													a.nav-link.icon(href=base_url+'profil')
 														i.fe.fe-bell
 														span.nav-unread
-													.dropdown-menu.dropdown-menu-right.dropdown-menu-arrow.px-4
-														| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium architecto asperiores dolorem, est fugiat in maxime natus officia velit voluptas! Ab asperiores
-														| delectus dolore dolores maxime nesciunt qui quia totam.
 												.dropdown
 													a.nav-link.pr-0(href='#' data-toggle='dropdown')
 														span.avatar(style='background-image: url(../dist/demo/faces/female/25.jpg)')
 														span.ml-2.d-none.d-lg-block
-															span.text-default #{user.email}
+															span#user-info.text-default(data-user=user.id_users) #{user.email}
 															small.text-muted.d-block.mt-1 Administrator
 													.dropdown-menu.dropdown-menu-right.dropdown-menu-arrow
 														a.dropdown-item(href=base_url+'profil')
 															span Profile
-														a.dropdown-item(href='#')
-															span Settings
+														a.dropdown-item(href=base_url+'profil/password')
+															span Change Password
 														a.dropdown-item(href='#')
 															span.float-right
 																span.badge.badge-primary 6
@@ -116,10 +114,11 @@ html
 														a.nav-link(href=base_url+'ticket')
 															i.fa.fa-file-o
 															|  Tickets
-													li.nav-item
-														a.nav-link(href=base_url+'ticket/create')
-															i.fe.fe-plus-circle
-															|  New Tickets
+													if user.roles[0].role_name == 'member'
+														li.nav-item
+															a.nav-link(href=base_url+'ticket/create')
+																i.fe.fe-plus-circle
+																|  New Tickets
 											.col-3.ml-auto
 												form.input-icon
 													input.form-control.header-search(type='search' placeholder='Search…' tabindex='1')
@@ -189,9 +188,7 @@ html
 				script(src='//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')
 				script(src='https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js')
 				script(src='https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js')
-				script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js")
-				//- script(src=base_url+'javascripts/socket.io.js')
+				//- script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js")
+				script(src=base_url+'javascripts/socket.io.js')
 				script(src=base_url+'javascripts/app.js')
-				script.  
-					var socket = io.connect('http://localhost:3000');
 				block script

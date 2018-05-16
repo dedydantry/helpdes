@@ -4,37 +4,21 @@ block content
     .page-header
         h1.page-title
             | Ticket
-        //- .page-subtitle #{ticket.length}
-        .page-options.d-flex
-            .input-icon.ml-2
-                a.btn.btn-secondary(href='#') 
-                    i.fa.fa-file-excel-o
-                    | &nbsp Export
-            select.form-control.custom-select.w-auto
-                option(value='') Sort By...
-                option(value='asc') Complete
-                option(value='desc') Pending
-                option(value='desc') Open
-            //- .input-icon.ml-2
-            //-     span.input-icon-addon
-            //-         i.fe.fe-search
-            //-     input.form-control.w-10(type='text', placeholder='Search Ticket')
-
     .row.row-cards.row-deck
         .col-12
             .card
                 .card-body
                     .table-responsive
-                        table.table.table-striped.table-bordered.card-table
+                        table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table.ticket-table
                           thead
                             tr
-                                th No
                                 th Owner
                                 th Ticket Kode
                                 th Masalah
                                 th Deskripsi
                                 th Priority
                                 th Status
+                                th Post date
                                 th.text-center
                                     i.icon-settings
                             tbody
@@ -51,7 +35,6 @@ block content
                                     -status = 'open'
                                     -classs = 'danger'
                                 tr(class=classs)
-                                    td= index+1
                                     td
                                         a(href='#')
                                             .avatar.d-block(title=data.user.name) #{stringCustom(data.user.name)}
@@ -69,6 +52,12 @@ block content
                                     td
                                         span(class="status-icon bg-"+classs+" eke")
                                         | #{status}
+                                    td
+                                        -var date_now = new Date();
+                                        if moment(data.crated_at).format("MMM Do YY") == moment(date_now).format("MMM Do YY")
+                                            |#{moment(data.crated_at).fromNow()}
+                                        else
+                                            |#{moment(data.crated_at).format("MMM Do YY")}
                                     td
                                         .item-action.dropdown
                                             a.icon(href="javascript:void(0)" data-toggle="dropdown")

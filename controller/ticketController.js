@@ -44,7 +44,7 @@ exports.create = (req, res) => {
 	})
 }
 
-exports.store = (req, res) => {
+exports.store = async(req, res) => {
 	var lampiran = '';
 
 	if (req.files.lampiran){
@@ -67,26 +67,18 @@ exports.store = (req, res) => {
 		'lampiran' : lampiran
 	}
 
-	new Ticket(data).save()
-		.then(function(status){
-			var rep = status.toJSON();
-			var notifData = {
-				'ticket_code' : code,
-				'notif_from' : req.user.id_users,
-				'notif_too' : req.body.assigment,
-				'type' : 1
-			}
-			new Notif(notifData).save()
-			.then(function(datas){
-				return res.redirect('http://'+req.headers.host+'/ticket');
-			})
-			.catch(function(err){
-				console.log(err.stack);
-			})
-		})
-		.catch(function(err){
-			console.log(err.stack);
-		})
+	var save = await new Ticket(data).save();
+	var notifData = {
+		'ticket_code' : code,
+		'notif_from' : req.user.id_users,
+		'notif_too' : req.body.assigment,
+		'type' : 1
+	}
+	var saveNotif = await new Notif(notifData).save();
+	var ticketIO = await  Ticket.where({'ticket_code' : code}).fetchAll({withRelated : ['user', 'assigments']});
+	console.log(ticketIO.toJSON())
+	res.io.emit('new-ticket', {'user' : req.body.assigment, 'ticket' : ticketIO.toJSON()[0]});
+	return res.redirect('http://'+req.headers.host+'/ticket');
 }
 
 exports.view = (req, res) => {

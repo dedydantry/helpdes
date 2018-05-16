@@ -147,11 +147,61 @@ $(document).ready(function(){
     })
 
     // data table
-    $('.card-table').DataTable()
+    $('.card-table').DataTable({
+        "bSort": false
+    })
 
     // update password
     $(document).on('submit', 'form.update-password', function(e){
         e.preventDefault();
         alert('wew')
     })
+
+    function generatePriority(priority){
+        if(priority == 1){
+            return 'Hight';
+        } else if(priority == 2){
+            return 'Normal';
+        } else{
+            return 'Low';
+        }
+    }
+
+    function generateStatusTicket(status){
+        if(status == 1){
+            return 'Complette';
+        } else if(status == 2){
+            return 'Pending';
+        } else{
+            return 'Open';
+        }
+    }
+
+    function generateStatusClass(status){
+        if(status == 1){
+            return 'success';
+        } else if(status == 2){
+            return 'warning';
+        } else{
+            return 'danger';
+        }
+    }
+
+    var socket = io.connect('http://localhost:3000',  {reconnect: true});
+    socket.on('new-ticket', function(data){
+        var to_user = $('#user-info').data('user');
+        var target = $('.ticket-table tbody');
+        var ticket = data.ticket;
+        if(to_user == data.user){
+            var name = ticket.user.name;
+            var firstName =  name.substring(0, 1);
+            var string = '<tr class="danger odd" role="row"><td class="sorting_1"><a href="#"><div class="avatar d-block" title="'+name+'">'+firstName+'</div></a></td><td><a href="http://localhost:3000/ticket/view/'+ticket.ticket_code+'">'+ticket.ticket_code+'</a></td><td>'+ticket.title+'</td><td>'+ticket.description+'</td><td>'+generatePriority(ticket.priority)+'</td><td><span class="status-icon bg-'+generateStatusClass(ticket.status)+' eke"></span>'+generateStatusTicket(ticket.status)+'</td><td><div class="item-action dropdown"><a class="icon" href="javascript:void(0)" data-toggle="dropdown"><i class="fe fe-more-vertical"></i></a><div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="http://localhost:3000/ticket/edit/'+ticket.ticket_code+'"><i class="dropdown-icon fe fe-tag"> Edit</i></a><a class="dropdown-item ticket-delete" href="javascript:void(0)" data-id="'+ticket.id_ticket+'"><i class="dropdown-icon fe fe-edit-2"> Delete</i></a></div></div></td></tr>'
+            console.log(data.ticket);
+            console.log(string);
+            target.prepend(string);
+        }
+        
+    })
+
+    
 })
