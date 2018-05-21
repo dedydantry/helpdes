@@ -37,3 +37,13 @@
 .table-striped tbody tr.pending{
   background-color: #fcf8e3;
 }
+.link-ticket{
+  text-decoration: none;
+  font-size: 18px;
+  transition:color 0.2s;
+}
+
+.link-ticket:hover, :active{
+  text-decoration:none;
+  color:#2d2f32;
+}

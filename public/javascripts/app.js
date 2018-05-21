@@ -148,7 +148,11 @@ $(document).ready(function(){
 
     // data table
     $('.card-table').DataTable({
-        "bSort": false
+        "bSort": false,
+        dom: 'Bfrtip',
+        buttons: [
+            'print'
+        ]
     })
 
     // update password
@@ -186,6 +190,20 @@ $(document).ready(function(){
             return 'danger';
         }
     }
+
+    function printData(table)
+    {
+        var divToPrint=document.getElementById(table);
+        newWin= window.open("");
+        newWin.document.write(divToPrint.outerHTML);
+        newWin.print();
+        newWin.close();
+    }
+
+    $('.print').click(function(){
+        var table = $(this).data('table');
+        printData(table);
+    })
 
     var socket = io.connect('http://localhost:3000',  {reconnect: true});
     socket.on('new-ticket', function(data){

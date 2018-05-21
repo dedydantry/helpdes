@@ -16,7 +16,7 @@ html
 				link(rel='shortcut icon' type='image/x-icon' href='./favicon.ico')
 				// Generated: 2018-03-27 13:25:03 +0200
 				title
-						| Empty page - tabler.github.io - a responsive, flat and full featured admin template
+						| Helpdesk Ticketing
 				link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
 				link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&subset=latin-ext')
 				//- script(src=base_url+'dist/assets/js/require.min.js')
@@ -25,6 +25,7 @@ html
 				link(href='https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css', rel='stylesheet')
 				link(rel="stylesheet", href=base_url+'stylesheets/sweetalert.css')
 				link(rel="stylesheet", href='//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css')
+				link(rel="stylesheet", href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css")
 				link(rel="stylesheet", href='https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css')
 				link(rel="stylesheet", href=base_url+'stylesheets/style.css')
 				
@@ -37,8 +38,6 @@ html
 											a.navbar-brand(href='./index.html')
 												img.navbar-brand-img(src=base_url+'dist/demo/brand/tabler.svg' alt='tabler.io')
 											.ml-auto.d-flex.order-lg-2
-												.nav-item
-													a.btn.btn-sm.btn-outline-primary(href='https://github.com/tabler/tabler' target='_blank') Source code
 												.dropdown.d-none.d-md-flex
 													a.nav-link.icon(data-toggle='dropdown')
 														i.fe.fe-message-square
@@ -129,63 +128,22 @@ html
 										//- .page-header
 										//-   h1 Dashboard
 										block content
-
-						.footer
-								.container
-									.row
-										.col-lg-8
-												.row
-														.col-6.col-md-3
-																ul.list-unstyled.mb-0
-																		li
-																			a(href='#') First link
-																		li
-																			a(href='#') Second link
-														.col-6.col-md-3
-																ul.list-unstyled.mb-0
-																		li
-																			a(href='#') Third link
-																		li
-																			a(href='#') Fourth link
-														.col-6.col-md-3
-																ul.list-unstyled.mb-0
-																		li
-																			a(href='#') Fifth link
-																		li
-																			a(href='#') Sixth link
-														.col-6.col-md-3
-																ul.list-unstyled.mb-0
-																		li
-																			a(href='#') Other link
-																		li
-																			a(href='#') Last link
-														.col-lg-4.mt-4.mt-lg-0
-																| Premium and Open Source dashboard template with responsive and high quality UI. For Free!
-								
 						footer.footer
-								.container
-										.row.align-items-center.flex-row-reverse
-												.col-auto.ml-auto
-														.row.align-items-center
-																.col-auto
-																		ul.list-inline.list-inline-dots.mb-0
-																				li.list-inline-item
-																					a(href='./docs/index.html') Documentation
-																				li.list-inline-item
-																					a(href='./faq.html') FAQ
-																.col-auto
-																		a.btn.btn-outline-primary.btn-sm(href='https://github.com/tabler/tabler') Source code
-												.col-12.col-lg-auto.mt-3.mt-lg-0.text-center
-														| Copyright &copy; 2018 
-														a(href='.') Tabler
-														| . Theme by 
-														a(href='https://codecalm.net' target='_blank') codecalm.net
-														|  All rights reserved.
+							.container
+								.row.align-items-center.flex-row-reverse
+									.col-12.text-center
+										| Copyright &copy; 2018 
+										a(href='.') Tabler
+										| . Theme by 
+										a(href='https://codecalm.net' target='_blank') codecalm.net
+										|  All rights reserved.
 				script(src=base_url+'dist/assets/js/vendors/jquery-3.2.1.min.js')
 				script(src=base_url+'dist/assets/js/vendors/bootstrap.bundle.min.js')
 				script(src=base_url+'javascripts/sweetalert.min.js')
 				script(src=base_url+'dist/assets/js/vendors/selectize.min.js')
 				script(src='//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')
+				script(src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js")
+				script(src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js")
 				script(src='https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js')
 				script(src='https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js')
 				//- script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js")

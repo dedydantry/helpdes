@@ -1,5 +1,161 @@
 extends ./layout/master.pug
 
 block content
-    h1
-        |Welcome to Dashboard
+    .page-header
+        h1.page-title
+            | Home
+    .row.row-cards
+        .col-3
+            .card
+                .card-body.p-3.text-center
+                    .text-right.text-green
+                        | 6%
+                        i.fe.fe-chevron-up
+                    .h1.m-0 #{total}
+                        a.link-ticket(href="#")
+                            .text-muted.mb-4 Total Ticket
+        .col-3
+            .card
+                .card-body.p-3.text-center
+                    .text-right.text-green
+                        | 6%
+                        i.fe.fe-chevron-up
+                    .h1.m-0 #{today}
+                        a.link-ticket(href="#")
+                            .text-muted.mb-4 Today ticket
+        .col-3
+            .card
+                .card-body.p-3.text-center
+                    .text-right.text-green
+                        | 6%
+                        i.fe.fe-chevron-up
+                    .h1.m-0 #{pending}
+                        a.link-ticket(href="#")
+                            .text-muted.mb-4 Pending Ticket
+        .col-3
+            .card
+                .card-body.p-3.text-center
+                    .text-right.text-green
+                        | 6%
+                        i.fe.fe-chevron-up
+                    .h1.m-0 #{open}
+                        a.link-ticket(href="#")
+                            .text-muted.mb-4 Open Ticket
+    .row.row-card
+        .col-6
+           .card
+                .card-header
+                    h3.card-title History
+                .card-body.o-auto(style='height: 15rem')
+                    ul.list-unstyled.list-separated
+                        li.list-separated-item
+                            .row.align-items-center
+                                .col-auto
+                                    span.avatar.avatar-md.d-block(style='background-image: url(demo/faces/female/12.jpg)')
+                                .col
+                                    div
+                                    a.text-inherit(href='javascript:void(0)') Amanda Hunt
+                                    small.d-block.item-except.text-sm.text-muted.h-1x amanda_hunt@example.com
+                                .col-auto
+                                    .item-action.dropdown
+                                    a.icon(href='javascript:void(0)', data-toggle='dropdown')
+                                        i.fe.fe-more-vertical
+                                    .dropdown-menu.dropdown-menu-right
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-tag
+                                        |  Action
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-edit-2
+                                        |  Another action
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-message-square
+                                        |  Something else here
+                                        .dropdown-divider
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-link
+                                        |  Separated link
+                        li.list-separated-item
+                            .row.align-items-center
+                                .col-auto
+                                    span.avatar.avatar-md.d-block(style='background-image: url(demo/faces/female/12.jpg)')
+                                .col
+                                    div
+                                    a.text-inherit(href='javascript:void(0)') Amanda Hunt
+                                    small.d-block.item-except.text-sm.text-muted.h-1x amanda_hunt@example.com
+                                .col-auto
+                                    .item-action.dropdown
+                                    a.icon(href='javascript:void(0)', data-toggle='dropdown')
+                                        i.fe.fe-more-vertical
+                                    .dropdown-menu.dropdown-menu-right
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-tag
+                                        |  Action
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-edit-2
+                                        |  Another action
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-message-square
+                                        |  Something else here
+                                        .dropdown-divider
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-link
+                                        |  Separated link
+                        li.list-separated-item
+                            .row.align-items-center
+                                .col-auto
+                                    span.avatar.avatar-md.d-block(style='background-image: url(demo/faces/female/12.jpg)')
+                                .col
+                                    div
+                                    a.text-inherit(href='javascript:void(0)') Amanda Hunt
+                                    small.d-block.item-except.text-sm.text-muted.h-1x amanda_hunt@example.com
+                                .col-auto
+                                    .item-action.dropdown
+                                    a.icon(href='javascript:void(0)', data-toggle='dropdown')
+                                        i.fe.fe-more-vertical
+                                    .dropdown-menu.dropdown-menu-right
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-tag
+                                        |  Action
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-edit-2
+                                        |  Another action
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-message-square
+                                        |  Something else here
+                                        .dropdown-divider
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-link
+                                        |  Separated link
+                        li.list-separated-item
+                            .row.align-items-center
+                                .col-auto
+                                    span.avatar.avatar-md.d-block(style='background-image: url(demo/faces/female/12.jpg)')
+                                .col
+                                    div
+                                    a.text-inherit(href='javascript:void(0)') Amanda Hunt
+                                    small.d-block.item-except.text-sm.text-muted.h-1x amanda_hunt@example.com
+                                .col-auto
+                                    .item-action.dropdown
+                                    a.icon(href='javascript:void(0)', data-toggle='dropdown')
+                                        i.fe.fe-more-vertical
+                                    .dropdown-menu.dropdown-menu-right
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-tag
+                                        |  Action
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-edit-2
+                                        |  Another action
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-message-square
+                                        |  Something else here
+                                        .dropdown-divider
+                                        a.dropdown-item(href='javascript:void(0)')
+                                        i.dropdown-icon.fe.fe-link
+                                        |  Separated link
+        .col-6
+            .card
+                .card-body.text-center
+                    .h5 Online Member
+                    .display-4.font-weight-bold.mb-4 652
+                    .progress.progress-sm
+                        .progress-bar.bg-green(style='width: 84%')

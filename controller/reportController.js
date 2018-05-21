@@ -25,9 +25,17 @@ exports.index = async(req,res) => {
 exports.views = async(req, res) => {
     var from = req.query.from;
     var to = req.query.to;
+    var type = req.query.type;
     let view = await Ticket.query(function(qb){
         qb.whereBetween('crated_at', [from, to]);
+        qb.where('status', type);
     }).fetchAll({withRelated: ['user']});
+
+    if(type == 3){
+        view = await Ticket.query(function(qb){
+            qb.whereBetween('crated_at', [from, to]);
+        }).fetchAll({withRelated: ['user']});
+    }
    return res.render('report/view', {report : view.toJSON(), from :from, to:to});
 }
 
