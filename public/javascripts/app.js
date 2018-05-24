@@ -221,5 +221,16 @@ $(document).ready(function(){
         
     })
 
+    socket.on('count-user', function(data){
+        console.log(data.online)
+        $('.user-online').text(data.online);
+    })
+    socket.on('new-user', function(data){
+        var online = data.online -1;
+        $('.user-online').text(online);
+        var target = $('.list-separated');
+        var text = '<li class="list-separated-item"><div class="row align-items-center"><div class="col-auto"><span class="avatar avatar-md d-block" style="background-image: url(demo/faces/female/12.jpg)"></span></div><div class="col"><div></div><a class="text-inherit" href="javascript:void(0)">'+data.user+' online Now</a><small class="d-block item-except text-sm text-muted h-1x">amanda_hunt@example.com</small></div></div></li>';
+        target.prepend(text);
+    })
     
 })
