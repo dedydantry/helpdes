@@ -29,7 +29,7 @@ let app = express();
 
 
 // local variabel
-app.locals.base_url = 'http://localhost:3000/';
+app.locals.base_url = 'http://192.168.43.170:3000/';
 app.locals.stringCustom = (string) => {
 	var strings = string.toUpperCase()
     return strings.charAt(0);

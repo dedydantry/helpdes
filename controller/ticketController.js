@@ -157,14 +157,26 @@ exports.delete = async(req, res)=>{
 exports.change = async(req, res) => {
 	let sts;
 	if(req.body.status == 'start'){
-		sts = 1;
+		sts = 2;
 	}
 	else if(req.body.status == 'complete'){
-		sts = 2;
+		sts = 1;
 	}
 	let status = await new Ticket(req.params).save({'status' : sts});
 	if(status){
-		return res.json({'status' : 'success'});
+		var getTicket = await Ticket.where(req.params).fetch();
+		var result = getTicket.toJSON()
+		var code = result.ticket_code;
+		var too = result.owner;
+		var notifData = {
+			'ticket_code' : code,
+			'notif_from' : req.user.id_users,
+			'notif_too' : too,
+			'type' : 2
+		}
+		var saveNotif = await new Notif(notifData).save();
+		res.io.emit('ticket-status', {'user' : too, 'name':req.user.name, 'ticket':code, 'status' : sts});
+		return res.json({'status' : 'success', 'type' : sts});
 	}
 	return res.json({ status: 'failed' });
 }

@@ -36,3 +36,12 @@ exports.changepassword = async(req,res) =>{
     }
     // console.log(dataUser.toJSON());
 }
+
+
+exports.notifread = async(req, res) => {
+    var update = await new Notif(req.body).save({'notif_read': 1}, {method:'update', patch: true });
+    if(update){
+        return res.json({'status': 'success'});
+    }
+    return res.json({'status':'failed'});
+}

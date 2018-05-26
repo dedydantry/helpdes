@@ -125,7 +125,7 @@ $(document).ready(function(){
             text: "You will not be able to recover this imaginary file!",
             type: "warning",
             showCancelButton: true,
-            confirmButtonText: "Yes, delete it!",
+            confirmButtonText: "Yes, Submit!",
             cancelButtonText: "No, cancel!",
             closeOnConfirm: false,
             closeOnCancel: true,
@@ -134,9 +134,9 @@ $(document).ready(function(){
             if(isConfirm){
                $.post(url, {'status' : status}, function(status){
                    if(status.status == 'success'){
-                        swal("Deleted!"," has been delete", "success")
+                        swal("Change!"," Status has been Change", "success")
                    } else {
-                        swal("Failed!"," failed delete", "danger")
+                        swal("Failed!"," failed", "danger")
                    }
                })
             }
@@ -147,7 +147,7 @@ $(document).ready(function(){
     })
 
     // data table
-    $('.card-table').DataTable({
+    $('.ticket-table').DataTable({
         "bSort": false
     })
 
@@ -187,20 +187,45 @@ $(document).ready(function(){
         }
     }
 
+    $('.notif-read').click(function(e){
+        e.preventDefault();
+        var notif = $(this).data('notif');
+        var link = $(this).attr('href');
+        $.post(url+'profil/notifread',{'id_notif' : notif}, function(data){
+            window.location = link;
+        })
+    })
+
+    var to_user = $('#user-info').data('user');
     var socket = io.connect('http://localhost:3000',  {reconnect: true});
     socket.on('new-ticket', function(data){
-        var to_user = $('#user-info').data('user');
         var target = $('.ticket-table tbody');
         var ticket = data.ticket;
         if(to_user == data.user){
             var name = ticket.user.name;
             var firstName =  name.substring(0, 1);
             var string = '<tr class="danger odd" role="row"><td class="sorting_1"><a href="#"><div class="avatar d-block" title="'+name+'">'+firstName+'</div></a></td><td><a href="http://localhost:3000/ticket/view/'+ticket.ticket_code+'">'+ticket.ticket_code+'</a></td><td>'+ticket.title+'</td><td>'+ticket.description+'</td><td>'+generatePriority(ticket.priority)+'</td><td><span class="status-icon bg-'+generateStatusClass(ticket.status)+' eke"></span>'+generateStatusTicket(ticket.status)+'</td><td><div class="item-action dropdown"><a class="icon" href="javascript:void(0)" data-toggle="dropdown"><i class="fe fe-more-vertical"></i></a><div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="http://localhost:3000/ticket/edit/'+ticket.ticket_code+'"><i class="dropdown-icon fe fe-tag"> Edit</i></a><a class="dropdown-item ticket-delete" href="javascript:void(0)" data-id="'+ticket.id_ticket+'"><i class="dropdown-icon fe fe-edit-2"> Delete</i></a></div></div></td></tr>'
-            console.log(data.ticket);
-            console.log(string);
             target.prepend(string);
+            notifikasi('info', 'New Ticket From '+name);
         }
         
+    })
+
+    socket.on('ticket-status', function(data){
+        
+        if(to_user == data.user){
+            var message;
+            if(data.status == 1){
+                message = 'Ticket has been process By ';
+            } else{
+                message = 'Pending ticket By '
+            }
+            var string = '<tr><td><a href="#"><div class="avatar d-block" title="'+data.name+'">D</div></a></td><td> <a href="http://localhost:3000/ticket/view/'+data.ticket+'" style="text-decoration:none; color:#afa5a5; ">'+message+' <span style="color:#5eba00">'+data.name+'</span></a></td><td class="text-right text-muted d-none d-md-table-cell text-nowrap">38 offers</td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
+            var target = $('.table-notif');
+            target.prepend(string);
+
+            notifikasi('info', message+' '+data.name);
+        }
     })
 
     

@@ -14,16 +14,24 @@ block content
             .card
                 .card-header
                     h3.card-title Notification
-                table.table.card-table.table-vcenter
+                table.table.card-table.table-vcenter.table-notif
                     tbody
                         each data in notif
-                            tr
+                            -var style = '#c1bbbb73';
+                            if data.notif_read
+                                -style = '#fff';
+                            tr(style="background-color:"+style)
                                 td
                                     a(href='#')
                                         .avatar.d-block(title=data.from.name) #{stringCustom(data.from.name)}
                                 td 
-                                    a(href=base_url+'ticket/view/'+data.ticket_code style="text-decoration:none; color:#afa5a5; ") 
-                                        | New ticket from  
+                                    a(href=base_url+'ticket/view/'+data.ticket_code data-notif=data.id_notif class="notif-read" style="text-decoration:none; color:#afa5a5; ") 
+                                        if data.type == 1
+                                            | New ticket from 
+                                        else if(data.type == 2)
+                                            | Ticket has been process by 
+                                        else 
+                                            | New Comment from
                                         span(style='color:#5eba00') #{data.from.name}
                                 td.text-right.text-muted.d-none.d-md-table-cell.text-nowrap 38 offers
                                 td.text-right
