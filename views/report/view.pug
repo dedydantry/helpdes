@@ -7,15 +7,18 @@ block content
         .page-subtitle From #{from} To #{to}
         .page-options.d-flex
             .input-icon.ml-2
-                a.btn.btn-success(href='#' title="Export to Excel") 
+                a.btn.btn-secondary(href='#' title="Export to Excel" style="margin-right:5px;") 
                     i.fa.fa-file-excel-o
+                    | &nbsp Export
+                a.btn.btn-secondary.print(href='#' title="Print" data-table='report-table') 
+                    i.fe.fe-printer
                     | &nbsp Export
     .row.row-cards.row-deck
         .col-12
             .card
                 .card-body
                     .table-responsive
-                        table.table.table-striped.table-bordered
+                        table.table.table-striped.table-bordered.card-table#report-table
                           thead
                             tr
                                 th No
@@ -40,9 +43,7 @@ block content
                                     -classs = 'danger'
                                 tr
                                     td= index+1
-                                    td
-                                        a(href='#')
-                                            .avatar.d-block(title=data.user.name) #{stringCustom(data.user.name)}
+                                    td= data.user.name
                                     td
                                         a(href=base_url+'ticket/view/'+data.ticket_code)= data.ticket_code
                                     td= data.title

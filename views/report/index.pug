@@ -62,9 +62,15 @@ block content
                     form(method="get" action=base_url+'report/view')
                         .form-group
                             .row.gutters-xs
-                                .col-5
+                                .col-4
                                     input.form-control(type="date" name="from")
-                                .col-5
+                                .col-4
                                     input.form-control(type="date" name="to")
+                                .col-2
+                                    select.form-control(name='type')
+                                        option(value="0") Open
+                                        option(value="2") Pending
+                                        option(value="1") Complette
+                                        option(value="3") All
                                 .col-2
                                     button.btn.btn-primary.btn-block Submit

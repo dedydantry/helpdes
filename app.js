@@ -9,6 +9,7 @@ let passport         = require('passport');
 let LocalStrategy    = require('passport-local').Strategy;
 let expressValidator = require('express-validator');
 let moment 			 = require('moment');
+let client = [];
 
 // var router = express.Router();
 
@@ -34,8 +35,15 @@ app.locals.stringCustom = (string) => {
 	var strings = string.toUpperCase()
     return strings.charAt(0);
 };
+
+app.locals.onlinecount = ()=>{
+	return client.length-1;
+}
 app.locals.moment = (momentParams) =>{
 	return moment(momentParams);
+}
+app.locals.online = (req, res)=>{
+
 }
 // view engine setup
 app.io = require('socket.io')();
@@ -45,7 +53,7 @@ app.set('view engine', 'pug');
 app.use(function(req, res, next){
 	res.io = app.io;
 	next();
-  });
+});
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -98,17 +106,27 @@ app.use(function(req, res, next) {
 
 
 // error handler
+
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
+  if(req.user){
+	  console.log('jumlah',client.length)
+		res.io.emit('count-user', {'online' : client.length-1});
+	  if(client.includes(req.user.email)){
+			console.log('ada')
+	  } else{
+		  client.push(req.user.email);
+		  res.io.emit('new-user', {'user':req.user.email, 'online' : client.length});
+	  }
+  }
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
-app.io.on('connection', function(socket){  
-  console.log('a user connected');
+app.io.on('connection', function(socket){
+	console.log('user connection');
 });
 
 module.exports = app;

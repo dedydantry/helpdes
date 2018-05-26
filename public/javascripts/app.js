@@ -147,8 +147,17 @@ $(document).ready(function(){
     })
 
     // data table
+<<<<<<< HEAD
     $('.ticket-table').DataTable({
         "bSort": false
+=======
+    $('.card-table').DataTable({
+        "bSort": false,
+        dom: 'Bfrtip',
+        buttons: [
+            'print'
+        ]
+>>>>>>> bc07ac1feb04e9f43cbbbd959b86ca36582646b2
     })
 
     // update password
@@ -187,6 +196,7 @@ $(document).ready(function(){
         }
     }
 
+<<<<<<< HEAD
     $('.notif-read').click(function(e){
         e.preventDefault();
         var notif = $(this).data('notif');
@@ -197,6 +207,22 @@ $(document).ready(function(){
     })
 
     var to_user = $('#user-info').data('user');
+=======
+    function printData(table)
+    {
+        var divToPrint=document.getElementById(table);
+        newWin= window.open("");
+        newWin.document.write(divToPrint.outerHTML);
+        newWin.print();
+        newWin.close();
+    }
+
+    $('.print').click(function(){
+        var table = $(this).data('table');
+        printData(table);
+    })
+
+>>>>>>> bc07ac1feb04e9f43cbbbd959b86ca36582646b2
     var socket = io.connect('http://localhost:3000',  {reconnect: true});
     socket.on('new-ticket', function(data){
         var target = $('.ticket-table tbody');
@@ -211,6 +237,7 @@ $(document).ready(function(){
         
     })
 
+<<<<<<< HEAD
     socket.on('ticket-status', function(data){
         
         if(to_user == data.user){
@@ -228,5 +255,18 @@ $(document).ready(function(){
         }
     })
 
+=======
+    socket.on('count-user', function(data){
+        console.log(data.online)
+        $('.user-online').text(data.online);
+    })
+    socket.on('new-user', function(data){
+        var online = data.online -1;
+        $('.user-online').text(online);
+        var target = $('.list-separated');
+        var text = '<li class="list-separated-item"><div class="row align-items-center"><div class="col-auto"><span class="avatar avatar-md d-block" style="background-image: url(demo/faces/female/12.jpg)"></span></div><div class="col"><div></div><a class="text-inherit" href="javascript:void(0)">'+data.user+' online Now</a><small class="d-block item-except text-sm text-muted h-1x">amanda_hunt@example.com</small></div></div></li>';
+        target.prepend(text);
+    })
+>>>>>>> bc07ac1feb04e9f43cbbbd959b86ca36582646b2
     
 })
