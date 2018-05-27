@@ -1,5 +1,6 @@
 var exports = module.exports = {}
 const Ticket = require('../model/ticket');
+const Rating = require('../model/rating');
 let moment = require('moment');
 const now = moment().format('YYYY-MM-DD')
 const month = moment().format('YYYY-MM')
@@ -19,6 +20,18 @@ exports.index = async(req,res) => {
         pending : pending,
         open : open,
         thismont : thismont
+    });
+}
+
+exports.operator = async(req, res) => {
+    let rate = await Rating.query(function(qb){
+        qb.select('rating.*')
+        qb.sum('rating.rate as total')
+        qb.count('user_id as jumlah')
+        qb.groupBy('rating.user_id')
+    }).fetchAll({withRelated: ['user']});
+    return res.render('report/operator',{
+        'rate' : rate.toJSON()
     });
 }
 

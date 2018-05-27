@@ -7,101 +7,158 @@ block content
     .row.row-cards
         .col-3
             .card
-                .card-body.p-3.text-center
-                    .text-right.text-green
-                        | 6%
-                        i.fe.fe-chevron-up
-                    .h1.m-0 #{total}
-                        a.link-ticket(href="#")
-                            .text-muted.mb-4 Total Ticket
+                .card-body.p-3
+                    .d-flex.align-items-center
+                        span.stamp.stamp-md.bg-blue.mr-3
+                            i.fe.fe-file
+                        div
+                            h4.m-0
+                                a(href='javascript:void(0)')
+                                    | Total Ticket #{total} 
         .col-3
             .card
-                .card-body.p-3.text-center
-                    .text-right.text-green
-                        | 6%
-                        i.fe.fe-chevron-up
-                    .h1.m-0 #{today}
-                        a.link-ticket(href="#")
-                            .text-muted.mb-4 Today ticket
+                .card-body.p-3
+                    .d-flex.align-items-center
+                        span.stamp.stamp-md.bg-green.mr-3
+                            i.fe.fe-file
+                        div
+                            h4.m-0
+                                a(href='javascript:void(0)')
+                                    | Today Ticket #{today}
         .col-3
             .card
-                .card-body.p-3.text-center
-                    .text-right.text-green
-                        | 6%
-                        i.fe.fe-chevron-up
-                    .h1.m-0 #{pending}
-                        a.link-ticket(href="#")
-                            .text-muted.mb-4 Pending Ticket
+                .card-body.p-3
+                    .d-flex.align-items-center
+                        span.stamp.stamp-md.bg-yellow.mr-3
+                            i.fe.fe-file
+                        div
+                            h4.m-0
+                                a(href='javascript:void(0)')
+                                    | Pending Ticket #{pending}
         .col-3
             .card
-                .card-body.p-3.text-center
-                    .text-right.text-green
-                        | 6%
-                        i.fe.fe-chevron-up
-                    .h1.m-0 #{open}
-                        a.link-ticket(href="#")
-                            .text-muted.mb-4 Open Ticket
+                .card-body.p-3
+                    .d-flex.align-items-center
+                        span.stamp.stamp-md.bg-red.mr-3
+                            i.fe.fe-file
+                        div
+                            h4.m-0
+                                a(href='javascript:void(0)')
+                                    | Open Ticket #{open}
     .row.row-card
         .col-6
            .card
                 .card-header
-                    h3.card-title History
-                .card-body.o-auto(style='height: 15rem')
-                    ul.list-unstyled.list-separated
-                        li.list-separated-item
-                            .row.align-items-center
-                                .col-auto
-                                    span.avatar.avatar-md.d-block(style='background-image: url(demo/faces/female/12.jpg)')
-                                .col
-                                    div
-                                    a.text-inherit(href='javascript:void(0)') Amanda Hunt
-                                    small.d-block.item-except.text-sm.text-muted.h-1x amanda_hunt@example.com
-                        li.list-separated-item
-                            .row.align-items-center
-                                .col-auto
-                                    span.avatar.avatar-md.d-block(style='background-image: url(demo/faces/female/12.jpg)')
-                                .col
-                                    div
-                                    a.text-inherit(href='javascript:void(0)') Amanda Hunt
-                                    small.d-block.item-except.text-sm.text-muted.h-1x amanda_hunt@example.com
-                        li.list-separated-item
-                            .row.align-items-center
-                                .col-auto
-                                    span.avatar.avatar-md.d-block(style='background-image: url(demo/faces/female/12.jpg)')
-                                .col
-                                    div
-                                    a.text-inherit(href='javascript:void(0)') Amanda Hunt
-                                    small.d-block.item-except.text-sm.text-muted.h-1x amanda_hunt@example.com
-                        li.list-separated-item
-                            .row.align-items-center
-                                .col-auto
-                                    span.avatar.avatar-md.d-block(style='background-image: url(demo/faces/female/12.jpg)')
-                                .col
-                                    div
-                                    a.text-inherit(href='javascript:void(0)') Amanda Hunt
-                                    small.d-block.item-except.text-sm.text-muted.h-1x amanda_hunt@example.com
-                                .col-auto
-                                    .item-action.dropdown
-                                    a.icon(href='javascript:void(0)', data-toggle='dropdown')
-                                        i.fe.fe-more-vertical
-                                    .dropdown-menu.dropdown-menu-right
-                                        a.dropdown-item(href='javascript:void(0)')
-                                        i.dropdown-icon.fe.fe-tag
-                                        |  Action
-                                        a.dropdown-item(href='javascript:void(0)')
-                                        i.dropdown-icon.fe.fe-edit-2
-                                        |  Another action
-                                        a.dropdown-item(href='javascript:void(0)')
-                                        i.dropdown-icon.fe.fe-message-square
-                                        |  Something else here
-                                        .dropdown-divider
-                                        a.dropdown-item(href='javascript:void(0)')
-                                        i.dropdown-icon.fe.fe-link
-                                        |  Separated link
+                    h3.card-title Grafic Ticket
+                .card-body
+                    #chart-pie(style="height:14rem")
         .col-6
             .card
+                .card-header
+                    h3.card-title Online User
                 .card-body.text-center
-                    .h5 Online Member
-                    .display-4.font-weight-bold.mb-4.user-online #{onlinecount()}
-                    .progress.progress-sm
-                        .progress-bar.bg-green(style='width: 84%')
+                    //- .display-4.font-weight-bold.mb-4.user-online #{jumlah}
+                    //- .progress.progress-sm
+                    //-     .progress-bar.bg-green(style='width:'+(jumlah*100)/countuser+'%')
+                    #chart-user(style="height:14rem")
+block script 
+    script.
+        $(document).ready(function(){
+            var chart = c3.generate({
+                bindto: '#chart-pie', // id of chart wrapper
+                data: {
+                    columns: [
+                        // each columns data
+                        ['data1', "#{pending}"],
+                        ['data2', "#{open}"],
+                        ['data3', "#{complete}"],
+                    ],
+                    type: 'pie', // default type of chart
+                    colors: {
+                        'data1': '#6574cd',
+                        'data2': '#cd201f',
+                        'data3': '#45aaf2',
+                    },
+                    names: {
+                        // name of each serie
+                        'data1': 'Pending #{pending}',
+                        'data2': 'Open #{open}',
+                        'data3': 'Complete #{complete}',
+                    }
+                },
+                axis: {
+                },
+                legend: {
+                    show: true, //hide legend
+                },
+                padding: {
+                    bottom: 0,
+                    top: 0
+                },
+            });
+            socket.on('count-user', function(data){
+                var jml = data.online
+                var countAll = "#{countuser}";
+                var offline = parseInt(countAll)-jml;
+                var chartUser = c3.generate({
+                    bindto: '#chart-user', // id of chart wrapper
+                    data: {
+                        columns: [
+                            // each columns data
+                            ['data1', offline],
+                            ['data2', jml],
+                        ],
+                        type: 'pie', // default type of chart
+                        colors: {
+                            'data1': '#6574cd',
+                            'data2': '#5eba00',
+                        },
+                        names: {
+                            // name of each serie
+                            'data1': 'offline '+offline,
+                            'data2': 'online '+jml,
+                        }
+                    },
+                    axis: {
+                    },
+                    legend: {
+                        show: true, //hide legend
+                    },
+                    padding: {
+                        bottom: 0,
+                        top: 0
+                    },
+                });
+            })
+
+            var chartUser = c3.generate({
+                    bindto: '#chart-user', // id of chart wrapper
+                    data: {
+                        columns: [
+                            // each columns data
+                            ['data1', "#{countuser-jumlah}"],
+                            ['data2', "#{jumlah}"],
+                        ],
+                        type: 'pie', // default type of chart
+                        colors: {
+                            'data1': '#6574cd',
+                            'data2': '#5eba00',
+                        },
+                        names: {
+                            // name of each serie
+                            'data1': 'offline #{countuser-jumlah}',
+                            'data2': 'online #{jumlah}',
+                        }
+                    },
+                    axis: {
+                    },
+                    legend: {
+                        show: true, //hide legend
+                    },
+                    padding: {
+                        bottom: 0,
+                        top: 0
+                    },
+                });
+            
+        });

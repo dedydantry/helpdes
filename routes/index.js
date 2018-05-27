@@ -1,9 +1,19 @@
-var express = require('express');
-var router = express.Router();
+let usersRouter      = require('./users');
+let authRouter       = require('./auth');
+let homeRouter       = require('./home');
+let alatRouter       = require('./alat');
+let ticketRouter     = require('./ticket');
+let commentRouter    = require('./comment');
+let reportRouter     = require('./report');
+let profilRouter    = require('./profil');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-module.exports = router;
+module.exports = {
+  User : usersRouter,
+  Auth : authRouter,
+  Home : homeRouter,
+  Alat : alatRouter,
+  Ticket : ticketRouter,
+  Comment : commentRouter,
+  Report : reportRouter,
+  Profil : profilRouter
+};

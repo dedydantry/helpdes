@@ -27,6 +27,7 @@ html
 				link(rel="stylesheet", href='//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css')
 				link(rel="stylesheet", href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css")
 				link(rel="stylesheet", href='https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css')
+				link(rel="stylesheet", href=base_url+'dist/assets/plugins/charts-c3/plugin.css')
 				link(rel="stylesheet", href=base_url+'stylesheets/style.css')
 				
 		body(data-host=base_url)
@@ -35,8 +36,9 @@ html
 								.header
 									.container
 										.d-flex
-											a.navbar-brand(href='./index.html')
-												img.navbar-brand-img(src=base_url+'dist/demo/brand/tabler.svg' alt='tabler.io')
+											a.navbar-brand(href=base_url)
+												img.navbar-brand-img(src=base_url+'img/logo-sm.png' alt='tabler.io' style="height:100%")
+												span PT. INDOPLAT PERKASA PURNAMA
 											.ml-auto.d-flex.order-lg-2
 												.dropdown.d-none.d-md-flex
 													a.nav-link.icon(data-toggle='dropdown')
@@ -54,7 +56,7 @@ html
 														span.avatar(style='background-image: url(../dist/demo/faces/female/25.jpg)')
 														span.ml-2.d-none.d-lg-block
 															span#user-info.text-default(data-user=user.id_users) #{user.email}
-															small.text-muted.d-block.mt-1 Administrator
+															small.text-muted.d-block.mt-1(style='text-transform:capitalize;') #{user.roles[0].role_name}
 													.dropdown-menu.dropdown-menu-right.dropdown-menu-arrow
 														a.dropdown-item(href=base_url+'profil')
 															span Profile
@@ -100,9 +102,12 @@ html
 															|  Home
 													if user.roles[0].role_name == 'administrator'
 														li.nav-item
-															a.nav-link(href=base_url+'report')
+															a.nav-link(href='javascript:void(0)')
 																i.fe.fe-home
 																|  Report
+															.nav-submenu.nav
+																a.nav-item(href=base_url+'report') By Periode
+																a.nav-item(href=base_url+'report/operator') By Technician
 														li.nav-item
 															a.nav-link(href='javascript:void(0)')
 																i.fe.fe-box
@@ -137,10 +142,34 @@ html
 										| . Theme by 
 										a(href='https://codecalm.net' target='_blank') codecalm.net
 										|  All rights reserved.
+						#modal-rate.modal.fade
+							.modal-dialog.modal-dialog-centered(role='document')
+								.modal-content
+									.modal-header
+										h5#exampleModalCenterTitle.modal-title Modal title
+										button.close(type='button', data-dismiss='modal', aria-label='Close')
+									.modal-body
+										ul.rate
+											li
+												i.fa.fa-heart-o
+											li
+												i.fa.fa-heart-o
+											li
+												i.fa.fa-heart-o
+											li
+												i.fa.fa-heart-o
+											li
+												i.fa.fa-heart-o
+									.modal-footer
+										button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+										button.btn.btn-primary.complete-ticket(type='button') Save changes
 				script(src=base_url+'dist/assets/js/vendors/jquery-3.2.1.min.js')
 				script(src=base_url+'dist/assets/js/vendors/bootstrap.bundle.min.js')
 				script(src=base_url+'javascripts/sweetalert.min.js')
 				script(src=base_url+'dist/assets/js/vendors/selectize.min.js')
+				//- script(src=base_url+'dist/assets/plugins/charts-c3/plugin.js')
+				script(src=base_url+'dist/assets/plugins/charts-c3/js/c3.min.js')
+				script(src=base_url+'dist/assets/plugins/charts-c3/js/d3.v3.min.js')
 				script(src='//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')
 				script(src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js")
 				script(src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js")
@@ -149,4 +178,6 @@ html
 				//- script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js")
 				script(src=base_url+'javascripts/socket.io.js')
 				script(src=base_url+'javascripts/app.js')
+				script.
+					var to_user = $('#user-info').data('user'); var socket = io.connect('http://localhost:3000',  {reconnect: true});
 				block script

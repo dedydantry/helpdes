@@ -1,7 +1,6 @@
 $(document).ready(function(){
     // notifikasi
     var url = $('body').data('host');
-    $('#multiItems').selectize({});
     function notifikasi(type, string){
         var html = '<div class="notif "><div class="alert alert-'+type+'" role="alert"><strong>'+string+'</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span></button></div></div>';
         $('body').append(html)
@@ -146,18 +145,70 @@ $(document).ready(function(){
         })
     })
 
+    $('.btn-rate').click(function(e){
+        e.preventDefault()
+        $('.complete-ticket').attr('data-ticket', $(this).data('ticket'))
+        $('.complete-ticket').attr('data-user', $(this).data('user'))
+        $('#exampleModalCenterTitle').text('Please Rate "'+ $(this).data('name')+'"');
+        $('#modal-rate').modal()
+    })
+
+    $('.rate li').mouseenter(function(){
+        // var target = $(this).children('i');
+        var index = $(this).index();
+        for (var i = 0; i <= index; i++) {
+            $('.rate li').children().eq(i).removeClass('fa-heart-o on').addClass('fa-heart');
+        }
+    }).mouseleave(function(){
+        if($('.rate li').children().hasClass('on')){
+
+        }else{
+
+        $('.rate li').children().removeClass('fa-heart').addClass('fa-heart-o');
+        }
+    })
+
+    $('.rate li').click(function(){
+        var index = $(this).index();
+        for (var i = 0; i <= index; i++) {
+            $('.rate li').children().eq(i).removeClass('fa-heart-o').addClass('fa-heart on');
+        }       
+    })
+
+    function generateRating(rates){
+        var string ='';
+        for (var i = 1; i <= 5; i++) {
+            if(i<=rates){
+                string += '<li><i class="fa fa-heart"></i></li>';
+            }else{
+                string += '<li><i class="fa fa-heart-o"></i></li>';
+            }
+        }
+        return string;
+    }
+
+    $('.complete-ticket').click(function(){
+        var rate = $('.rate li i.on').length
+        var ticket = $(this).data('ticket');
+        var user = $(this).data('user');
+        if(rate>0){
+            $.post(url+'ticket/completes', {'rate' : rate, 'ticket_id':ticket, 'user_id':user}, function(data){
+                if(data.status == 'success'){
+                    $('.footer-menu').html("<ul class='rating'>"+generateRating(rate)+"</ul>")
+                    $('#modal-rate').modal('hide')
+                }
+            })
+        } else {
+            swal("Failed!"," Please add rate", "warning");
+        }
+    })
     // data table
-<<<<<<< HEAD
     $('.ticket-table').DataTable({
-        "bSort": false
-=======
-    $('.card-table').DataTable({
         "bSort": false,
         dom: 'Bfrtip',
         buttons: [
             'print'
         ]
->>>>>>> bc07ac1feb04e9f43cbbbd959b86ca36582646b2
     })
 
     // update password
@@ -196,18 +247,6 @@ $(document).ready(function(){
         }
     }
 
-<<<<<<< HEAD
-    $('.notif-read').click(function(e){
-        e.preventDefault();
-        var notif = $(this).data('notif');
-        var link = $(this).attr('href');
-        $.post(url+'profil/notifread',{'id_notif' : notif}, function(data){
-            window.location = link;
-        })
-    })
-
-    var to_user = $('#user-info').data('user');
-=======
     function printData(table)
     {
         var divToPrint=document.getElementById(table);
@@ -222,8 +261,15 @@ $(document).ready(function(){
         printData(table);
     })
 
->>>>>>> bc07ac1feb04e9f43cbbbd959b86ca36582646b2
-    var socket = io.connect('http://localhost:3000',  {reconnect: true});
+     $('.notif-read').click(function(e){
+       e.preventDefault();
+       var notif = $(this).data('notif');
+       var link = $(this).attr('href');
+       $.post(url+'profil/notifread',{'id_notif' : notif}, function(data){
+           window.location = link;
+       })
+   })
+    
     socket.on('new-ticket', function(data){
         var target = $('.ticket-table tbody');
         var ticket = data.ticket;
@@ -237,36 +283,43 @@ $(document).ready(function(){
         
     })
 
-<<<<<<< HEAD
     socket.on('ticket-status', function(data){
-        
-        if(to_user == data.user){
-            var message;
-            if(data.status == 1){
-                message = 'Ticket has been process By ';
-            } else{
-                message = 'Pending ticket By '
-            }
-            var string = '<tr><td><a href="#"><div class="avatar d-block" title="'+data.name+'">D</div></a></td><td> <a href="http://localhost:3000/ticket/view/'+data.ticket+'" style="text-decoration:none; color:#afa5a5; ">'+message+' <span style="color:#5eba00">'+data.name+'</span></a></td><td class="text-right text-muted d-none d-md-table-cell text-nowrap">38 offers</td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
-            var target = $('.table-notif');
-            target.prepend(string);
+       console.log(data.user)
+       if(to_user == data.user){
+           var message;
+           if(data.status == 2){
+               message = 'Ticket has been process By ';
+           } else{
+               message = 'Pending ticket By '
+           }
+           var string = '<tr><td><a href="#"><div class="avatar d-block" title="'+data.name+'">D</div></a></td><td> <a href="http://localhost:3000/ticket/view/'+data.ticket+'" style="text-decoration:none; color:#afa5a5; ">'+message+' <span style="color:#5eba00">'+data.name+'</span></a></td><td class="text-right text-muted d-none d-md-table-cell text-nowrap">38 offers</td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
+           var target = $('.table-notif');
+           target.prepend(string);
+           notifikasi('info', message+' '+data.name);
+       }
+   })
 
-            notifikasi('info', message+' '+data.name);
-        }
-    })
-
-=======
-    socket.on('count-user', function(data){
-        console.log(data.online)
-        $('.user-online').text(data.online);
-    })
+    // socket.on('count-user', function(data){
+    //     console.log(data.online)
+    //     $('.user-online').text(data.online);
+    // })
     socket.on('new-user', function(data){
-        var online = data.online -1;
+        var online = data.online ;
+        alert(online)
         $('.user-online').text(online);
         var target = $('.list-separated');
         var text = '<li class="list-separated-item"><div class="row align-items-center"><div class="col-auto"><span class="avatar avatar-md d-block" style="background-image: url(demo/faces/female/12.jpg)"></span></div><div class="col"><div></div><a class="text-inherit" href="javascript:void(0)">'+data.user+' online Now</a><small class="d-block item-except text-sm text-muted h-1x">amanda_hunt@example.com</small></div></div></li>';
         target.prepend(text);
     })
->>>>>>> bc07ac1feb04e9f43cbbbd959b86ca36582646b2
+
+    socket.on('complete-ticket', function(data){
+        var message = "tickets have been completed by";
+        var string = '<tr><td><a href="#"><div class="avatar d-block" title="'+data.name+'">D</div></a></td><td> <a href="http://localhost:3000/ticket/view/'+data.ticket+'" style="text-decoration:none; color:#afa5a5; ">'+message+' <span style="color:#5eba00">'+data.name+'</span></a></td><td class="text-right text-muted d-none d-md-table-cell text-nowrap">38 offers</td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
+        var target = $('.table-notif');
+        if(to_user == data.user){
+            target.prepend(string);
+            notifikasi('info', message+' '+data.name);
+        }
+    })
     
 })

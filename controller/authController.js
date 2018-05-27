@@ -26,6 +26,8 @@ exports.store = function(req, res) {
 }
 
 exports.logout = function(req, res) {
+    res.con = res.con.splice(req.user.email);
+    res.io.emit('count-user', {'online':res.con.length-1});
     req.session.destroy(function(err) {
         res.redirect('/');
     });

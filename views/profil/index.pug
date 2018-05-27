@@ -30,10 +30,11 @@ block content
                                             | New ticket from 
                                         else if(data.type == 2)
                                             | Ticket has been process by 
+                                        else if data.type == 3
+                                            | tickets have been completed by 
                                         else 
                                             | New Comment from
                                         span(style='color:#5eba00') #{data.from.name}
-                                td.text-right.text-muted.d-none.d-md-table-cell.text-nowrap 38 offers
                                 td.text-right
                                     strong #{moment(data.created).fromNow()}
                             tr

@@ -13,6 +13,7 @@ function isLoggedIn(req, res, next) {
 router.use(isLoggedIn);
 router.get('/', reportController.index);
 router.get('/view', reportController.views);
-router.get('/import', reportController.excel)
+router.get('/import', reportController.excel);
+router.get('/operator', reportController.operator);
 
 module.exports = router;

@@ -1,0 +1,50 @@
+extends ../layout/master.pug
+
+block content
+    .page-header
+        h1.page-title
+            | Report
+    .row.row-cards.row-deck
+        .col-12
+            .card
+                .card-header
+                    .h3.card-title Print based on technician
+                .card-body
+                    table.table.table-hover
+                        thead
+                            tr
+                                th(scope="col") No
+                                th(scope="col") Email
+                                th(scope="col") Ticket Assigment
+                                th(scope="col") Rating
+                                th(scope="col") Action
+                        tbody
+                            -var klass,cls;
+                            each data, key in rate
+                                -cls = (data.total*5)/(data.jumlah*5);
+                                if cls < 2.5
+                                    -klass = 'text-danger'
+                                else if cls > 2.5
+                                    -klass = 'text-primary'
+                                else if cls >4
+                                    -klass = 'text-success'
+                                tr
+                                    th(scope="row")= key+1
+                                    td= data.user.email
+                                    td= data.jumlah
+                                    td
+                                        span(class=klass)
+                                            i.fa.fa-square
+                                            |&nbsp;#{(data.total*5)/(data.jumlah*5)}
+                                    td
+                                        a.btn.btn-secondary.btn-sm Detail
+                .card-footer.text-right
+                    span.rate-status.text-danger
+                        i.fa.fa-square &nbsp;
+                        | Poor
+                    span.rate-status.text-primary
+                        i.fa.fa-square &nbsp;
+                        | Good
+                    span.rate-status.text-success
+                        i.fa.fa-square &nbsp;
+                        | Very Good

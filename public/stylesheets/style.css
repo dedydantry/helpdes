@@ -1,3 +1,14 @@
+.navbar-brand{
+    width: 30%;
+    height: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.rate-status{
+  padding: 0px 5px;
+}
 .field-edit-comment.c-hidden{
   display: none;
 }
@@ -13,6 +24,33 @@
 }
 .c-icon:first-child{
   border-right: none;
+}
+
+.rate{
+  list-style: none;
+  margin: 0 auto;
+  text-align: center;
+}
+.rating{
+  list-style: none;
+  margin:0;
+}
+.rate li, .rating li{
+  display: inline-block;
+  padding: 5px;
+  font-size: 20px;
+  transition:color 0.2s;
+  cursor: pointer;
+}
+
+.rating i{
+  color: #eea236;
+}
+.rate li:hover, li:focus{
+    color: #eea236;
+}
+.rate i{
+    color: #eea236;
 }
 
 .c-first-child.c-hidden{

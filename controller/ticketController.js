@@ -5,6 +5,7 @@ const Alat = require('../model/alat');
 const Assigment = require('../model/assigment');
 const Comment = require('../model/comment');
 const Notif = require('../model/notif');
+const Rating = require('../model/rating');
 var async = require('async');
 let fileUpload       = require('express-fileupload');
 
@@ -86,14 +87,18 @@ exports.view = (req, res) => {
 		const ticket = await Ticket.where(req.params).fetchAll({withRelated : ['user', 'assigments']});
 		if(ticket){
 			const ticket_id = ticket.toJSON()[0].id_ticket;
-			// const assigment = await Assigment.where('ticket_id', ticket_id).fetchAll({withRelated : ['user']});
 			const resultComment = await Comment.where('ticket_id', ticket_id).orderBy('created', 'DESC').fetchAll({withRelated : ['user']});
-			// await makePurchase(ticket, assigment, resultComment)
-			console.log(ticket.toJSON()[0].assigments.name);
+			var rating = await Rating.where('ticket_id', ticket_id).fetch();
+			if(rating){
+				rate = rating.toJSON();
+			} else{
+				rate = null
+			}
 			return res.render('ticket/view', {
 				ticket :ticket.toJSON()[0], 
 				ticket_code : req.params.ticket_code,
-				comment : resultComment.toJSON()
+				comment : resultComment.toJSON(),
+				rating : rate
 			})	
 		}
 	}
@@ -179,4 +184,25 @@ exports.change = async(req, res) => {
 		return res.json({'status' : 'success', 'type' : sts});
 	}
 	return res.json({ status: 'failed' });
+}
+
+exports.completes = async(req, res)=>{
+	var old = await Rating.where('ticket_id', req.body.ticket_id).fetch();
+	let status = await new Ticket({'id_ticket': req.body.ticket_id}).save({'status' : 1});
+	if(old){
+		var update = await Rating.where({'ticket_id': req.body.ticket_id}).save(req.body, {method:'update', patch:true});
+	} else{
+		var rate = await new Rating(req.body).save();
+	}
+	var getTicket = await Ticket.where({'id_ticket': req.body.ticket_id}).fetch();
+	var result = getTicket.toJSON()	
+	var notifData = {
+		'ticket_code' : result.ticket_code,
+		'notif_from' : req.user.id_users,
+		'notif_too' : result.assignment,
+		'type' : 3
+	}
+	var saveNotif = await new Notif(notifData).save();
+	res.io.emit('complete-ticket',  {'user' : result.assignment, 'name':req.user.name, 'ticket':result.ticket_code, 'status' : 1})
+	return res.json({status:'success'});
 }

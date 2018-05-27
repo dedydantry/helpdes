@@ -26,7 +26,7 @@ block content
                             input.form-control(name='due_on' type='date')
                         .form-group
                             label.form-label Assigment To
-                            select.form-control(name='assigment' id="multiItems" multiple="multiple")
+                            select.form-control(name='assigment')
                                 option(value='0') ...
                                 each data in owners
                                     option(value=data.id_users) #{data.name}

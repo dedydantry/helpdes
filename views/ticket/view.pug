@@ -34,15 +34,24 @@ block content
                     .text-wrap
                         h2.mt-0.mb-4 #{ticket.title}
                         p #{ticket.description}
-                if(ticket.status !=2)
-                    .card-footer
-                        .footer-menu(style='display:flex; flex-direction:row; justify-content:flex-end;')
+                .card-footer
+                    .footer-menu(style='display:flex; flex-direction:row; justify-content:flex-end;')
+                        if ticket.status !=1
                             if user.roles[0].role_name == 'operator'
                                 a.btn.btn-outline-primary.btn-sm.btn-change(href=base_url+'ticket/change/'+ticket.id_ticket data-sts="start" style='margin-left:2px;') Start Progress
                             if user.roles[0].role_name == 'member'
-                                a.btn.btn-outline-primary.btn-sm.btn-change(href=base_url+'ticket/change/'+ticket.id_ticket data-sts="complete" style='margin-left:2px;') Completed Progress
+                                a.btn.btn-outline-primary.btn-sm.btn-rate(href=base_url+'ticket/change/'+ticket.id_ticket data-sts="complete" data-ticket=ticket.id_ticket data-user=ticket.assignment data-name=ticket.user.name style='margin-left:2px;') Completed Progress
                             a.btn.btn-outline-primary.btn-sm(href=base_url+'ticket/edit/'+ticket.ticket_code style='margin-left:2px;') Edit
                             a.btn.btn-outline-primary.btn-sm.ticket-delete(href=base_url+'ticket/delete/'+ticket.id_ticket style='margin-left:2px;') Delete
+                        else
+                            ul.rating
+                                each val in [1, 2, 3, 4, 5]
+                                    if val<=rating.rate
+                                        li
+                                            i.fa.fa-heart
+                                    else
+                                        li
+                                            i.fa.fa-heart-o
             .card(style='box-shadow:none; border:none; background-color:transparent;')
                 .card-body(style='padding:1.5rem 0;')
                     form(method='post' action=base_url+'comment' id="form-comment")

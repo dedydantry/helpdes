@@ -19,5 +19,6 @@ router.get('/edit/:ticket_code', ticketController.edit);
 router.post('/update/:id_ticket', ticketController.update);
 router.post('/delete/:id_ticket', ticketController.delete);
 router.post('/change/:id_ticket', ticketController.change);
+router.post('/completes', ticketController.completes);
 
 module.exports = router;
