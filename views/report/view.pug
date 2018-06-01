@@ -7,12 +7,9 @@ block content
         .page-subtitle From #{from} To #{to}
         .page-options.d-flex
             .input-icon.ml-2
-                a.btn.btn-secondary(href='#' title="Export to Excel" style="margin-right:5px;") 
-                    i.fa.fa-file-excel-o
-                    | &nbsp Export
-                a.btn.btn-secondary.print(href='#' title="Print" data-table='report-table') 
+                a.btn.btn-secondary(href=base_url+'report/printperiode?from='+from+'&to='+to+'&type='+types title="Print" data-table='report-table' target='_blank') 
                     i.fe.fe-printer
-                    | &nbsp Export
+                    | &nbsp Print
     .row.row-cards.row-deck
         .col-12
             .card

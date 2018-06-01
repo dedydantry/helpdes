@@ -1,0 +1,256 @@
+html
+	head
+		meta(charset='utf8')
+		title Helpdesk Ticketing
+		link(rel="stylesheet", href=base_url+'dist/assets/plugins/charts-c3/plugin.css')
+		style.
+			html, body {
+				margin: 0;
+				padding: 0;
+				font-family: 'Sackers Gothic Std';
+				font-weight: 500;
+				font-size: 7px;
+				//- background: rgb(241,241,241);
+				-webkit-print-color-adjust: exact;
+				box-sizing: border-box;
+			}
+			.page {
+				position: relative;
+				min-height: 90mm;
+				width: 10.5in;
+				display: block;
+				/* background: black; */
+				page-break-after: auto;
+				margin: 0 auto;
+				overflow: hidden;
+				/* border:1px solid #333; */
+			}
+			.page-head{
+				height: 20mm;
+				border-bottom: 2px solid #222;
+			}
+			.logo{
+				width: 47%;
+				margin:10px auto;
+				font-size: 20px;
+			}
+			.logo h3{
+				padding-top: 3rem;
+			}
+			.logo img{
+				margin:0 auto;
+				width: 65px;
+				float: left;
+			}
+			a{
+				text-decoration:none;
+				font-weight:bold;
+				color:#222;
+			}
+
+			.body-header{
+				width:47%;
+				margin:0 auto;
+			}
+
+			.body-header .body-title{
+				text-align:center;
+				font-size:18px;
+				font-weight:bold;
+			}
+			table {
+				border-collapse: collapse;
+				width: 100%;
+				margin:0 auto;
+				margin-bottom:2rem;
+			}
+
+			th, td {
+				text-align: left;
+				padding: 8px;
+				border-bottom: 1px solid #ddd;
+			}
+			td.center{
+				text-align:center;
+			}
+
+			tr:nth-child(even){background-color: #f2f2f2}
+
+			th {
+				background-color: #bfc5c0;
+				color: white;
+			}
+			.footer-info{
+				width:100%;
+				margin:auto;
+			}
+			.info-block{
+				width:30%;
+				float:right;
+				text-align:center;
+				font-size:16;
+				margin-top:5rem;
+			}
+			.info-user{
+				border-top:1px solid #333;
+				padding:3px 7px;
+			}
+
+			.card{
+				word-wrap: break-word;
+				background-color: #fff;
+				background-clip: border-box;
+				border: 1px solid rgba(0, 40, 100, 0.12);
+				border-radius: 3px;
+				margin-bottom:2rem;
+			}
+
+			.block-control button{
+				background-color: #e7e7e7; /* Green */
+				border: none;
+				color: #222;
+				padding: 12px 5px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 13px;
+				margin: 4px 2px;
+				cursor: pointer;
+				border-radius:47px;
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				float:right;
+				margin-right:8rem;
+			}
+
+			.print.hide{
+				display:none;
+			}
+			.rating-block{
+				display: inline-block;
+				height: 15px;
+				width: 15px;
+				border-radius:5px;
+			}
+			.rating-block.poor{
+				background-color: #cd201f;
+			}
+
+			.rating-block.good{
+				background-color: #467fcf;
+			}
+
+			.rating-block.nice{
+				background-color: #5eba00;
+			}
+	body
+		.block-control
+			button.print(onclick="printData('page')") Print
+		.page
+			.page-head
+				.logo
+					img(src='http://192.168.43.170:3000/img/logo-sm.png', alt='')
+					h3(style="margin:0 auto;") PT.INDOPLAT PERKASA PURNAMA
+			.page-body
+				.body-header
+					h3.body-title(style="text-transform:capitalize;") Rating #{owner.name}
+				.card#chart-rate-user
+				table
+					thead
+						tr
+							th No
+							th Ticket Code
+							th Rate
+							th Date
+					tbody
+						-var datas=[];
+						-var total=0;
+						each data, key in rate
+							-datas[key] = data.rate;
+							-total = total+data.rate
+							tr
+								td= key+1
+								td
+									a(href=base_url+'ticket/view/'+data.ticket.ticket_code) #{data.ticket.ticket_code}
+								td= data.rate
+								td= moment(data.crated_at).format("ll")
+						tr.bg-blue-lighter
+							td.text-right(colspan="2" style="font-weight:bold;") Total :
+							td(colspan="2")= total
+						tr.bg-blue-lighter
+							td.text-right(colspan="2" style="font-weight:bold;") Average :
+							td(colspan="2") #{insertDecimal((total*5)/(datas.length*5))}
+	script(src=base_url+'dist/assets/js/vendors/jquery-3.2.1.min.js')
+	script(src=base_url+'dist/assets/plugins/charts-c3/js/c3.min.js')
+	script(src=base_url+'dist/assets/plugins/charts-c3/js/d3.v3.min.js')
+	script.
+		function printData(table)
+		{
+			$('.print').addClass('hide');
+			window.print();
+			setTimeout(function(){
+				$('.print').removeClass('hide');
+			}, 1000)
+		}
+		$(document).ready(function(){
+			var datas = "#{datas}"
+			var ar = datas.split(',')
+			var items={
+				'a' :0,
+				'b' :0,
+				'c' :0,
+				'd' :0,
+				'e' :0,
+			};
+			for(var i=0; i<=ar.length; i++){
+				if(ar[i] == 1){
+					items.a++
+				} else if(ar[i] == 2){
+					items.b++
+				} else if(ar[i] == 3){
+					items.c++
+				} else if(ar[i] == 4){
+					items.d++
+				} else if(ar[i] == 5){
+					items.e++
+				}
+			}
+
+			var chart = c3.generate({
+				bindto: '#chart-rate-user', // id of chart wrapper
+				data: {
+					columns: [
+						// each columns data
+						['data1', items.a],
+						['data2', items.b],
+						['data3', items.c],
+						['data4', items.d],
+						['data5', items.e],
+					],
+					type: 'pie', // default type of chart
+					colors: {
+						'data1': '#6574cd',
+						'data2': '#cd201f',
+						'data3': '#45aaf2',
+						'data4': '#fd9644',
+						'data5': '#2bcbba',
+					},
+					names: {
+						// name of each serie
+						'data1': 'One Star: '+items.a,
+						'data2': 'Two Star: '+items.b,
+						'data3': 'Three Star: '+items.c,
+						'data4': 'Four Star: '+items.d,
+						'data5': 'Five Star: '+items.e,
+					}
+				},
+				axis: {
+				},
+				legend: {
+					show: true, //hide legend
+				},
+				padding: {
+					bottom: 0,
+					top: 0
+				},
+			});
+		})

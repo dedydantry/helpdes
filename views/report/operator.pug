@@ -4,17 +4,22 @@ block content
     .page-header
         h1.page-title
             | Report
+        .page-options.d-flex
+            .input-icon.ml-2
+                a.btn.btn-secondary(href=base_url+'report/printtechnician' title="Export to Excel" style="margin-right:5px;") 
+                    i.fa.fa-print
+                    | &nbsp print
     .row.row-cards.row-deck
         .col-12
             .card
                 .card-header
                     .h3.card-title Print based on technician
                 .card-body
-                    table.table.table-hover
+                    table.table.table-hover.table-bordered
                         thead
                             tr
                                 th(scope="col") No
-                                th(scope="col") Email
+                                th(scope="col") Technician Email
                                 th(scope="col") Ticket Assigment
                                 th(scope="col") Rating
                                 th(scope="col") Action
@@ -35,9 +40,9 @@ block content
                                     td
                                         span(class=klass)
                                             i.fa.fa-square
-                                            |&nbsp;#{(data.total*5)/(data.jumlah*5)}
+                                            |&nbsp;#{insertDecimal((data.total*5)/(data.jumlah*5))}
                                     td
-                                        a.btn.btn-secondary.btn-sm Detail
+                                        a.btn.btn-secondary.btn-sm(href=base_url+'report/details/'+data.user_id) Detail
                 .card-footer.text-right
                     span.rate-status.text-danger
                         i.fa.fa-square &nbsp;

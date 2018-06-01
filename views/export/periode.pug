@@ -1,0 +1,167 @@
+html
+	head
+		meta(charset='utf8')
+		title Helpdesk Ticketing
+		style.
+			html, body {
+			margin: 0;
+			padding: 0;
+			font-family: 'Sackers Gothic Std';
+			font-weight: 500;
+			font-size: 7px;
+			//- background: rgb(241,241,241);
+			-webkit-print-color-adjust: exact;
+			box-sizing: border-box;
+			}
+			.page {
+			position: relative;
+			min-height: 90mm;
+			width: 10.5in;
+			display: block;
+			/* background: black; */
+			page-break-after: auto;
+			margin: 0 auto;
+			overflow: hidden;
+			/* border:1px solid #333; */
+			}
+			.page-head{
+			height: 20mm;
+			border-bottom: 2px solid #222;
+			}
+			.logo{
+			width: 47%;
+			margin:10px auto;
+			font-size: 20px;
+			}
+			.logo h3{
+			padding-top: 3rem;
+			}
+			.logo img{
+			margin:0 auto;
+			width: 65px;
+			float: left;
+			}
+
+			.body-header{
+				width:47%;
+				margin:0 auto;
+			}
+
+			.body-header .body-title{
+				text-align:center;
+				font-size:18px;
+				font-weight:bold;
+			}
+			table {
+				border-collapse: collapse;
+				width: 80%;
+				margin:0 auto;
+			}
+
+			th, td {
+				text-align: left;
+				padding: 8px;
+				border-bottom: 1px solid #ddd;
+			}
+
+			tr:nth-child(even){background-color: #f2f2f2}
+
+			th {
+				background-color: #bfc5c0;
+				color: white;
+			}
+			.footer-info{
+				width:80%;
+				margin:auto;
+			}
+			.info-block{
+				width:30%;
+				float:right;
+				text-align:center;
+				font-size:16;
+				margin-top:5rem;
+			}
+			.info-user{
+				border-top:1px solid #333;
+				padding:3px 7px;
+			}
+
+			.block-control button{
+				background-color: #e7e7e7; /* Green */
+				border: none;
+				color: #222;
+				padding: 12px 5px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 13px;
+				margin: 4px 2px;
+				cursor: pointer;
+				border-radius:47px;
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				float:right;
+				margin-right:8rem;
+			}
+
+			.print.hide{
+				display:none;
+			}
+	body
+		.block-control
+			button.print(onclick="printData('page')") Print
+		.page
+			.page-head
+				.logo
+					img(src='http://192.168.43.170:3000/img/logo-sm.png', alt='')
+					h3(style="margin:0 auto;") PT.INDOPLAT PERKASA PURNAMA
+			.page-body
+				.body-header
+					h3.body-title Report #{title}
+				table
+					thead
+						tr
+							th No
+							th Name
+							th Ticket Code
+							th Report title
+							th Priority
+							th Status
+					tbody
+						each data, index in report
+							- var status, classs;
+							if(data.status == 1)
+								-status = 'complete'
+								-classs = 'success'
+							else if(data.status == 2)
+								-status = 'pending'
+								-classs = 'warning'
+							else
+								-status = 'open'
+								-classs = 'danger'
+							tr
+								td= index+1
+								td= data.user.name
+								td= data.ticket_code
+								td= data.title
+								td
+									if(data.priority == 1)
+										| Hight
+									else if (data.priority == 2)
+										| Normal
+									else
+										| Low
+								td= status
+				.body-footer
+					.footer-info
+						.info-block
+							h4.info-user #{user.name}
+	script(src=base_url+'dist/assets/js/vendors/jquery-3.2.1.min.js')
+	script.
+		function printData(table)
+		{
+			$('.print').addClass('hide');
+			window.print();
+			setTimeout(function(){
+				$('.print').removeClass('hide');
+			}, 1000)
+		}

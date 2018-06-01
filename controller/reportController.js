@@ -1,6 +1,7 @@
 var exports = module.exports = {}
 const Ticket = require('../model/ticket');
 const Rating = require('../model/rating');
+const User = require('../model/user');
 let moment = require('moment');
 const now = moment().format('YYYY-MM-DD')
 const month = moment().format('YYYY-MM')
@@ -23,7 +24,7 @@ exports.index = async(req,res) => {
     });
 }
 
-exports.operator = async(req, res) => {
+exports.technician = async(req, res) => {
     let rate = await Rating.query(function(qb){
         qb.select('rating.*')
         qb.sum('rating.rate as total')
@@ -32,6 +33,15 @@ exports.operator = async(req, res) => {
     }).fetchAll({withRelated: ['user']});
     return res.render('report/operator',{
         'rate' : rate.toJSON()
+    });
+}
+
+exports.details = async(req, res) => {
+    let users = await  User.where('id_users', req.params.user_id).fetch();
+    let rate = await Rating.where(req.params).fetchAll({withRelated:['ticket']});
+    return res.render('report/details', {
+        rate:rate.toJSON(),
+        owner : users.toJSON()
     });
 }
 
@@ -49,7 +59,53 @@ exports.views = async(req, res) => {
             qb.whereBetween('crated_at', [from, to]);
         }).fetchAll({withRelated: ['user']});
     }
-   return res.render('report/view', {report : view.toJSON(), from :from, to:to});
+   return res.render('report/view', {report : view.toJSON(),  types:type, from :from, to:to});
+}
+
+
+// print report
+exports.printperiode = async(req, res) => {
+    var from = req.query.from;
+    var to = req.query.to;
+    var type = req.query.type;
+    let title = 'Periode '+moment(from).format("ll")+'- '+moment(to).format("ll")
+    let view = await Ticket.query(function(qb){
+        qb.whereBetween('crated_at', [from, to]);
+        qb.where('status', type);
+    }).fetchAll({withRelated: ['user']});
+
+    if(type == 3){
+        view = await Ticket.query(function(qb){
+            qb.whereBetween('crated_at', [from, to]);
+        }).fetchAll({withRelated: ['user']});
+    }
+   return res.render('export/periode', {report : view.toJSON(), title:title, from :from, to:to});
+}
+
+exports.printoperator = async(req, res) => {
+    let rate = await Rating.query(function(qb){
+        qb.select('rating.*')
+        qb.sum('rating.rate as total')
+        qb.count('user_id as jumlah')
+        qb.groupBy('rating.user_id')
+    }).fetchAll({withRelated: ['user']});
+    return res.render('export/technician',{
+        'rate' : rate.toJSON(),
+        'title' : 'Technician Report'
+    });
+}
+
+exports.printdetails = async(req, res) => {
+    let users = await  User.where('id_users', req.params.user_id).fetch();
+    let rate = await Rating.where(req.params).fetchAll({withRelated:['ticket']});
+    return res.render('export/details', {
+        rate:rate.toJSON(),
+        owner : users.toJSON(),
+    });
+}
+
+exports.exportspdf =  async(req, res) => {
+    var html = res.render('export/periode');
 }
 
 exports.excel = async(req, res) => {

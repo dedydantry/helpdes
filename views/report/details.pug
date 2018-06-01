@@ -1,0 +1,110 @@
+extends ../layout/master.pug
+
+block content
+    .page-header
+        h1.page-title
+            | Details Rating #{owner.email}
+        .page-subtitle
+        .page-options.d-flex
+            .input-icon.ml-2
+                a.btn.btn-secondary(href=base_url+'report/printdetails/'+owner.id_users title="Export to Excel" style="margin-right:5px;") 
+                    i.fa.fa-print
+                    | &nbsp Print
+    .row
+        .col-8
+            .card
+                .card-body
+                    table.table.tabel-hover.table-bordered
+                        thead
+                            tr
+                                th No
+                                th Ticket Code
+                                th Rate
+                                th Date
+                        tbody
+                            -var datas=[];
+                            -var total=0;
+                            each data, key in rate
+                                -datas[key] = data.rate;
+                                -total = total+data.rate
+                                tr
+                                    td= key+1
+                                    td
+                                        a(href=base_url+'ticket/view/'+data.ticket.ticket_code) #{data.ticket.ticket_code}
+                                    td= data.rate
+                                    td= moment(data.crated_at).format("ll")
+                            tr.bg-blue-lighter
+                                td.text-right(colspan="2" style="font-weight:bold;") Total :
+                                td(colspan="2")= total
+                            tr.bg-blue-lighter
+                                td.text-right(colspan="2" style="font-weight:bold;") Average :
+                                td(colspan="2") #{insertDecimal((total*5)/(datas.length*5))}
+        .col-4
+            .card
+                .card-body
+                     #chart-rate-user(style="height:14rem")
+block script
+    script.
+        $(document).ready(function(){
+            var datas = "#{datas}"
+            var ar = datas.split(',')
+            var items={
+                'a' :0,
+                'b' :0,
+                'c' :0,
+                'd' :0,
+                'e' :0,
+            };
+            for(var i=0; i<=ar.length; i++){
+                if(ar[i] == 1){
+                    items.a++
+                } else if(ar[i] == 2){
+                    items.b++
+                } else if(ar[i] == 3){
+                    items.c++
+                } else if(ar[i] == 4){
+                    items.d++
+                } else if(ar[i] == 5){
+                    items.e++
+                }
+            }
+
+                var chart = c3.generate({
+                    bindto: '#chart-rate-user', // id of chart wrapper
+                    data: {
+                        columns: [
+                            // each columns data
+                            ['data1', items.a],
+                            ['data2', items.b],
+                            ['data3', items.c],
+                            ['data4', items.d],
+                            ['data5', items.e],
+                        ],
+                        type: 'pie', // default type of chart
+                        colors: {
+                            'data1': '#6574cd',
+                            'data2': '#cd201f',
+                            'data3': '#45aaf2',
+                            'data4': '#fd9644',
+                            'data5': '#2bcbba',
+                        },
+                        names: {
+                            // name of each serie
+                            'data1': 'One Star: '+items.a,
+                            'data2': 'Two Star: '+items.b,
+                            'data3': 'Three Star: '+items.c,
+                            'data4': 'Four Star: '+items.d,
+                            'data5': 'Five Star: '+items.e,
+                        }
+                    },
+                    axis: {
+                    },
+                    legend: {
+                        show: true, //hide legend
+                    },
+                    padding: {
+                        bottom: 0,
+                        top: 0
+                    },
+                });
+        })

@@ -9,10 +9,11 @@ let passport         = require('passport');
 let LocalStrategy    = require('passport-local').Strategy;
 let expressValidator = require('express-validator');
 let moment 			 = require('moment');
+
 let client = [];
 
 // var router = express.Router();
-
+moment.locale('id'); 
 // model
 let User = require('./model/user');
 let routes = require('./routes/index');
@@ -29,6 +30,10 @@ app.locals.stringCustom = (string) => {
 
 app.locals.moment = (momentParams) =>{
 	return moment(momentParams);
+}
+
+app.locals.insertDecimal = (num) =>{
+	return (Math.floor(num * 100) / 100).toFixed(1);
 }
 // view engine setup
 app.io = require('socket.io')();
