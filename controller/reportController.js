@@ -104,6 +104,42 @@ exports.printdetails = async(req, res) => {
     });
 }
 
+exports.ticketstatus = async(req, res) => {
+    let status = req.query.status;
+    let periode = req.query.periode;
+    if(!periode){
+        periode = moment().format('MM-YYYY');
+    }
+    var dates = '01'+periode.replace('-', '');
+    let ticket = await Ticket.where({'status' :status }).query(function(qb){
+        qb.whereRaw('DATE_FORMAT(crated_at, "%m-%Y") = "'+periode+'"')
+    }).fetchAll({withRelated:['user']});
+    return res.render('report/ticketstatus', {
+        'ticket' : ticket.toJSON(),
+        'title' : status,
+        'dates' : moment(dates, 'DDMMYYYY').format('MMMM YYYY'),
+        'periode' : periode
+    });
+}
+
+exports.ticketstatusprint = async(req, res) => {
+    let status = req.query.status;
+    let periode = req.query.periode;
+    if(!periode){
+        periode = moment().format('MM-YYYY');
+    }
+    var dates = '01'+periode.replace('-', '');
+    let ticket = await Ticket.where({'status' :status }).query(function(qb){
+        qb.whereRaw('DATE_FORMAT(crated_at, "%m-%Y") = "'+periode+'"')
+    }).fetchAll({withRelated:['user']});
+    return res.render('export/ticketstatus', {
+        'ticket' : ticket.toJSON(),
+        'title' : status,
+        'dates' : moment(dates, 'DDMMYYYY').format('MMMM YYYY'),
+        'periode' : periode
+    });
+}
+
 exports.exportspdf =  async(req, res) => {
     var html = res.render('export/periode');
 }

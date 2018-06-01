@@ -206,3 +206,15 @@ exports.completes = async(req, res)=>{
 	res.io.emit('complete-ticket',  {'user' : result.assignment, 'name':req.user.name, 'ticket':result.ticket_code, 'status' : 1})
 	return res.json({status:'success'});
 }
+
+exports.search = async(req, res) => {
+	let search = req.query.search;
+	let ticket = await Ticket.query(function(qb){
+		qb.whereRaw('ticket_code LIKE "%'+search+'%" OR title LIKE "%'+search+'%"')
+	}).fetchAll({withRelated:['user']})
+	console.log(ticket.toJSON())
+	return res.render('ticket/search', {
+		'ticket' : ticket.toJSON(),
+		'search' : search
+	})
+}

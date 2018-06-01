@@ -29,6 +29,7 @@ html
 				link(rel="stylesheet", href='https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css')
 				link(rel="stylesheet", href=base_url+'dist/assets/plugins/charts-c3/plugin.css')
 				link(rel="stylesheet", href=base_url+'stylesheets/style.css')
+				block css
 				
 		body(data-host=base_url)
 				.page
@@ -103,11 +104,14 @@ html
 													if user.roles[0].role_name == 'administrator'
 														li.nav-item
 															a.nav-link(href='javascript:void(0)')
-																i.fe.fe-home
+																i.fe.fe-book
 																|  Report
 															.nav-submenu.nav
-																a.nav-item(href=base_url+'report') By Periode
 																a.nav-item(href=base_url+'report/technician') By Technician
+																a.nav-item(href=base_url+'report/ticketstatus?status=1')  Complete Ticket
+																a.nav-item(href=base_url+'report/ticketstatus?status=2')  Pending Ticket
+																a.nav-item(href=base_url+'report/ticketstatus?status=0')  Open Ticket
+																a.nav-item(href=base_url+'report') By Periode
 														li.nav-item
 															a.nav-link(href='javascript:void(0)')
 																i.fe.fe-box
@@ -124,10 +128,12 @@ html
 																i.fe.fe-plus-circle
 																|  New Tickets
 											.col-3.ml-auto
-												form.input-icon
-													input.form-control.header-search(type='search' placeholder='Search…' tabindex='1')
-													.input-icon-addon
-														i.fe.fe-search
+												form(method='get' action=base_url+'ticket/search')
+													.input-group
+															input.form-control(type='text' name='search' placeholder='Search Ticket...' value=isset(search))
+															span.input-group-append
+																button.btn.btn-secondary(type='submit')
+																	i.fe.fe-search
 								.page-content
 									.container
 										//- .page-header
@@ -166,17 +172,13 @@ html
 				script(src=base_url+'dist/assets/js/vendors/jquery-3.2.1.min.js')
 				script(src=base_url+'dist/assets/js/vendors/bootstrap.bundle.min.js')
 				script(src=base_url+'javascripts/sweetalert.min.js')
-				script(src=base_url+'dist/assets/js/vendors/selectize.min.js')
-				//- script(src=base_url+'dist/assets/plugins/charts-c3/plugin.js')
 				script(src=base_url+'dist/assets/plugins/charts-c3/js/c3.min.js')
 				script(src=base_url+'dist/assets/plugins/charts-c3/js/d3.v3.min.js')
 				script(src='//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')
-				script(src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js")
-				script(src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js")
-				script(src='https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js')
+				//- script(src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js")
+				//- script(src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js")
+				//- script(src='https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js')
 				script(src='https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js')
-				script(src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js")
-				//- script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js")
 				script(src=base_url+'javascripts/socket.io.js')
 				script(src=base_url+'javascripts/app.js')
 				script.

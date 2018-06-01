@@ -35,6 +35,10 @@ app.locals.moment = (momentParams) =>{
 app.locals.insertDecimal = (num) =>{
 	return (Math.floor(num * 100) / 100).toFixed(1);
 }
+
+app.locals.isset = (params) => {
+	return params !== 'undefined' ? params :'';
+}
 // view engine setup
 app.io = require('socket.io')();
 app.set('views', path.join(__dirname, 'views'));
@@ -85,7 +89,6 @@ require('./config/passport.js')(passport,User);
 app.use('/', routes.Auth);
 app.use('/users', routes.User);
 app.use('/home', routes.Home);
-app.use('/alat', routes.Alat);
 app.use('/ticket', routes.Ticket);
 app.use('/comment', routes.Comment);
 app.use('/report', routes.Report);

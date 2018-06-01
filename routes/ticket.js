@@ -20,5 +20,6 @@ router.post('/update/:id_ticket', ticketController.update);
 router.post('/delete/:id_ticket', ticketController.delete);
 router.post('/change/:id_ticket', ticketController.change);
 router.post('/completes', ticketController.completes);
+router.get('/search', ticketController.search);
 
 module.exports = router;

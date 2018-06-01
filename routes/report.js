@@ -22,4 +22,6 @@ router.get('/exportpdf', reportController.exportspdf);
 router.get('/printperiode', reportController.printperiode);
 router.get('/printtechnician', reportController.printoperator);
 router.get('/printdetails/:user_id', reportController.printdetails);
+router.get('/ticketstatus', reportController.ticketstatus);
+router.get('/ticketstatusprint', reportController.ticketstatusprint);
 module.exports = router;

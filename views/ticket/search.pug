@@ -1,0 +1,74 @@
+extends ../layout/master.pug
+
+block content
+    .page-header
+        h1.page-title
+            | Result 
+            strong '#{ticket.length}'
+            |from keyword 
+            strong '#{search}'
+    .row.row-cards.row-deck
+        .col-12
+            .card
+                .card-body
+                    .table-responsive
+                        table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table
+                          thead
+                            tr
+                                th Owner
+                                th Ticket Kode
+                                th Masalah
+                                th Deskripsi
+                                th Priority
+                                th Status
+                                th Post date
+                                th.text-center
+                                    i.icon-settings
+                            tbody
+                           
+                             each data, index in ticket
+                                - var status, classs;
+                                if(data.status == 1)
+                                    -status = 'complete'
+                                    -classs = 'success'
+                                else if(data.status == 2)
+                                    -status = 'On progress'
+                                    -classs = 'warning'
+                                else
+                                    -status = 'open'
+                                    -classs = 'danger'
+                                tr(class=classs)
+                                    td
+                                        a(href='#')
+                                            .avatar.d-block(title=data.user.name) #{stringCustom(data.user.name)}
+                                    td
+                                        a(href=base_url+'ticket/view/'+data.ticket_code)= data.ticket_code
+                                    td= data.title
+                                    td= data.description
+                                    td
+                                        if(data.priority == 1)
+                                            | Hight
+                                        else if (data.priority == 2)
+                                            | Normal
+                                        else
+                                            | Low
+                                    td
+                                        span(class="status-icon bg-"+classs+" eke")
+                                        | #{status}
+                                    td
+                                        -var date_now = new Date();
+                                        if moment(data.crated_at).format("MMM Do YY") == moment(date_now).format("MMM Do YY")
+                                            |#{moment(data.crated_at).fromNow()}
+                                        else
+                                            |#{moment(data.crated_at).format("MMM Do YY")}
+                                    td
+                                        .item-action.dropdown
+                                            a.icon(href="javascript:void(0)" data-toggle="dropdown")
+                                                i.fe.fe-more-vertical
+                                            .dropdown-menu.dropdown-menu-right
+                                                a.dropdown-item(href=base_url+'ticket/edit/'+data.ticket_code)
+                                                    i.dropdown-icon.fe.fe-tag
+                                                        |  Edit
+                                                a.dropdown-item(href="javascript:void(0)" class="ticket-delete" data-id=data.id_ticket)
+                                                    i.dropdown-icon.fe.fe-edit-2
+                                                        |  Delete

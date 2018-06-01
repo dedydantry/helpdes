@@ -1,0 +1,119 @@
+extends ../layout/master.pug
+block css
+    link(rel="stylesheet", href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css")
+    style.
+        .ui-datepicker-calendar {
+            display: none;
+        }
+block content
+    .page-header
+        h1.page-title
+            if title == 0
+                | Opened Ticket on #{dates}
+            else if title == 1
+                | Completed Ticket on #{dates}
+            else
+                | Pending Ticket on #{dates}
+        .page-options.d-flex
+            .input-icon.ml-2
+                form(method="get" action=base_url+'report/ticketstatus' autocomplete='off')
+                    .input-group
+                        input(type="hidden" name='status' value=title)
+                        input.form-control.date-picker(type='text' name='periode' placeholder='Insert Periode')
+                        span.input-group-append
+                            button.btn.btn-primary(type='submit') Submit
+            .input-icon.ml-2
+                a.btn.btn-secondary(href=base_url+'report/ticketstatusprint?status='+title+'&periode='+periode title="Export to Excel" style="margin-right:5px;") 
+                    i.fa.fa-print
+                    | &nbsp print
+    .row.row-cards.row-deck
+        .col-12
+            .card
+                .card-body
+                    .table-responsive
+                        table.table.table-hover.table-bordered.table-vcenter.text-nowrap.card-table
+                            thead
+                                tr
+                                    th Owner
+                                    th Ticket Kode
+                                    th Masalah
+                                    th Description
+                                    th Priority
+                                    th Status
+                                    th Post date
+                            tbody
+                           
+                              - var status, classs;
+                              each data, index in ticket
+                                if data.status == 1
+                                    -status = 'complete'
+                                    -classs = 'success'
+                                else if(data.status == 2)
+                                    -status = 'On progress'
+                                    -classs = 'warning'
+                                else
+                                    -status = 'open'
+                                    -classs = 'danger'
+                                tr(class=classs)
+                                    td
+                                        a(href='#')
+                                            .avatar.d-block(title=data.user.name) #{stringCustom(data.user.name)}
+                                    td
+                                        a(href=base_url+'ticket/view/'+data.ticket_code)= data.ticket_code
+                                    td= data.title
+                                    td= data.description
+                                    td
+                                        if(data.priority == 1)
+                                            | Hight
+                                        else if (data.priority == 2)
+                                            | Normal
+                                        else
+                                            | Low
+                                    td
+                                        span(class="status-icon bg-"+classs+" eke")
+                                        | #{status}
+                                    td
+                                        -var date_now = new Date();
+                                        if moment(data.crated_at).format("MMM Do YY") == moment(date_now).format("MMM Do YY")
+                                            |#{moment(data.crated_at).fromNow()}
+                                        else
+                                            |#{moment(data.crated_at).format("MMM Do YY")}
+block script
+    script(src="//code.jquery.com/ui/1.11.4/jquery-ui.js")
+    script.
+        $(function() {
+            $('.date-picker').datepicker(
+                {
+                    dateFormat: "mm-yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    showButtonPanel: true,
+                    onClose: function(dateText, inst) {
+
+
+                        function isDonePressed(){
+                            return ($('#ui-datepicker-div').html().indexOf('ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all ui-state-hover') > -1);
+                        }
+
+                        if (isDonePressed()){
+                            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                            $(this).datepicker('setDate', new Date(year, month, 1)).trigger('change');
+                            
+                                $('.date-picker').focusout()//Added to remove focus from datepicker input box on selecting date
+                        }
+                    },
+                    beforeShow : function(input, inst) {
+
+                        inst.dpDiv.addClass('month_year_datepicker')
+
+                        if ((datestr = $(this).val()).length > 0) {
+                            year = datestr.substring(datestr.length-4, datestr.length);
+                            month = datestr.substring(0, 2);
+                            $(this).datepicker('option', 'defaultDate', new Date(year, month-1, 1));
+                            $(this).datepicker('setDate', new Date(year, month-1, 1));
+                            $(".ui-datepicker-calendar").hide();
+                        }
+                    }
+                })
+        })
