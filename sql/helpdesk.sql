@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2018 at 12:06 PM
+-- Generation Time: Jun 18, 2018 at 11:26 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -80,6 +80,7 @@ CREATE TABLE `notif` (
   `notif_from` int(11) NOT NULL,
   `notif_too` int(11) NOT NULL,
   `type` tinyint(1) NOT NULL DEFAULT '0',
+  `notif_read` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -87,8 +88,34 @@ CREATE TABLE `notif` (
 -- Dumping data for table `notif`
 --
 
-INSERT INTO `notif` (`id_notif`, `ticket_code`, `notif_from`, `notif_too`, `type`, `created_at`) VALUES
-(1, '1526126228969', 6, 1, 1, '2018-05-12 11:57:09');
+INSERT INTO `notif` (`id_notif`, `ticket_code`, `notif_from`, `notif_too`, `type`, `notif_read`, `created_at`) VALUES
+(1, '1527315178393', 6, 1, 3, 1, '2018-05-27 11:33:51'),
+(2, '1526126228969', 6, 1, 3, 1, '2018-05-27 16:24:23'),
+(3, '1526709615416', 1, 6, 2, 0, '2018-05-29 12:15:20'),
+(4, '1526709615416', 6, 1, 3, 0, '2018-05-29 12:18:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rating`
+--
+
+CREATE TABLE `rating` (
+  `id_rating` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `ticket_id` int(11) NOT NULL,
+  `rate` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `rating`
+--
+
+INSERT INTO `rating` (`id_rating`, `user_id`, `ticket_id`, `rate`, `created_at`) VALUES
+(1, 1, 10, 3, '2018-05-27 11:33:51'),
+(2, 1, 8, 4, '2018-05-27 16:24:23'),
+(3, 1, 9, 4, '2018-05-29 12:18:00');
 
 -- --------------------------------------------------------
 
@@ -137,11 +164,13 @@ CREATE TABLE `ticket` (
 
 INSERT INTO `ticket` (`id_ticket`, `ticket_code`, `owner`, `assignment`, `title`, `description`, `priority`, `due_on`, `lampiran`, `status`, `crated_at`) VALUES
 (2, '1524488316656', 1, 4, 'Mengenal Skincare Halal, Apa Saja Sih Kriterianya?', 'Example', 1, '2018-04-27', 'TANAKA BIO WHITE ADVANCED WHITENING CLEANSER.png', 0, '2018-04-23 12:58:36'),
-(3, '1524492007817', 4, 4, 'This is my first ticket', 'Example ticket', 1, '2018-04-17', 'TANAKA BIO WHITE ADVANCED WHITENING NIGHT CREAM.png', 2, '2018-04-25 14:00:07'),
-(4, '1525700470020', 1, 1, 'example texts', 'Hello mother fuckers', 2, '2018-05-08', 'IMG-20170612-WA0004.jpg', 1, '2018-05-07 13:41:10'),
-(5, '1525700853796', 1, 1, 'hello Monther funcker', 'lorem ipsum', 2, '2018-05-10', '', 0, '2018-05-07 13:47:33'),
+(3, '1524492007817', 4, 4, 'This is my first ticket', 'Example ticket', 1, '2018-04-17', 'TANAKA BIO WHITE ADVANCED WHITENING NIGHT CREAM.png', 0, '2018-04-25 14:00:07'),
+(4, '1525700470020', 1, 1, 'example texts', 'Hello mother fuckers', 2, '2018-05-08', 'IMG-20170612-WA0004.jpg', 0, '2018-05-07 13:41:10'),
+(5, '1525700853796', 1, 1, 'hello Monther funcker', 'lorem ipsum', 2, '2018-05-10', '', 2, '2018-05-07 13:47:33'),
 (6, '1525702668127', 1, 4, 'Hello Man', 'Hello helo there', 1, '2018-05-15', 'IMG-20170614-WA0000.jpg', 0, '2018-05-07 14:17:48'),
-(8, '1526126228969', 6, 1, 'Masalah Besar', 'Pokoknya masalah ini Besar', 1, '2018-05-14', '', 0, '2018-05-12 11:57:08');
+(8, '1526126228969', 6, 1, 'Masalah Besar', 'Pokoknya masalah ini Besar', 1, '2018-05-14', '', 1, '2018-05-12 11:57:08'),
+(9, '1526709615416', 6, 1, 'membuat masalah', 'saya tidak tau cara membuat masalah', 1, '2018-05-21', '', 1, '2018-05-19 06:00:15'),
+(10, '1527315178393', 6, 1, 'masalah baru', 'saya memiliki banyak masalah', 1, '0000-00-00', '', 1, '2018-06-27 06:12:58');
 
 -- --------------------------------------------------------
 
@@ -163,7 +192,10 @@ CREATE TABLE `ticket_comment` (
 
 INSERT INTO `ticket_comment` (`id_comment`, `ticket_id`, `author`, `comment`, `created`) VALUES
 (1, 3, 4, 'Hello there gt', '2018-04-23 14:56:27'),
-(2, 3, 1, 'Oke oce deh', '2018-04-23 15:00:56');
+(2, 3, 1, 'Oke oce deh', '2018-04-23 15:00:56'),
+(3, 9, 6, 'kapan saya bisa membuat masalah ?\r\n', '2018-05-19 06:02:07'),
+(4, 10, 6, 'kapan masalah ini akan selesai ?', '2018-05-26 06:29:25'),
+(5, 10, 6, 'Komentar', '2018-05-29 12:11:15');
 
 -- --------------------------------------------------------
 
@@ -189,7 +221,8 @@ INSERT INTO `users` (`id_users`, `name`, `email`, `password`, `status`, `jabatan
 (1, 'dedy dantry', 'dedydantry@gmail.com', 'sha1$1628b3e3$1$56efd1f5e24e9fd6db0f4236d5dc03b950d1572d', 1, '', '2018-03-30 05:10:21'),
 (4, 'Jhon Doe', 'jhondoe@email.com', 'sha1$04cdd995$1$041fe91604ca6dc37a377a726eee536d8ae285c6', 1, 'Admin', '2018-04-23 13:36:54'),
 (5, 'Admin', 'admin@email.com', 'sha1$28448d25$1$3ac0fa8f449cfa0d09fb6424653b1da826544b9f', 1, 'Admin', '2018-05-12 10:19:29'),
-(6, 'Member', 'member@email.com', 'sha1$855a9727$1$f1036a87cf31cd8abad18652d76db27c21243561', 1, 'Member', '2018-05-12 10:20:50');
+(6, 'Member', 'member@email.com', 'sha1$855a9727$1$f1036a87cf31cd8abad18652d76db27c21243561', 1, 'Member', '2018-05-12 10:20:50'),
+(7, 'Agus Wijiyanto', 'Aguswijiyanto@email.com', 'sha1$daa56763$1$54536da1075d90e2cb73430d35826477a4af8e28', 1, 'Staff IT', '2018-05-29 12:52:05');
 
 -- --------------------------------------------------------
 
@@ -211,7 +244,8 @@ INSERT INTO `user_role` (`id`, `user_id`, `role_id`) VALUES
 (1, 1, 2),
 (3, 4, 2),
 (4, 5, 1),
-(5, 6, 3);
+(5, 6, 3),
+(6, 7, 3);
 
 --
 -- Indexes for dumped tables
@@ -240,6 +274,12 @@ ALTER TABLE `notif`
   ADD KEY `ticket_id` (`ticket_code`),
   ADD KEY `notif_from` (`notif_from`),
   ADD KEY `notif_too` (`notif_too`);
+
+--
+-- Indexes for table `rating`
+--
+ALTER TABLE `rating`
+  ADD PRIMARY KEY (`id_rating`);
 
 --
 -- Indexes for table `role`
@@ -293,7 +333,12 @@ ALTER TABLE `assigment`
 -- AUTO_INCREMENT for table `notif`
 --
 ALTER TABLE `notif`
-  MODIFY `id_notif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_notif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `rating`
+--
+ALTER TABLE `rating`
+  MODIFY `id_rating` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `role`
 --
@@ -303,22 +348,22 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_ticket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `ticket_comment`
 --
 ALTER TABLE `ticket_comment`
-  MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_users` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_users` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `user_role`
 --
 ALTER TABLE `user_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- Constraints for dumped tables
 --
