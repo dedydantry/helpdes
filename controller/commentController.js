@@ -12,9 +12,10 @@ exports.store = async(req,res) => {
     const save = await new Comment(data).save();
     const resultComment = await Comment.where('id_comment', save.toJSON().id_comment)
                         .fetch({withRelated : ['user']});
-    if(resultComment) return res.render('ticket/comment', {comment : resultComment.toJSON()});
-
-    res.status(404).send('Not found');
+    res.io.emit('new-comment', resultComment.toJSON())
+    if(resultComment) 
+        return res.render('ticket/comment', {comment : resultComment.toJSON()});
+    return res.status(404).send('Not found');
 }
 
 exports.update = async(req, res) => {

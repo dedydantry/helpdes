@@ -1,7 +1,6 @@
 var exports = module.exports = {}
 const Ticket = require('../model/ticket');
 const User = require('../model/user');
-const Alat = require('../model/alat');
 const Assigment = require('../model/assigment');
 const Comment = require('../model/comment');
 const Notif = require('../model/notif');
@@ -86,7 +85,7 @@ exports.view = (req, res) => {
 	async function main () {
 		const ticket = await Ticket.where(req.params).fetchAll({withRelated : ['user', 'assigments']});
 		if(ticket){
-			const ticket_id = ticket.toJSON()[0].id_ticket;
+			const ticket_id = await ticket.toJSON()[0].id_ticket;
 			const resultComment = await Comment.where('ticket_id', ticket_id).orderBy('created', 'DESC').fetchAll({withRelated : ['user']});
 			var rating = await Rating.where('ticket_id', ticket_id).fetch();
 			if(rating){

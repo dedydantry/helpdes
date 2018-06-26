@@ -64,6 +64,26 @@ block content
 block script 
     script.
         $(document).ready(function(){
+            function showOnline(){
+                var url = $('body').data('host')
+                $.get(url+'users/online', (data)=>{
+                    console.log(data.online)
+                   return templateOnline(data.online);
+                })
+                
+            }
+
+            function templateOnline(params){
+                var bodytable = '';
+               
+                params.forEach((items) => {
+                    bodytable += `<tr style="background-color:#fff"><td><a href="#"><div class="avatar d-block" title="Member">${items.charAt(0).toUpperCase()}<span class="avatar-status bg-green"></span></div></a></td><td> <a class="notif-read" href="#6" data-notif="4" style="text-decoration:none; color:#afa5a5; "> ${items}</a></td></tr>`
+                })
+                
+                var table = `<table class="table card-table table-vcenter"><tbody>${bodytable}</tbody></table>`
+                $('#useronline .modal-body').html(table)
+                return $('#useronline').modal('show')
+            }
             var chart = c3.generate({
                 bindto: '#chart-pie', // id of chart wrapper
                 data: {
@@ -84,7 +104,7 @@ block script
                         'data1': 'Pending #{pending}',
                         'data2': 'Open #{open}',
                         'data3': 'Complete #{complete}',
-                    }
+                    },
                 },
                 axis: {
                 },
@@ -148,6 +168,10 @@ block script
                             // name of each serie
                             'data1': 'offline #{countuser-jumlah}',
                             'data2': 'online #{jumlah}',
+                        },
+
+                        onclick:function(d, element){
+                            return showOnline()
                         }
                     },
                     axis: {

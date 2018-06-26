@@ -41,20 +41,20 @@ html
 												img.navbar-brand-img(src=base_url+'img/logo-sm.png' alt='tabler.io' style="height:100%")
 												span PT. INDOPLAT PERKASA PURNAMA
 											.ml-auto.d-flex.order-lg-2
-												.dropdown.d-none.d-md-flex
-													a.nav-link.icon(data-toggle='dropdown')
-														i.fe.fe-message-square
-													.dropdown-menu.dropdown-menu-right.dropdown-menu-arrow.px-4
-														| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium architecto asperiores dolorem, est fugiat in maxime natus officia velit voluptas! Ab asperiores
-														| delectus dolore dolores maxime nesciunt qui quia totam.
-														| hello
+												//- .dropdown.d-none.d-md-flex
+												//- 	a.nav-link.icon(data-toggle='dropdown')
+												//- 		i.fe.fe-message-square
+												//- 	.dropdown-menu.dropdown-menu-right.dropdown-menu-arrow.px-4
+												//- 		| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium architecto asperiores dolorem, est fugiat in maxime natus officia velit voluptas! Ab asperiores
+												//- 		| delectus dolore dolores maxime nesciunt qui quia totam.
+												//- 		| hello
 												.dropdown.d-none.d-md-flex
 													a.nav-link.icon(href=base_url+'profil')
 														i.fe.fe-bell
 														span.nav-unread
 												.dropdown
 													a.nav-link.pr-0(href='#' data-toggle='dropdown')
-														span.avatar(style='background-image: url(../dist/demo/faces/female/25.jpg)')
+														span.avatar(style='background-image: url(../img/user.png)')
 														span.ml-2.d-none.d-lg-block
 															span#user-info.text-default(data-user=user.id_users) #{user.email}
 															small.text-muted.d-block.mt-1(style='text-transform:capitalize;') #{user.roles[0].role_name}
@@ -63,14 +63,14 @@ html
 															span Profile
 														a.dropdown-item(href=base_url+'profil/password')
 															span Change Password
-														a.dropdown-item(href='#')
-															span.float-right
-																span.badge.badge-primary 6
-															span Inbox
-														a.dropdown-item(href='#')
-															span Message
-														.dropdown-divider
-														a.dropdown-item(href='#') Need help? 
+														//- a.dropdown-item(href='#')
+														//- 	span.float-right
+														//- 		span.badge.badge-primary 6
+														//- 	span Inbox
+														//- a.dropdown-item(href='#')
+														//- 	span Message
+														//- .dropdown-divider
+														//- a.dropdown-item(href='#') Need help? 
 														a.dropdown-item(href=base_url+'logout') Sign out
 											#navbarToggler.collapse.navbar-collapse.order-lg-1
 												ul.navbar-nav.mt-2.mt-lg-0.mx-0.mx-lg-2
@@ -169,6 +169,18 @@ html
 									.modal-footer
 										button.btn.btn-secondary(type='button', data-dismiss='modal') Close
 										button.btn.btn-primary.complete-ticket(type='button') Save changes
+						
+						#useronline.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLongTitle', aria-hidden='true')
+							.modal-dialog(role='document')
+								.modal-content
+									.modal-header
+										h5#exampleModalLongTitle.modal-title Online User
+										button.close(type='button', data-dismiss='modal', aria-label='Close')
+									.modal-body
+										
+									.modal-footer
+										button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+
 				script(src=base_url+'dist/assets/js/vendors/jquery-3.2.1.min.js')
 				script(src=base_url+'dist/assets/js/vendors/bootstrap.bundle.min.js')
 				script(src=base_url+'javascripts/sweetalert.min.js')
@@ -182,5 +194,6 @@ html
 				script(src=base_url+'javascripts/socket.io.js')
 				script(src=base_url+'javascripts/app.js')
 				script.
+					var base_url = '#{base_url}'
 					var to_user = $('#user-info').data('user'); var socket = io.connect('http://localhost:3000',  {reconnect: true});
 				block script

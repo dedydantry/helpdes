@@ -25,15 +25,19 @@ exports.index = async(req,res) => {
 }
 
 exports.technician = async(req, res) => {
-    let rate = await Rating.query(function(qb){
-        qb.select('rating.*')
-        qb.sum('rating.rate as total')
-        qb.count('user_id as jumlah')
-        qb.groupBy('rating.user_id')
-    }).fetchAll({withRelated: ['user']});
-    return res.render('report/operator',{
-        'rate' : rate.toJSON()
-    });
+    try {
+        let rate = await Rating.query(function(qb){
+            qb.select('rating.*')
+            qb.sum('rating.rate as total')
+            qb.count('user_id as jumlah')
+            qb.groupBy('rating.user_id')
+        }).fetchAll({withRelated: ['user']});
+        return res.render('report/operator',{
+            'rate' : rate.toJSON()
+        });
+    } catch (error) {
+        return res.send(error)
+    }
 }
 
 exports.details = async(req, res) => {
@@ -68,7 +72,7 @@ exports.printperiode = async(req, res) => {
     var from = req.query.from;
     var to = req.query.to;
     var type = req.query.type;
-    let title = 'Periode '+moment(from).format("ll")+'- '+moment(to).format("ll")
+    let title = 'Periode '+moment(from).format("ll")+' - '+moment(to).format("ll")
     let view = await Ticket.query(function(qb){
         qb.whereBetween('crated_at', [from, to]);
         qb.where('status', type);

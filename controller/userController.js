@@ -24,6 +24,11 @@ exports.create = (req, res) => {
     return res.render('user/create');
 }
 
+exports.online = (req, res) =>{
+    let online = res.con
+    return res.json({'online' : online})
+}
+
 exports.store = (req, res) => {
     let password = req.body.email;
     let userData = {

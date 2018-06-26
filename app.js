@@ -22,7 +22,7 @@ let app = express();
 
 
 // local variabel
-app.locals.base_url = 'http://192.168.43.170:3000/';
+app.locals.base_url = 'http://localhost:3000/';
 app.locals.stringCustom = (string) => {
 	var strings = string.toUpperCase()
     return strings.charAt(0);
@@ -110,5 +110,10 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.io.on('connection', function(socket){  
+	console.log('a user connected');
+});
+
 
 module.exports = app;

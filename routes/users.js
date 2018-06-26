@@ -15,6 +15,7 @@ router.use(isLoggedIn);
 /* GET users listing. */
 router.get('/', userController.index);
 router.get('/create', userController.create);
+router.get('/online', userController.online);
 router.post('/store', userController.store);
 
 module.exports = router;
