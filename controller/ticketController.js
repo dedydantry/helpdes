@@ -1,7 +1,6 @@
 var exports = module.exports = {}
 const Ticket = require('../model/ticket');
 const User = require('../model/user');
-const Assigment = require('../model/assigment');
 const Comment = require('../model/comment');
 const Notif = require('../model/notif');
 const Rating = require('../model/rating');
@@ -146,16 +145,7 @@ exports.update = async(req, res) => {
 
 exports.delete = async(req, res)=>{
 	let deletes = await new Ticket(req.params).destroy();
-	if(deletes){
-		let assigmentdelete = await new Assigment().where({'ticket_id' : req.params.id_ticket}).destroy();
-		if(assigmentdelete){
-			let comment = await new Comment().where({'ticket_id' : req.params.id_ticket}).destroy();
-			if(comment){
-				return res.json({ status: 'success' });
-			}
-		}
-	}
-	return res.json({ status: 'failed' });
+	return res.json({ status: 'success' });
 }
 
 exports.change = async(req, res) => {

@@ -36,6 +36,6 @@ block content
                                             | New Comment from
                                         span(style='color:#5eba00') #{data.from.name}
                                 td.text-right
-                                    strong #{moment(data.created).fromNow()}
+                                    strong #{moment(data.created).startOf('hour').fromNow()}
                             tr
                 

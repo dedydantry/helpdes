@@ -92,3 +92,7 @@ a:hover, a:focus{
   text-decoration:none;
   color:#2d2f32;
 }
+
+.is-invalid{
+  color: #cd201f;
+}

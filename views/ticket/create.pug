@@ -5,24 +5,24 @@ block content
         .col-12
             .card
                 .card-header
-                    h3.card-title Form Alat
+                    h3.card-title Ticket Form
                 .card-body
-                    form(method='post' action=base_url+'ticket/store' encType="multipart/form-data")
+                    form(method='post' action=base_url+'ticket/store' encType="multipart/form-data" id="ticket-form")
                         .form-group
-                            label.form-label Ringkasan Masalah
-                            input.form-control(name='title' placeholder='Masukkan kode alat')
+                            label.form-label Summary
+                            input.form-control(name='title' placeholder='Enter Summary')
                         .form-group
-                            label.form-label Deskripsi Masalah
-                            textarea.form-control(name='description' cols='30', rows='5')
+                            label.form-label Description
+                            textarea.form-control(name='description' cols='30', rows='5' placeholder="Description")
                         .form-group
-                            label.form-label Prioritas
+                            label.form-label Priority
                             select.form-control(name='priority')
-                                option(value='') ....
+                                option(value='0') ....
                                 option(value='1') Hight
                                 option(value='2') Normal
                                 option(value='3') Low
                         .form-group
-                            label.form-label Berakhir pada (Optional)
+                            label.form-label Due On (Optional)
                             input.form-control(name='due_on' type='date')
                         .form-group
                             label.form-label Assigment To
@@ -31,12 +31,41 @@ block content
                                 each data in owners
                                     option(value=data.id_users) #{data.name}
                         .form-group
-                            label.form-label Lampiran (optional)
+                            label.form-label attachment (optional)
                             input.fomr-control(type='file' name="lampiran")
                         .form-group
                             button.btn.btn-success.btn-lg.btn-block(type='submit')
                                 i.fa.fa-send 
                                 |&nbsp;Submit Ticket
 block script
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js")          
     script.
-        $('#multiItems').selectize({});
+        $.validator.addMethod("valueNotEquals", function(value, element, arg){
+            return arg !== value;
+        }, "Value must not equal arg.");
+
+        $('#ticket-form').validate({
+            errorClass : 'is-invalid',
+            rules :{
+                title : 'required',
+                description : 'required',
+                priority : {
+                    required : true,
+                    valueNotEquals : '0'
+                },
+                due_on : 'required',
+                assigment : {
+                    required : true,
+                    valueNotEquals : '0'
+                },
+            },
+
+             messages: {
+                priority: { valueNotEquals: "Please select an priority!" },
+                assigment: { valueNotEquals: "Please select an assigment!" }
+            }, 
+
+            submitHandler: function(form) {
+                form.submit();
+            }
+        })      

@@ -19,8 +19,9 @@ block content
                                 th Priority
                                 th Status
                                 th Post date
-                                th.text-center
-                                    i.icon-settings
+                                if user.roles[0].role_name !== 'operator'
+                                    th.text-center
+                                        i.icon-settings
                             tbody
                            
                              each data, index in ticket
@@ -58,14 +59,15 @@ block content
                                             |#{moment(data.crated_at).fromNow()}
                                         else
                                             |#{moment(data.crated_at).format("MMM Do YY")}
-                                    td
-                                        .item-action.dropdown
-                                            a.icon(href="javascript:void(0)" data-toggle="dropdown")
-                                                i.fe.fe-more-vertical
-                                            .dropdown-menu.dropdown-menu-right
-                                                a.dropdown-item(href=base_url+'ticket/edit/'+data.ticket_code)
-                                                    i.dropdown-icon.fe.fe-tag
-                                                        |  Edit
-                                                a.dropdown-item(href="javascript:void(0)" class="ticket-delete" data-id=data.id_ticket)
-                                                    i.dropdown-icon.fe.fe-edit-2
-                                                        |  Delete
+                                    if user.id_users == data.owner || user.roles[0].role_name == 'administrator'
+                                        td
+                                            .item-action.dropdown
+                                                a.icon(href="javascript:void(0)" data-toggle="dropdown")
+                                                    i.fe.fe-more-vertical
+                                                .dropdown-menu.dropdown-menu-right
+                                                    a.dropdown-item(href=base_url+'ticket/edit/'+data.ticket_code)
+                                                        i.dropdown-icon.fe.fe-tag
+                                                            |  Edit
+                                                    a.dropdown-item(href="javascript:void(0)" class="ticket-delete" data-id=data.id_ticket)
+                                                        i.dropdown-icon.fe.fe-edit-2
+                                                            |  Delete

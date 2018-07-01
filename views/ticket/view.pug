@@ -38,11 +38,14 @@ block content
                     .footer-menu(style='display:flex; flex-direction:row; justify-content:flex-end;')
                         if ticket.status !=1
                             if user.roles[0].role_name == 'operator'
-                                a.btn.btn-outline-primary.btn-sm.btn-change(href=base_url+'ticket/change/'+ticket.id_ticket data-sts="start" style='margin-left:2px;') Start Progress
+                                
+                                if ticket.status == 0 
+                                   a.btn.btn-outline-primary.btn-sm.btn-change(href=base_url+'ticket/change/'+ticket.id_ticket data-sts="start" style='margin-left:2px;' ) Start Progress
+                                else if ticket.status == 2
+                                    a.btn.btn-outline-secondary.btn-sm(href="javascript:;" data-sts="start" style='margin-left:2px;' ) On Progess
                             if user.roles[0].role_name == 'member'
                                 a.btn.btn-outline-primary.btn-sm.btn-rate(href=base_url+'ticket/change/'+ticket.id_ticket data-sts="complete" data-ticket=ticket.id_ticket data-user=ticket.assignment data-name=ticket.user.name style='margin-left:2px;') Completed Progress
-                            a.btn.btn-outline-primary.btn-sm(href=base_url+'ticket/edit/'+ticket.ticket_code style='margin-left:2px;') Edit
-                            a.btn.btn-outline-primary.btn-sm.ticket-delete(href=base_url+'ticket/delete/'+ticket.id_ticket style='margin-left:2px;' data-id=ticket.id_ticket) Delete
+                                a.btn.btn-outline-primary.btn-sm(href=base_url+'ticket/edit/'+ticket.ticket_code style='margin-left:2px;') Edit
                         else
                             ul.rating
                                 each val in [1, 2, 3, 4, 5]

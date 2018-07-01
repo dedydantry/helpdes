@@ -7,7 +7,7 @@ block content
                 .card-header
                     h3.card-title Form Register
                 .card-body
-                    form(method='post' action=base_url+'users/store')
+                    form(method='post' action=base_url+'users/store' id="new-user")
                         .form-group
                             label.form-label Nama
                             input.form-control(name='name' placeholder='Masukkan nama user')
@@ -26,3 +26,25 @@ block content
                                 option(value='3') Staff
                         .form-group
                             button.btn.btn-success.btn-lg(type='submit') Simpan
+block script
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js")          
+    script.
+         $.validator.addMethod("valueNotEquals", function(value, element, arg){
+            return arg !== value;
+        }, "Value must not equal arg.");
+
+        $('#new-user').validate({
+            errorClass : 'is-invalid',
+            rules :{
+                name : 'required',
+                email : 'required',
+                jabatan : 'required',
+                roles :{
+                    required : true,
+                    valueNotEquals : '0'
+                },
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }          
+        })

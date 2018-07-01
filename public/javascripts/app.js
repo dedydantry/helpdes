@@ -119,9 +119,10 @@ $(document).ready(function(){
         e.preventDefault();
         var status = $(this).data('sts');
         var url = $(this).attr('href');
+        var $this = $(this);
         swal({
             title: "Are you sure?",
-            text: "You will not be able to recover this imaginary file!",
+            text: "Start Progress",
             type: "warning",
             showCancelButton: true,
             confirmButtonText: "Yes, Submit!",
@@ -133,6 +134,8 @@ $(document).ready(function(){
             if(isConfirm){
                $.post(url, {'status' : status}, function(status){
                    if(status.status == 'success'){
+                       $this.text('On Progress');
+                       $this.removeClass('btn-outline-primary').addClass('btn-outline-secondary')
                         swal("Change!"," Status has been Change", "success")
                    } else {
                         swal("Failed!"," failed", "danger")
@@ -204,7 +207,7 @@ $(document).ready(function(){
     })
     // data table
     $('.ticket-table').DataTable({
-        "bSort": false,
+        // "bSort": false,
         dom: 'Bfrtip',
         buttons: [
             'print'
@@ -285,12 +288,17 @@ $(document).ready(function(){
     
     socket.on('new-ticket', function(data){
         var target = $('.ticket-table tbody');
+        var targetNotif = $('.table-notif');
         var ticket = data.ticket;
         if(to_user == data.user){
             var name = ticket.user.name;
             var firstName =  name.substring(0, 1);
             var string = '<tr class="danger odd" role="row"><td class="sorting_1"><a href="#"><div class="avatar d-block" title="'+name+'">'+firstName+'</div></a></td><td><a href="http://localhost:3000/ticket/view/'+ticket.ticket_code+'">'+ticket.ticket_code+'</a></td><td>'+ticket.title+'</td><td>'+ticket.description+'</td><td>'+generatePriority(ticket.priority)+'</td><td><span class="status-icon bg-'+generateStatusClass(ticket.status)+' eke"></span>'+generateStatusTicket(ticket.status)+'</td><td><div class="item-action dropdown"><a class="icon" href="javascript:void(0)" data-toggle="dropdown"><i class="fe fe-more-vertical"></i></a><div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="http://localhost:3000/ticket/edit/'+ticket.ticket_code+'"><i class="dropdown-icon fe fe-tag"> Edit</i></a><a class="dropdown-item ticket-delete" href="javascript:void(0)" data-id="'+ticket.id_ticket+'"><i class="dropdown-icon fe fe-edit-2"> Delete</i></a></div></div></td></tr>'
             target.prepend(string);
+
+            var strings = '<tr><td><a href="#"><div class="avatar d-block" title="' +name+ '">' + name.charAt(0) + '</div></a></td><td> <a href="http://localhost:3000/ticket/view/' + ticket.ticket_code + '" style="text-decoration:none; color:#afa5a5; ">' + message + ' <span style="color:#5eba00">' + name + '</span></a></td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
+
+            targetNotif.prepend(strings)
             audio.play()
             notifikasi('info', 'New Ticket From '+name);
         }
@@ -306,7 +314,7 @@ $(document).ready(function(){
            } else{
                message = 'Pending ticket By '
            }
-           var string = '<tr><td><a href="#"><div class="avatar d-block" title="'+data.name+'">'+data.name.charAt(0)+'</div></a></td><td> <a href="http://localhost:3000/ticket/view/'+data.ticket+'" style="text-decoration:none; color:#afa5a5; ">'+message+' <span style="color:#5eba00">'+data.name+'</span></a></td><td class="text-right text-muted d-none d-md-table-cell text-nowrap">38 offers</td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
+           var string = '<tr><td><a href="#"><div class="avatar d-block" title="'+data.name+'">'+data.name.charAt(0)+'</div></a></td><td> <a href="http://localhost:3000/ticket/view/'+data.ticket+'" style="text-decoration:none; color:#afa5a5; ">'+message+' <span style="color:#5eba00">'+data.name+'</span></a></td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
            var target = $('.table-notif');
            target.prepend(string);
            audio.play()
@@ -329,7 +337,7 @@ $(document).ready(function(){
 
     socket.on('complete-ticket', function(data){
         var message = "tickets have been completed by";
-        var string = '<tr><td><a href="#"><div class="avatar d-block" title="'+data.name+'">'+data.name.charAt(0)+'</div></a></td><td> <a href="http://localhost:3000/ticket/view/'+data.ticket+'" style="text-decoration:none; color:#afa5a5; ">'+message+' <span style="color:#5eba00">'+data.name+'</span></a></td><td class="text-right text-muted d-none d-md-table-cell text-nowrap">38 offers</td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
+        var string = '<tr><td><a href="#"><div class="avatar d-block" title="'+data.name+'">'+data.name.charAt(0)+'</div></a></td><td> <a href="http://localhost:3000/ticket/view/'+data.ticket+'" style="text-decoration:none; color:#afa5a5; ">'+message+' <span style="color:#5eba00">'+data.name+'</span></a></td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
         var target = $('.table-notif');
         audio.play()
         if(to_user == data.user){
@@ -342,14 +350,15 @@ $(document).ready(function(){
        
         var string = '<div class="card" style="box-shadow:none; border:none; background-color:#b5b3b917; border-radius:5px;"><div class="card-body"><div class="d-flex align-items-center mt-auto c-first-child"><div class="avatar avatar-md mr-3" style="background-image: url(./demo/faces/male/16.jpg)">'+data.user.email.charAt(0)+'</div><div><a class="text-default" href="./profile.html">'+data.user.email+'</a><small class="d-block text-muted">Beberapa detik yang lalu</small></div><div class="ml-auto text-muted"></div></div><div class="text-muted c-first-child" style="width:90%; margin-left:3rem; margin-top:0.5rem"><p>'+data.comment+'</p></div><div class="field-edit-comment c-hidden"><form class="form-edit comment" method="post" action="hello"><div class="form-group"><textarea class="form-control" name="comment" ,="" rows="5">'+data.comment+'</textarea></div><div class="form-group text-right"><button class="btn btn-warning edit-cancel" type="button" style="margin-right: 5px;">Cancel</button><button class="btn btn-primary" type="submit">Update</button></div></form></div></div></div>'
         var firstchild = $('.comment-list .card').first();
-        audio.play()
-        if(firstchild.hasClass('card')){
-            $(string).insertBefore(firstchild).hide().fadeIn('slow')
+        if(to_user != data.author){
+            audio.play()
             notifikasi('info', 'New Comment from '+data.user.email);
-        }
-        else{
-            return $('.comment-list').append(string).fadeIn('slow');
-            // notifikasi('danger', 'Failed , try again');
+            if(firstchild.hasClass('card')){
+                $(string).insertBefore(firstchild).hide().fadeIn('slow')
+            }
+            else{
+                return $('.comment-list').append(string).fadeIn('slow');
+            }
         }
 
     })
