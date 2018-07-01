@@ -214,7 +214,17 @@ $(document).ready(function(){
     // update password
     $(document).on('submit', 'form.update-password', function(e){
         e.preventDefault();
-        alert('wew')
+        var action = $(this).attr('action');
+        var data = $(this).serialize()
+        $.post(action, data, function(data){
+            console.log(data)
+            if(data.status == 'success'){
+                swal('success', 'Password has been change', 'success');
+                setTimeout(function(){
+                    window.location.href=base_url+'logout';
+                },2000)
+            }
+        })
     })
 
     function generatePriority(priority){

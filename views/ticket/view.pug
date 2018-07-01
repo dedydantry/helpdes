@@ -42,7 +42,7 @@ block content
                             if user.roles[0].role_name == 'member'
                                 a.btn.btn-outline-primary.btn-sm.btn-rate(href=base_url+'ticket/change/'+ticket.id_ticket data-sts="complete" data-ticket=ticket.id_ticket data-user=ticket.assignment data-name=ticket.user.name style='margin-left:2px;') Completed Progress
                             a.btn.btn-outline-primary.btn-sm(href=base_url+'ticket/edit/'+ticket.ticket_code style='margin-left:2px;') Edit
-                            a.btn.btn-outline-primary.btn-sm.ticket-delete(href=base_url+'ticket/delete/'+ticket.id_ticket style='margin-left:2px;') Delete
+                            a.btn.btn-outline-primary.btn-sm.ticket-delete(href=base_url+'ticket/delete/'+ticket.id_ticket style='margin-left:2px;' data-id=ticket.id_ticket) Delete
                         else
                             ul.rating
                                 each val in [1, 2, 3, 4, 5]
