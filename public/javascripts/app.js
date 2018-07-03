@@ -16,6 +16,41 @@ $(document).ready(function(){
         })
     }
     // end notification
+    // delete user
+
+    $(document).on('submit', '#form-delete-user', function (e) {
+        e.preventDefault();
+        var url =  $(this).attr('action')
+        var parent = $(this).parent('td').parent('tr')
+        swal({
+            title: "Are you sure?",
+            text: "To delete this user?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            closeOnConfirm: false,
+            closeOnCancel: true,
+            showLoaderOnConfirm: true,
+        }, function (isConfirm) {
+            if (isConfirm) {
+                $.post(url, function (data) {
+                    if (data.status == 'success') {
+                        parent.fadeOut('slow')
+                        swal("Deleted!", " has been delete", "success")
+                        return;
+                    }
+                    swal("Failed!", " Failed to delete", "danger")
+                    return;
+                })
+            }
+            else {
+                swal("Cancelled")
+            }
+        })
+
+       
+    })
 
     $(document).on('submit', '#form-comment', function(e){
         e.preventDefault();
@@ -89,7 +124,7 @@ $(document).ready(function(){
         var id = $(this).data('id');
         swal({
             title: "Are you sure?",
-            text: "You will not be able to recover this imaginary file!",
+            text: "To delete this ticket?",
             type: "warning",
             showCancelButton: true,
             confirmButtonText: "Yes, delete it!",

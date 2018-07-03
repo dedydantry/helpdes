@@ -6,9 +6,10 @@ let logger           = require('morgan');
 let fileUpload       = require('express-fileupload');
 let session          = require('express-session');
 let passport         = require('passport');
-let LocalStrategy    = require('passport-local').Strategy;
-let expressValidator = require('express-validator');
+// let LocalStrategy    = require('passport-local').Strategy;
+// let expressValidator = require('express-validator');
 let moment 			 = require('moment');
+let helper = require('./helper/local');
 
 let client = [];
 
@@ -22,23 +23,25 @@ let app = express();
 
 
 // local variabel
-app.locals.base_url = 'http://localhost:3000/';
-app.locals.stringCustom = (string) => {
-	var strings = string.toUpperCase()
-    return strings.charAt(0);
-};
+app.locals = {
+	base_url: 'http://localhost:3000/',
+	stringCustom : (string) => {
+		var strings = string.toUpperCase()
+		return strings.charAt(0);
+	},
+	moment: (momentParams) => {
+		return moment(momentParams);
+	},
 
-app.locals.moment = (momentParams) =>{
-	return moment(momentParams);
+	insertDecimal: (num) => {
+		return (Math.floor(num * 100) / 100).toFixed(1);
+	},
+
+	isset : (params) => {
+		return params !== 'undefined' ? params : '';
+	}
 }
 
-app.locals.insertDecimal = (num) =>{
-	return (Math.floor(num * 100) / 100).toFixed(1);
-}
-
-app.locals.isset = (params) => {
-	return params !== 'undefined' ? params :'';
-}
 // view engine setup
 app.io = require('socket.io')();
 app.set('views', path.join(__dirname, 'views'));
@@ -70,23 +73,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 //load passport strategies
-var jumlah = 0;
-app.use(function(req, res, next){
-	if(req.user){
-		email = req.user.email
-		if(!res.con.includes(req.user.email)){
-			res.con.push(req.user.email)
-			app.io.emit('count-user', {'online':res.con.length});
-		}
-	}
-	res.locals.jumlah = res.con.length;
-	next();
-})
- 
+
+app.use(helper.online) 
 require('./config/passport.js')(passport,User);
 
-
 app.use('/', routes.Auth);
+app.use(helper.isLoggedIn)
+app.use(helper.getNotif)
 app.use('/users', routes.User);
 app.use('/home', routes.Home);
 app.use('/ticket', routes.Ticket);

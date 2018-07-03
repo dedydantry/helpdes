@@ -96,3 +96,12 @@ a:hover, a:focus{
 .is-invalid{
   color: #cd201f;
 }
+
+@media only screen and (max-width: 640px) {
+  .navbar-brand{
+    justify-content: left;
+  }
+  .app-title{
+    display: none;
+  }
+}

@@ -2,15 +2,6 @@ var express = require('express');
 var router = express.Router();
 var ticketController = require('../controller/ticketController');
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()){
-        res.locals.user = req.user;
-        return next();
-    }
-    res.locals.user = null;
-    res.redirect('/');
-}
-router.use(isLoggedIn);
 router.get('/', ticketController.index);
 router.get('/create', ticketController.create);
 router.post('/store', ticketController.store);

@@ -58,5 +58,5 @@ typings/
 .env
 
 #configuration
-config/
+config/*
 

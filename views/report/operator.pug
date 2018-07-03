@@ -13,36 +13,37 @@ block content
         .col-12
             .card
                 .card-header
-                    .h3.card-title Print based on technician
+                    .h3.card-title Print By technician
                 .card-body
-                    table.table.table-hover.table-bordered
-                        thead
-                            tr
-                                th(scope="col") No
-                                th(scope="col") Technician Email
-                                th(scope="col") Ticket Assigment
-                                th(scope="col") Rating
-                                th(scope="col") Action
-                        tbody
-                            -var klass,cls;
-                            each data, key in rate
-                                -cls = (data.total*5)/(data.jumlah*5);
-                                if cls < 2.5
-                                    -klass = 'text-danger'
-                                else if cls > 2.5
-                                    -klass = 'text-primary'
-                                else if cls >4
-                                    -klass = 'text-success'
+                    .table-responsive
+                        table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table
+                            thead
                                 tr
-                                    th(scope="row")= key+1
-                                    td= data.user.email
-                                    td= data.jumlah
-                                    td
-                                        span(class=klass)
-                                            i.fa.fa-square
-                                            |&nbsp;#{insertDecimal((data.total*5)/(data.jumlah*5))}
-                                    td
-                                        a.btn.btn-secondary.btn-sm(href=base_url+'report/details/'+data.user_id) Detail
+                                    th(scope="col") No
+                                    th(scope="col") Technician Email
+                                    th(scope="col") Ticket Assigment
+                                    th(scope="col") Rating
+                                    th(scope="col") Action
+                            tbody
+                                -var klass,cls;
+                                each data, key in rate
+                                    -cls = (data.total*5)/(data.jumlah*5);
+                                    if cls < 2.5
+                                        -klass = 'text-danger'
+                                    else if cls > 2.5
+                                        -klass = 'text-primary'
+                                    else if cls >4
+                                        -klass = 'text-success'
+                                    tr
+                                        th(scope="row")= key+1
+                                        td= data.user.email
+                                        td= data.jumlah
+                                        td
+                                            span(class=klass)
+                                                i.fa.fa-square
+                                                |&nbsp;#{insertDecimal((data.total*5)/(data.jumlah*5))}
+                                        td
+                                            a.btn.btn-secondary.btn-sm(href=base_url+'report/details/'+data.user_id) Detail
                 .card-footer.text-right
                     span.rate-status.text-danger
                         i.fa.fa-square &nbsp;

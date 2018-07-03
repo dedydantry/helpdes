@@ -14,21 +14,18 @@ exports.store = async(req,res) => {
     const save = await new Comment(data).save();
     const resultComment = await Comment.where('id_comment', save.toJSON().id_comment)
                         .fetch({withRelated : ['user']});
-    const ticket = await Ticket.where(req.params).fetch();
-    let too;
-    if(req.user.id_users == ticket.owner){
-        too = ticket.assigment
-    } else{
-        too = too.ticket.owner
-    }
+    const ticket = await Ticket.where({ 'id_ticket': req.body.ticket}).fetch();
+    const resultTicket = await ticket.toJSON()
+
+    var too = req.user.id_users == resultTicket.owner ? resultTicket.assignment : resultTicket.owner;
 
     var notifData = {
-        'ticket_code': code,
+        'ticket_code': resultTicket.ticket_code,
         'notif_from': req.user.id_users,
         'notif_too': too,
         'type': 0
     }
-    var saveNotif = await new Notif(notifData).save();
+    await new Notif(notifData).save();
 
     res.io.emit('new-comment', resultComment.toJSON())
     if(resultComment) 

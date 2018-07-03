@@ -1,0 +1,50 @@
+extends ../layout/master.pug
+
+block content
+    .row.row-cards.row-deck
+        .col-12
+            .card
+                .card-header
+                    h3.card-title Form Register
+                .card-body
+                    form(method='post' action=base_url+'users/update/'+editUser.id_users id="new-user")
+                        .form-group
+                            label.form-label Nama
+                            input.form-control(name='name' placeholder='Masukkan nama user' value=editUser.name)
+                        .form-group
+                            label.form-label Email
+                            input.form-control(name='email' placeholder='Masukkan Email' value=editUser.email)
+                        .form-group
+                            label.form-label Jabatan
+                            input.form-control(name='jabatan' placeholder='Masukkan jabatan' value=editUser.jabatan)
+                        .form-group
+                            label.form-label Role
+                            select.form-control(name='roles')
+                                option(value='0')
+                                option(value='1' selected=(editUser.roles[0].id_role == 1)) Administrator
+                                option(value='2' selected=(editUser.roles[0].id_role == 2)) Technician
+                                option(value='3' selected=(editUser.roles[0].id_role == 3)) Staff
+                        .form-group
+                            button.btn.btn-success.btn-lg(type='submit') Simpan
+block script
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js")          
+    script.
+         $.validator.addMethod("valueNotEquals", function(value, element, arg){
+            return arg !== value;
+        }, "Value must not equal arg.");
+
+        $('#new-user').validate({
+            errorClass : 'is-invalid',
+            rules :{
+                name : 'required',
+                email : 'required',
+                jabatan : 'required',
+                roles :{
+                    required : true,
+                    valueNotEquals : '0'
+                },
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }          
+        })

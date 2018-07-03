@@ -76,7 +76,6 @@ module.exports = function(passport, user){
 			var isValidPassword = function(userpass, password){
 				return passwordHash.verify(password, userpass);
 			}
-			console.log(email)
 			User.where('email', email).fetch({withRelated:'roles',})
 			.then(model=>{
 				let result = model.toJSON();

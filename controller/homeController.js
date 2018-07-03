@@ -28,6 +28,7 @@ exports.index = async(req, res) => {
     }
     let countUser = await User.count('id_users');
     
+    console.log('botif', res.locals.notification)
     
     res.render('dashboard',{
         total : total, 

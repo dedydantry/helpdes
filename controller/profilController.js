@@ -18,10 +18,9 @@ exports.changepassword = async(req,res) =>{
     let dataUser = await User.where('email', req.user.email).fetch();
     if(dataUser) {
         let getUSer = dataUser.toJSON();
-        console.log('password', req.body)
         let password = passwordHash.generate(req.body.password_conf);
         if(passwordHash.verify(req.body.password, getUSer.password)){
-            let update = new User({'id_users' : req.user.id_users}).save({'password' :password},{method:'update', patch: true });
+            let update = await new User({'id_users' : req.user.id_users}).save({'password' :password},{method:'update', patch: true });
             if(update){
                 return res.json({'status' : 'success'});
             } else{
