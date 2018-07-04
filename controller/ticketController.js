@@ -169,7 +169,7 @@ exports.change = async(req, res) => {
 			'type' : 2
 		}
 		var saveNotif = await new Notif(notifData).save();
-		res.io.emit('ticket-status', {'user' : too, 'name':req.user.name, 'ticket':code, 'status' : sts});
+		res.io.emit('ticket-status', {'user' : too, 'name':req.user.name, 'ticket':code, 'status' : sts, type:'Ticket has been process by'});
 		return res.json({'status' : 'success', 'type' : sts});
 	}
 	return res.json({ status: 'failed' });
@@ -192,7 +192,7 @@ exports.completes = async(req, res)=>{
 		'type' : 3
 	}
 	var saveNotif = await new Notif(notifData).save();
-	res.io.emit('complete-ticket',  {'user' : result.assignment, 'name':req.user.name, 'ticket':result.ticket_code, 'status' : 1})
+	res.io.emit('complete-ticket',  {'user' : result.assignment, 'name':req.user.name, 'ticket':result.ticket_code, 'status' : 1, type:'Ticket has been completedd by'})
 	return res.json({status:'success'});
 }
 

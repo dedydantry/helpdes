@@ -331,11 +331,17 @@ $(document).ready(function(){
             var string = '<tr class="danger odd" role="row"><td class="sorting_1"><a href="#"><div class="avatar d-block" title="'+name+'">'+firstName+'</div></a></td><td><a href="http://localhost:3000/ticket/view/'+ticket.ticket_code+'">'+ticket.ticket_code+'</a></td><td>'+ticket.title+'</td><td>'+ticket.description+'</td><td>'+generatePriority(ticket.priority)+'</td><td><span class="status-icon bg-'+generateStatusClass(ticket.status)+' eke"></span>'+generateStatusTicket(ticket.status)+'</td><td><div class="item-action dropdown"><a class="icon" href="javascript:void(0)" data-toggle="dropdown"><i class="fe fe-more-vertical"></i></a><div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="http://localhost:3000/ticket/edit/'+ticket.ticket_code+'"><i class="dropdown-icon fe fe-tag"> Edit</i></a><a class="dropdown-item ticket-delete" href="javascript:void(0)" data-id="'+ticket.id_ticket+'"><i class="dropdown-icon fe fe-edit-2"> Delete</i></a></div></div></td></tr>'
             target.prepend(string);
 
-            var strings = '<tr><td><a href="#"><div class="avatar d-block" title="' +name+ '">' + name.charAt(0) + '</div></a></td><td> <a href="http://localhost:3000/ticket/view/' + ticket.ticket_code + '" style="text-decoration:none; color:#afa5a5; ">' + message + ' <span style="color:#5eba00">' + name + '</span></a></td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
+            var strings = '<tr><td><a href="#"><div class="avatar d-block" title="' +name+ '">' + name.charAt(0) + '</div></a></td><td> <a href="http://localhost:3000/ticket/view/' + ticket.ticket_code + '" style="text-decoration:none; color:#afa5a5; ">New ticket from <span style="color:#5eba00">' + name + '</span></a></td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
 
             targetNotif.prepend(strings)
             audio.play()
             notifikasi('info', 'New Ticket From '+name);
+            var datass ={
+                name: name,
+                ticket: ticket.ticket_code,
+                type : 'New ticket from'
+            }
+            notificationMenu(datass)
         }
         
     })
@@ -349,13 +355,21 @@ $(document).ready(function(){
            } else{
                message = 'Pending ticket By '
            }
-           var string = '<tr><td><a href="#"><div class="avatar d-block" title="'+data.name+'">'+data.name.charAt(0)+'</div></a></td><td> <a href="http://localhost:3000/ticket/view/'+data.ticket+'" style="text-decoration:none; color:#afa5a5; ">'+message+' <span style="color:#5eba00">'+data.name+'</span></a></td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
+           var string = '<tr style="background-color:#c1bbbb73"><td><a href="#"><div class="avatar d-block" title="'+data.name+'">'+data.name.charAt(0)+'</div></a></td><td> <a href="http://localhost:3000/ticket/view/'+data.ticket+'" style="text-decoration:none; color:#afa5a5; ">'+message+' <span style="color:#5eba00">'+data.name+'</span></a></td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
            var target = $('.table-notif');
            target.prepend(string);
            audio.play()
            notifikasi('info', message+' '+data.name);
+           notificationMenu(data)
+
        }
    })
+
+   function notificationMenu(params) {
+        var string = `<a class="dropdown-item d-flex notif-read" href="http://localhost:3000/ticket/view/${params.ticket}" data-notif="20"><div class="avatar d-block" title="Admin" style="margin-right:5px;">${params.name.charAt(0)}</div><div><strong>${params.type}<span style="color:#5eba00">&nbsp;${params.name}</span></strong><div class="small text-muted">Beberapa detik yang lalu</div></div></a>`;
+       $('.notif-menu').prepend(string);
+        return
+   }
 
     // socket.on('count-user', function(data){
     //     console.log(data.online)
@@ -372,12 +386,15 @@ $(document).ready(function(){
 
     socket.on('complete-ticket', function(data){
         var message = "tickets have been completed by";
-        var string = '<tr><td><a href="#"><div class="avatar d-block" title="'+data.name+'">'+data.name.charAt(0)+'</div></a></td><td> <a href="http://localhost:3000/ticket/view/'+data.ticket+'" style="text-decoration:none; color:#afa5a5; ">'+message+' <span style="color:#5eba00">'+data.name+'</span></a></td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
+        var string = '<tr style="background-color:#c1bbbb73"><td><a href="#"><div class="avatar d-block" title="'+data.name+'">'+data.name.charAt(0)+'</div></a></td><td> <a href="http://localhost:3000/ticket/view/'+data.ticket+'" style="text-decoration:none; color:#afa5a5; ">'+message+' <span style="color:#5eba00">'+data.name+'</span></a></td><td class="text-right"><strong>a few seconds ago</strong></td></tr>';
         var target = $('.table-notif');
         audio.play()
         if(to_user == data.user){
             target.prepend(string);
             notifikasi('info', message+' '+data.name);
+            // append notif to menu notif
+            notificationMenu(data)
+
         }
     })
 
@@ -388,6 +405,8 @@ $(document).ready(function(){
         if(to_user != data.author){
             audio.play()
             notifikasi('info', 'New Comment from '+data.user.email);
+            notificationMenu(data)
+
             if(firstchild.hasClass('card')){
                 $(string).insertBefore(firstchild).hide().fadeIn('slow')
             }

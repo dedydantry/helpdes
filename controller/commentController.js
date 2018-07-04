@@ -26,8 +26,14 @@ exports.store = async(req,res) => {
         'type': 0
     }
     await new Notif(notifData).save();
+    let addNotif = resultComment.toJSON();
+    addNotif.ticket = resultTicket.ticket_code
+    addNotif.type = 'New comment from '
+    addNotif.name = resultComment.toJSON().user.name
 
-    res.io.emit('new-comment', resultComment.toJSON())
+
+    console.log(addNotif)
+    res.io.emit('new-comment', addNotif)
     if(resultComment) 
         return res.render('ticket/comment', {comment : resultComment.toJSON()});
     return res.status(404).send('Not found');

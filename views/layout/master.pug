@@ -43,7 +43,7 @@ html
 										i.fe.fe-bell
 										if notification.length > 0
 											span.nav-unread
-									.dropdown-menu.dropdown-menu-right.dropdown-menu-arrow
+									.dropdown-menu.dropdown-menu-right.dropdown-menu-arrow.notif-menu
 										each notif in notification
 											a.dropdown-item.d-flex(href=base_url+'ticket/view/'+notif.ticket_code data-notif=notif.id_notif class="notif-read")
 												.avatar.d-block(title=notif.from.name style='margin-right:5px;') #{stringCustom(notif.from.name)}
