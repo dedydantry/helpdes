@@ -38,7 +38,6 @@ block content
                                 i.fa.fa-send 
                                 |&nbsp;Submit Ticket
 block script
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js")          
     script.
         $.validator.addMethod("valueNotEquals", function(value, element, arg){
             return arg !== value;
@@ -68,4 +67,4 @@ block script
             submitHandler: function(form) {
                 form.submit();
             }
-        })      
+        })

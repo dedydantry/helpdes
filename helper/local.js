@@ -1,4 +1,6 @@
 let Notif = require('../model/notif');
+let moment = require('moment');
+
 var exports = module.exports = {}
 
 exports.getNotif = async(req, res, next) => {
@@ -29,4 +31,32 @@ exports.isLoggedIn = (req, res, next) => {
     }
     res.locals.user = null;
     res.redirect('/');
+},
+
+exports.locals = {
+    base_url: 'http://localhost:3000/',
+    stringCustom: (string) => {
+        var strings = string.toUpperCase()
+        return strings.charAt(0);
+    },
+    moment: (momentParams) => {
+        return moment(momentParams);
+    },
+
+    insertDecimal: (num) => {
+        return (Math.floor(num * 100) / 100).toFixed(1);
+    },
+
+    isset: (params) => {
+        return params !== 'undefined' ? params : '';
+    },
+
+    readMore: (params) => {
+        let string = params.split(' ', 8)
+        var returns = ''
+        string.forEach(read => {
+            returns += read + ' '
+        })
+        return returns
+    }
 }

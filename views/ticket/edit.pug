@@ -31,8 +31,8 @@ block content
                                 each data in owners
                                     option(value=data.id_users selected=(data.id_users == ticket.assignment)) #{data.name}
                         .form-group
+                            input.form-control(type='hidden' name="lampiran")
                             label.form-label Lampiran (optional)
-                            input.form-control(type='file' name="lampiran")
                             input(type='hidden' name='old_file' value=ticket.lampiran)
                         .form-group
                             button.btn.btn-success.btn-lg.btn-block(type='submit')

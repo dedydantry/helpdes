@@ -5,7 +5,7 @@ block content
         .text-center.mb-6
             img.hg(src=base_url+'img/logo.png', alt="")
             h3 PT INDOPLAT PERKASA PURNAMA
-        form.card(action=base_url method='post')
+        form.card(action=base_url method='post' id="login-form")
             .card-body.p-6
                 .card-title.text-center(style='font-weight:bold; font-size:20px;') LOGIN
                 .form-group
@@ -15,9 +15,9 @@ block content
                     label.form-label
                         | Password
                     input#exampleInputPassword1.form-control.name(type='password' name="password" placeholder='Password')
-                .form-group
-                    label.custom-control.custom-checkbox
-                        input.custom-control-input(type='checkbox')
-                        span.custom-control-label Remember me
+                //- .form-group
+                //-     label.custom-control.custom-checkbox
+                //-         input.custom-control-input(type='checkbox')
+                //-         span.custom-control-label Remember me
                 .form-footer
                     button.btn.btn-primary.btn-block(type='submit') Sign in

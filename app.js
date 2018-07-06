@@ -23,24 +23,7 @@ let app = express();
 
 
 // local variabel
-app.locals = {
-	base_url: 'http://localhost:3000/',
-	stringCustom : (string) => {
-		var strings = string.toUpperCase()
-		return strings.charAt(0);
-	},
-	moment: (momentParams) => {
-		return moment(momentParams);
-	},
-
-	insertDecimal: (num) => {
-		return (Math.floor(num * 100) / 100).toFixed(1);
-	},
-
-	isset : (params) => {
-		return params !== 'undefined' ? params : '';
-	}
-}
+app.locals = helper.locals
 
 // view engine setup
 app.io = require('socket.io')();
@@ -55,6 +38,7 @@ app.use(function(req, res, next){
 	res.io = app.io;
 	next();
 });
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -110,3 +94,6 @@ app.io.on('connection', function(socket){
 
 
 module.exports = app;
+
+// start server
+// set DEBUG = myapp:* & npm start

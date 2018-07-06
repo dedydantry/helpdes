@@ -42,7 +42,7 @@ block content
                                     td
                                         a(href=base_url+'ticket/view/'+data.ticket_code)= data.ticket_code
                                     td= data.title
-                                    td= data.description
+                                    td= readMore(data.description)
                                     td
                                         if(data.priority == 1)
                                             | Hight
