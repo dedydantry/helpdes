@@ -63,6 +63,9 @@ html
 				padding: 8px;
 				border-bottom: 1px solid #ddd;
 			}
+			td.center{
+				text-align:center;
+			}
 
 			tr:nth-child(even){background-color: #f2f2f2}
 
@@ -106,6 +109,23 @@ html
 			.print.hide{
 				display:none;
 			}
+			.rating-block{
+				display: inline-block;
+				height: 15px;
+				width: 15px;
+				border-radius:5px;
+			}
+			.rating-block.poor{
+				background-color: #cd201f;
+			}
+
+			.rating-block.good{
+				background-color: #467fcf;
+			}
+
+			.rating-block.nice{
+				background-color: #5eba00;
+			}
 	body
 		.block-control
 			button.print(onclick="printData('page')") Print
@@ -116,45 +136,19 @@ html
 					h3(style="margin:0 auto;") PT.INDOPLAT PERKASA PURNAMA
 			.page-body
 				.body-header
-					h3.body-title Report #{title}
+					h3.body-title #{title}
 				table
 					thead
 						tr
 							th No
-							th Name
-							th Ticket Code
-							th Report title
-							th Priority
-							th Status
+							th Email
+							th Total
 					tbody
-						each data, index in report
-							- var status, classs;
-							if(data.status == 1)
-								-status = 'complete'
-								-classs = 'success'
-							else if(data.status == 2)
-								-status = 'pending'
-								-classs = 'warning'
-							else
-								-status = 'open'
-								-classs = 'danger'
+						each data, key in ticket
 							tr
-								td= index+1
-								td= data.user.name
-								td= data.ticket_code
-								td= data.title
-								td
-									if(data.priority == 1)
-										| Hight
-									else if (data.priority == 2)
-										| Normal
-									else
-										| Low
-								td= status
-				.body-footer
-					.footer-info
-						.info-block
-							h4.info-user #{user.name}
+								td=(key+1)
+								td=data.user.email
+								td=data.jumlah
 	script(src=base_url+'dist/assets/js/vendors/jquery-3.2.1.min.js')
 	script.
 		function printData(table)

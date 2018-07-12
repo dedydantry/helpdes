@@ -116,7 +116,7 @@ html
 					h3(style="margin:0 auto;") PT.INDOPLAT PERKASA PURNAMA
 			.page-body
 				.body-header
-					h3.body-title Report #{title}
+					h3.body-title Daily Report #{title}
 				table
 					thead
 						tr
@@ -127,7 +127,7 @@ html
 							th Priority
 							th Status
 					tbody
-						each data, index in report
+						each data, index in ticket
 							- var status, classs;
 							if(data.status == 1)
 								-status = 'complete'

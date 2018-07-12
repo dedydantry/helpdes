@@ -116,19 +116,18 @@ html
 					h3(style="margin:0 auto;") PT.INDOPLAT PERKASA PURNAMA
 			.page-body
 				.body-header
-					h3.body-title Report #{title}
+					h3.body-title Report by user #{owner.name}
 				table
 					thead
 						tr
 							th No
-							th Name
 							th Ticket Code
 							th Report title
 							th Priority
 							th Status
 					tbody
-						each data, index in report
-							- var status, classs;
+						- var status, classs;
+						each data, index in ticket
 							if(data.status == 1)
 								-status = 'complete'
 								-classs = 'success'
@@ -140,7 +139,6 @@ html
 								-classs = 'danger'
 							tr
 								td= index+1
-								td= data.user.name
 								td= data.ticket_code
 								td= data.title
 								td

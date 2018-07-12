@@ -144,6 +144,52 @@ exports.ticketstatusprint = async(req, res) => {
     });
 }
 
+exports.daily = async(req, res) => {
+    let ticket = await Ticket.where('crated_at', 'like', now + '%').fetchAll({withRelated : ['user']});
+
+    return res.render('report/daily', {ticket : ticket.toJSON()});
+}
+
+exports.printdaily = async(req, res) => {
+    let ticket = await Ticket.where('crated_at', 'like', now + '%').fetchAll({withRelated : ['user']});
+    let title = moment().format('LL');   
+    return res.render('export/daily', {ticket : ticket.toJSON(), title : title});
+}
+
+exports.users = async(req, res) =>{
+    let ticket = await Ticket.query(qb => {
+        qb.select('*')
+        qb.count('id_ticket as jumlah');
+        qb.groupBy('owner');
+    }).fetchAll({withRelated : ['user']})
+
+    return res.render('report/users', {ticket : ticket.toJSON()});
+}
+
+exports.printuser = async(req, res) => {
+    let ticket = await Ticket.query(qb => {
+        qb.select('*')
+        qb.count('id_ticket as jumlah');
+        qb.groupBy('owner');
+    }).fetchAll({ withRelated: ['user'] })
+
+    return res.render('export/users', { ticket: ticket.toJSON(), title : 'Report By Users' });
+}
+
+exports.userdetail = async(req, res) => {
+    let user = await User.where('id_users', req.params.owner).fetch()
+    let ticket = await Ticket.where('owner', req.params.owner).fetchAll();
+    
+    return res.render('report/userdetail', { ticket: ticket.toJSON(), owner: user.toJSON()});
+}
+
+exports.printuserdetail = async(req, res) => {
+    let user = await User.where('id_users', req.params.owner).fetch()
+    let ticket = await Ticket.where('owner', req.params.owner).fetchAll();
+
+    return res.render('export/userdetail', { ticket: ticket.toJSON(), owner: user.toJSON() });
+}
+
 exports.exportspdf =  async(req, res) => {
     var html = res.render('export/periode');
 }

@@ -1,32 +1,38 @@
 extends ../layout/master.pug
-
+block css
+    link(rel="stylesheet", href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css")
+    style.
+        .ui-datepicker-calendar {
+            display: none;
+        }
 block content
     .page-header
-        h1.page-title
-            | Ticket
+        h1.page-title Daily Report
+        .page-options.d-flex
+            .input-icon.ml-2
+                a.btn.btn-secondary(href=base_url+'report/printdaily' title="Export to Excel" style="margin-right:5px;") 
+                    i.fa.fa-print
+                    | &nbsp print
     .row.row-cards.row-deck
         .col-12
             .card
                 .card-body
                     .table-responsive
-                        table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table.ticket-table
-                          thead
-                            tr
-                                th Owner
-                                th Ticket Kode
-                                th Masalah
-                                th Deskripsi
-                                th Priority
-                                th Status
-                                th Post date
-                                if user.roles[0].role_name !== 'operator'
-                                    th.text-center
-                                        i.icon-settings
+                        table.table.table-hover.table-bordered.table-vcenter.text-nowrap.card-table
+                            thead
+                                tr
+                                    th Owner
+                                    th Ticket Kode
+                                    th Masalah
+                                    th Description
+                                    th Priority
+                                    th Status
+                                    th Post date
                             tbody
                            
-                             each data, index in ticket
-                                - var status, classs;
-                                if(data.status == 1)
+                              - var status, classs;
+                              each data, index in ticket
+                                if data.status == 1
                                     -status = 'complete'
                                     -classs = 'success'
                                 else if(data.status == 2)
@@ -42,7 +48,7 @@ block content
                                     td
                                         a(href=base_url+'ticket/view/'+data.ticket_code)= data.ticket_code
                                     td= data.title
-                                    td= readMore(data.description)
+                                    td= data.description
                                     td
                                         if(data.priority == 1)
                                             | Hight
@@ -59,15 +65,3 @@ block content
                                             |#{moment(data.crated_at).fromNow()}
                                         else
                                             |#{moment(data.crated_at).format("MMM Do YY")}
-                                    td
-                                        .item-action.dropdown
-                                            a.icon(href="javascript:void(0)" data-toggle="dropdown")
-                                                i.fe.fe-more-vertical
-                                            .dropdown-menu.dropdown-menu-right
-                                                if user.roles[0].role_name == 'administrator'
-                                                    a.dropdown-item(href=base_url+'ticket/edit/'+data.ticket_code)
-                                                        i.dropdown-icon.fe.fe-tag
-                                                            |  Edit
-                                                a.dropdown-item(href="javascript:void(0)" class="ticket-delete" data-id=data.id_ticket)
-                                                    i.dropdown-icon.fe.fe-edit-2
-                                                        |  Delete
