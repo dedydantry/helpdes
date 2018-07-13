@@ -24,12 +24,12 @@ block content
                         .form-group
                             label.form-label Due On (Optional)
                             input.form-control(name='due_on' type='date')
-                        .form-group
+                        .form-group(style="display:none")
                             label.form-label Assigment To
                             select.form-control(name='assigment')
                                 option(value='0') ...
                                 each data in owners
-                                    option(value=data.id_users) #{data.name}
+                                    option(value=data.id_users selected=(data.id_users == 1)) #{data.name}
                         .form-group
                             label.form-label attachment (optional)
                             input.fomr-control(type='file' name="lampiran")

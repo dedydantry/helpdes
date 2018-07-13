@@ -190,6 +190,16 @@ exports.printuserdetail = async(req, res) => {
     return res.render('export/userdetail', { ticket: ticket.toJSON(), owner: user.toJSON() });
 }
 
+exports.montly = async(req, res) =>{
+    let ticket = await Ticket.where('crated_at', 'like', month + '%').fetchAll({withRelated:['user']});
+    return res.render('report/montly', {ticket : ticket.toJSON()});
+}
+
+exports.printmontly = async(req, res) => {
+    let ticket = await Ticket.where('crated_at', 'like', month + '%').fetchAll({ withRelated: ['user'] });
+    return res.render('export/montly', { ticket: ticket.toJSON(), periode: moment().format('MM-YYYY')});
+}
+
 exports.exportspdf =  async(req, res) => {
     var html = res.render('export/periode');
 }

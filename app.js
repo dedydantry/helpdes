@@ -5,10 +5,10 @@ let cookieParser     = require('cookie-parser');
 let logger           = require('morgan');
 let fileUpload       = require('express-fileupload');
 let session          = require('express-session');
-let passport         = require('passport');
+let passport 		= require('passport');
+let moment         = require('moment');
 // let LocalStrategy    = require('passport-local').Strategy;
 // let expressValidator = require('express-validator');
-let moment 			 = require('moment');
 let helper = require('./helper/local');
 
 let client = [];

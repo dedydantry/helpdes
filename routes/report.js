@@ -10,7 +10,8 @@ router.get('/details/:user_id', reportController.details);
 router.get('/exportpdf', reportController.exportspdf);
 router.get('/daily', reportController.daily); 
 router.get('/users', reportController.users);
-router.get('/userdetails/:owner', reportController.userdetail);
+router.get('/userdetails/:owner', reportController.userdetail); 
+router.get('/montly', reportController.montly); 
 
 
 router.get('/printperiode', reportController.printperiode);
@@ -21,4 +22,5 @@ router.get('/ticketstatusprint', reportController.ticketstatusprint);
 router.get('/printdaily', reportController.printdaily); 
 router.get('/printuser', reportController.printuser);
 router.get('/printuserdetail/:owner', reportController.printuserdetail);
+router.get('/printmontly', reportController.printmontly);
 module.exports = router;

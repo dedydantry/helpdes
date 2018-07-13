@@ -1,0 +1,56 @@
+extends ../layout/master.pug
+
+block content
+    .page-header
+        h1.page-title
+            | Montly ticket reports
+        .page-options.d-flex
+            .input-icon.ml-2
+                a.btn.btn-secondary(href=base_url+'report/printmontly' target="_blank" title="Export to Excel" style="margin-right:5px;") 
+                    i.fa.fa-print
+                    | &nbsp print
+    .row.row-cards.row-deck
+        .col-12
+            .card
+                .card-body
+                    .table-responsive
+                        table.table.table-striped.table-bordered.card-table#report-table
+                          thead
+                            tr
+                                th No
+                                th Owner
+                                th Ticket Kode
+                                th Masalah
+                                th Deskripsi
+                                th Priority
+                                th Status
+                            tbody
+                           
+                            - var status, classs;
+                             each data, index in ticket
+                                if(data.status == 1)
+                                    -status = 'complete'
+                                    -classs = 'success'
+                                else if(data.status == 2)
+                                    -status = 'pending'
+                                    -classs = 'warning'
+                                else
+                                    -status = 'open'
+                                    -classs = 'danger'
+                                tr
+                                    td= index+1
+                                    td= data.user.name
+                                    td
+                                        a(href=base_url+'ticket/view/'+data.ticket_code)= data.ticket_code
+                                    td= data.title
+                                    td= data.description
+                                    td
+                                        if(data.priority == 1)
+                                            | Hight
+                                        else if (data.priority == 2)
+                                            | Normal
+                                        else
+                                            | Low
+                                    td
+                                        span(class="status-icon bg-"+classs+" eke")
+                                        | #{status}
